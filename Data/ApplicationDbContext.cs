@@ -13,5 +13,17 @@ namespace MVC_BugTracker.Data
             : base(options)
         {
         }
+        public DbSet<MVC_BugTracker.Models.Company> Company { get; set; }
+        public DbSet<MVC_BugTracker.Models.Invite> Invite { get; set; }
+        public DbSet<MVC_BugTracker.Models.Notification> Notification { get; set; }
+        public DbSet<MVC_BugTracker.Models.Project> Project { get; set; }
+        public DbSet<MVC_BugTracker.Models.ProjectPriority> ProjectPriority { get; set; }
+        public DbSet<MVC_BugTracker.Models.Ticket> Ticket { get; set; }
+        public DbSet<MVC_BugTracker.Models.TicketAttachment> TicketAttachment { get; set; }
+        public DbSet<MVC_BugTracker.Models.TicketComment> TicketComment { get; set; }
+        public DbSet<MVC_BugTracker.Models.TicketHistory> TicketHistory { get; set; }
+        public DbSet<MVC_BugTracker.Models.TicketPriority> TicketPriority { get; set; }
+        public DbSet<MVC_BugTracker.Models.TicketStatus> TicketStatus { get; set; }
+        public DbSet<MVC_BugTracker.Models.TicketType> TicketType { get; set; }
     }
 }
