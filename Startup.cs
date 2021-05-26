@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MVC_BugTracker.Data;
 using MVC_BugTracker.Models;
+using MVC_BugTracker.Services;
+using MVC_BugTracker.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +55,8 @@ namespace MVC_BugTracker
 
             //services.AddControllersWithViews();
             services.AddMvc();
+
+            services.AddScoped<IBTRolesService, BTRolesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
