@@ -55,7 +55,7 @@ namespace MVC_BugTracker.Models
         public virtual Company Company { get; set; }
 
         // Many-to-Many with Projects
-        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Project> Projects { get; set; } = new HashSet<Project>();
 
     }
 }
