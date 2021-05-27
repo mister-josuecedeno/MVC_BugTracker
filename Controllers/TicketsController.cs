@@ -22,8 +22,15 @@ namespace MVC_BugTracker.Controllers
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Ticket.Include(t => t.DeveloperUser).Include(t => t.OwnerUser).Include(t => t.Priority).Include(t => t.Project).Include(t => t.Status);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = _context.Ticket
+                                        .Include(t => t.DeveloperUser)
+                                        .Include(t => t.OwnerUser)
+                                        .Include(t => t.Priority)
+                                        .Include(t => t.Project)
+                                        .Include(t => t.Status)
+                                        .ToListAsync();
+
+            return View(await applicationDbContext);
         }
 
         // GET: Tickets/Details/5

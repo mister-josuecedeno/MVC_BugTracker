@@ -55,6 +55,13 @@ namespace MVC_BugTracker.Services
             return result;
         }
 
+        // Homework
+        public async Task<bool> RemoveUserFromRolesAsync(BTUser user, IEnumerable<string> roles)
+        {
+            bool result = (await _userManager.RemoveFromRolesAsync(user, roles)).Succeeded;
+            return result;
+        }
+
         public async Task<List<BTUser>> UsersNotInRoleAsync(string roleName)
         {
             List<BTUser> usersNotInRole = new List<BTUser>();
@@ -78,5 +85,7 @@ namespace MVC_BugTracker.Services
 
             return usersNotInRole;
         }
+
+        
     }
 }
