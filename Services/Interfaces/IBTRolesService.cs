@@ -22,6 +22,6 @@ namespace MVC_BugTracker.Services.Interfaces
 
         //public Task<List<BTUser>> UsersInRoleAsync(string roleName,int companyId);
 
-        public Task<List<BTUser>> UsersNotInRoleAsync(string roleName);
+        public Task<List<BTUser>> UsersNotInRoleAsync(string roleName, int companyId);
     }
 }

@@ -20,10 +20,11 @@ namespace MVC_BugTracker.Models
         [Display(Name = "Ticket Status")]
         public int TicketStatusId { get; set; }
 
-        // Data Fields
         [Display(Name = "Ticket Type")]
-        public int TicketType { get; set; }
+        public int TicketTypeId { get; set; }
 
+
+        // Data Fields
         [Display(Name = "Project Manager")]
         public string OwnerUserid { get; set; }
 

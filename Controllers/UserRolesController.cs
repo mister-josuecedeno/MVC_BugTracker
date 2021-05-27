@@ -54,20 +54,28 @@ namespace MVC_BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ManageUserRoles(ManageUserRolesViewModel member)
         {
-            BTUser user = _context.Users.Find(member.BTUser.Id);
-
-            IEnumerable<string> roles = await _rolesService.ListUserRolesAsync(user);
-            
-            // Homework
-            // await _userManager.RemoveFromRolesAsync(user, roles); // Homework - Add to service
-            await _rolesService.RemoveUserFromRolesAsync(user, roles);
-            
-            string userRole = member.SelectedRoles.FirstOrDefault();
-
-            if (Enum.TryParse(userRole, out Roles roleValue ))
+            try
             {
-                await _rolesService.AddUserToRoleAsync(user, userRole);
-                return RedirectToAction("ManageUserRoles");
+                BTUser user = _context.Users.Find(member.BTUser.Id);
+
+                IEnumerable<string> roles = await _rolesService.ListUserRolesAsync(user);
+            
+                // Homework
+                // await _userManager.RemoveFromRolesAsync(user, roles); // Homework - Add to service
+                await _rolesService.RemoveUserFromRolesAsync(user, roles);
+            
+                string userRole = member.SelectedRoles.FirstOrDefault();
+
+                if (Enum.TryParse(userRole, out Roles roleValue ))
+                {
+                    await _rolesService.AddUserToRoleAsync(user, userRole);
+                    return RedirectToAction("ManageUserRoles");
+                }
+            }
+            catch (Exception ex)
+            {
+                var err = ex.Message;
+                throw;
             }
 
             return RedirectToAction("ManageUserRoles");

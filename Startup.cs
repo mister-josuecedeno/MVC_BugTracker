@@ -57,6 +57,10 @@ namespace MVC_BugTracker
             services.AddMvc();
 
             services.AddScoped<IBTRolesService, BTRolesService>();
+
+            // Data Utility
+            services.AddDbContext<ApplicationDbContext>(options =>
+              options.UseNpgsql(DataUtility.GetConnectionString(Configuration)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
