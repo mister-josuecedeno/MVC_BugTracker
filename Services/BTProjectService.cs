@@ -15,22 +15,13 @@ namespace MVC_BugTracker.Services
     public class BTProjectService : IBTProjectService
     {
         private readonly ApplicationDbContext _context;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<BTUser> _userManager;
         private readonly IBTRolesService _roleService;
-        private readonly IBTCompanyInfoService _infoService;
 
         public BTProjectService(ApplicationDbContext context,
-                                RoleManager<IdentityRole> roleManager,
-                                UserManager<BTUser> userManager,
-                                IBTRolesService roleService, 
-                                IBTCompanyInfoService infoService)
+                                IBTRolesService roleService)
         {
             _context = context;
-            _roleManager = roleManager;
-            _userManager = userManager;
             _roleService = roleService;
-            _infoService = infoService;
         }
 
 
@@ -126,11 +117,30 @@ namespace MVC_BugTracker.Services
 
         public async Task<List<Project>> GetAllProjectsByCompany(int companyId)
         {
-            // [REFACTOR] Move the code from Company
+            // [REFACTOR] Move the code from Company (X)
             
             List<Project> projects = new();
 
-            projects = await _infoService.GetAllProjectsAsync(companyId);
+            projects = await _context.Project
+                                    .Include(p => p.Members)
+                                    .Include(p => p.ProjectPriority)
+                                    .Include(p => p.Tickets)
+                                        .ThenInclude(t => t.OwnerUser)
+                                    .Include(p => p.Tickets)
+                                        .ThenInclude(t => t.DeveloperUser)
+                                    .Include(p => p.Tickets)
+                                        .ThenInclude(t => t.Comments)
+                                    .Include(p => p.Tickets)
+                                        .ThenInclude(t => t.Attachments)
+                                    .Include(p => p.Tickets)
+                                        .ThenInclude(t => t.History)
+                                    .Include(p => p.Tickets)
+                                        .ThenInclude(t => t.Priority)
+                                    .Include(p => p.Tickets)
+                                        .ThenInclude(t => t.Status)
+                                    .Include(p => p.Tickets)
+                                        .ThenInclude(t => t.Type)
+                                    .Where(p => p.CompanyId == companyId).ToListAsync();
 
             return projects;
         }
@@ -141,7 +151,7 @@ namespace MVC_BugTracker.Services
             int priorityId = await LookupProjectPriorityId(priorityName);
             
             // Get all projects for this company
-            List<Project> projects = await _infoService.GetAllProjectsAsync(companyId);
+            List<Project> projects = await GetAllProjectsByCompany(companyId);
 
             // Filter only for the provided priority
             List<Project> priority = projects.Where(p => p.ProjectPriorityId == priorityId).ToList();
@@ -152,7 +162,7 @@ namespace MVC_BugTracker.Services
         public async Task<List<Project>> GetArchivedProjectsByCompany(int companyId)
         {
             // Get all projects by this company
-            List<Project> projects = await _infoService.GetAllProjectsAsync(companyId);
+            List<Project> projects = await GetAllProjectsByCompany(companyId);
 
             // Filter only where archived = true
             List<Project> archived = projects.Where(p => p.Archived == true).ToList();
@@ -171,7 +181,7 @@ namespace MVC_BugTracker.Services
             // Get the company id (should only be 1)
             var companyId = project.CompanyId.Value;
 
-            // Who does not have the role PM in the company
+            // Who does not have the role PM in the company (?? Is it bad practice to use role service??)
             string pm = Roles.ProjectManager.ToString();
             List<BTUser> members = await _roleService.UsersNotInRoleAsync(pm, companyId);
 
