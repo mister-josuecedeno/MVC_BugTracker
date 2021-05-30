@@ -16,25 +16,11 @@ namespace MVC_BugTracker.Services
     {
 
         private readonly ApplicationDbContext _context;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<BTUser> _userManager;
-        private readonly IBTRolesService _roleService;
-        private readonly IBTCompanyInfoService _infoService;
-        private readonly IBTProjectService _projectService;
+        
 
-        public BTTicketService(ApplicationDbContext context,
-                               RoleManager<IdentityRole> roleManager,
-                               UserManager<BTUser> userManager,
-                               IBTRolesService roleService,
-                               IBTCompanyInfoService infoService, 
-                               IBTProjectService projectService)
+        public BTTicketService(ApplicationDbContext context)
         {
             _context = context;
-            _roleManager = roleManager;
-            _userManager = userManager;
-            _roleService = roleService;
-            _infoService = infoService;
-            _projectService = projectService;
         }
 
         public async Task AssignTicketAsync(int ticketId, string userId)
@@ -57,7 +43,6 @@ namespace MVC_BugTracker.Services
 
         public async Task<List<Ticket>> GetAllPMTicketsAsync(string userId)
         {
-            // [REFACTOR - what additional information should I include?]
             List<Ticket> tickets = await _context.Ticket
                                                  .Where(t => t.OwnerUserid == userId)
                                                  .ToListAsync();
@@ -83,7 +68,7 @@ namespace MVC_BugTracker.Services
         public async Task<List<Ticket>> GetAllTicketsByPriorityAsync(int companyId, string priorityName)
         {
             List<Ticket> companyTickets = await GetAllTicketsByCompanyAsync(companyId);
-            List<Ticket> tickets = companyTickets.Where(t => t.Priority.Name.Contains(priorityName)).ToList();
+            List<Ticket> tickets = companyTickets.Where(t => t.Priority.Name.Equals(priorityName)).ToList();
 
             return tickets;
 
@@ -108,7 +93,7 @@ namespace MVC_BugTracker.Services
         public async Task<List<Ticket>> GetAllTicketsByStatusAsync(int companyId, string statusName)
         {
             List<Ticket> companyTickets = await GetAllTicketsByCompanyAsync(companyId);
-            List<Ticket> tickets = companyTickets.Where(t => t.Status.Name.Contains(statusName)).ToList();
+            List<Ticket> tickets = companyTickets.Where(t => t.Status.Name.Equals(statusName)).ToList();
 
             return tickets;
         }
@@ -116,7 +101,7 @@ namespace MVC_BugTracker.Services
         public async Task<List<Ticket>> GetAllTicketsByTypeAsync(int companyId, string typeName)
         {
             List<Ticket> companyTickets = await GetAllTicketsByCompanyAsync(companyId);
-            List<Ticket> tickets = companyTickets.Where(t => t.Type.Name.Contains(typeName)).ToList();
+            List<Ticket> tickets = companyTickets.Where(t => t.Type.Name.Equals(typeName)).ToList();
 
             return tickets;
         }
