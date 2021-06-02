@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using MVC_BugTracker.Data;
 using MVC_BugTracker.Models;
 using MVC_BugTracker.Services;
+using MVC_BugTracker.Services.Factories;
 using MVC_BugTracker.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,7 @@ namespace MVC_BugTracker
 
             services.AddIdentity<BTUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddClaimsPrincipalFactory<BTUserClaimsPrincipalFactory>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
