@@ -24,7 +24,11 @@ namespace MVC_BugTracker.Services.Interfaces
 
         public Task<List<Ticket>> GetAllPMTicketsAsync(string userId);
 
+        public Task<List<Ticket>> GetAllUserTicketsAsync(string userId);
+
         public Task<List<Ticket>> GetAllTicketsByRoleAsync(string role, string userId);
+
+        public Task<List<Ticket>> GetAllTicketsByProject(int projectId);
 
         public Task<List<Ticket>> GetProjectTicketsByRoleAsync(string role, string userId, int projectId);
 
