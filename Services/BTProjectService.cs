@@ -117,30 +117,37 @@ namespace MVC_BugTracker.Services
 
         public async Task<List<Project>> GetAllProjectsByCompany(int companyId)
         {
-            // [REFACTOR] Move the code from Company (X)
-            
             List<Project> projects = new();
 
-            projects = await _context.Project
-                                    .Include(p => p.Members)
-                                    .Include(p => p.ProjectPriority)
-                                    .Include(p => p.Tickets)
-                                        .ThenInclude(t => t.OwnerUser)
-                                    .Include(p => p.Tickets)
-                                        .ThenInclude(t => t.DeveloperUser)
-                                    .Include(p => p.Tickets)
-                                        .ThenInclude(t => t.Comments)
-                                    .Include(p => p.Tickets)
-                                        .ThenInclude(t => t.Attachments)
-                                    .Include(p => p.Tickets)
-                                        .ThenInclude(t => t.History)
-                                    .Include(p => p.Tickets)
-                                        .ThenInclude(t => t.Priority)
-                                    .Include(p => p.Tickets)
-                                        .ThenInclude(t => t.Status)
-                                    .Include(p => p.Tickets)
-                                        .ThenInclude(t => t.Type)
-                                    .Where(p => p.CompanyId == companyId).ToListAsync();
+            try
+            {
+                projects = await _context.Project
+                                        .Include(p => p.Members)
+                                        .Include(p => p.ProjectPriority)
+                                        .Include(p => p.Tickets)
+                                            .ThenInclude(t => t.OwnerUser)
+                                        .Include(p => p.Tickets)
+                                            .ThenInclude(t => t.DeveloperUser)
+                                        .Include(p => p.Tickets)
+                                            .ThenInclude(t => t.Comments)
+                                        .Include(p => p.Tickets)
+                                            .ThenInclude(t => t.Attachments)
+                                        .Include(p => p.Tickets)
+                                            .ThenInclude(t => t.History)
+                                        .Include(p => p.Tickets)
+                                            .ThenInclude(t => t.TicketPriority)
+                                        .Include(p => p.Tickets)
+                                            .ThenInclude(t => t.TicketStatus)
+                                        .Include(p => p.Tickets)
+                                            .ThenInclude(t => t.TicketType)
+                                        .Where(p => p.CompanyId == companyId).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting All Projects By Company - {ex.Message}");
+                throw;
+            }
+
 
             return projects;
         }
@@ -272,13 +279,13 @@ namespace MVC_BugTracker.Services
                             .ThenInclude(t => t.OwnerUser)
                     .Include(u => u.Projects)
                         .ThenInclude(p => p.Tickets)
-                            .ThenInclude(t => t.Priority)
+                            .ThenInclude(t => t.TicketPriority)
                     .Include(u => u.Projects)
                         .ThenInclude(p => p.Tickets)
-                            .ThenInclude(t => t.Status)
+                            .ThenInclude(t => t.TicketStatus)
                     .Include(u => u.Projects)
                         .ThenInclude(p => p.Tickets)
-                            .ThenInclude(t => t.Type)
+                            .ThenInclude(t => t.TicketType)
                     .FirstOrDefaultAsync(u => u.Id == userId)).Projects.ToList();
 
                 return userProjects;

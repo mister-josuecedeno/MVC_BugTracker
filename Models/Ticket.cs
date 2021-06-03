@@ -26,7 +26,7 @@ namespace MVC_BugTracker.Models
 
         // Data Fields
         [Display(Name = "Project Manager")]
-        public string OwnerUserid { get; set; }
+        public string OwnerUserId { get; set; }
 
         [Display(Name = "Assignee")]
         public string DeveloperUserId { get; set; }
@@ -55,9 +55,9 @@ namespace MVC_BugTracker.Models
 
         // 1-to-1
         public virtual Project Project { get; set; }
-        public virtual TicketPriority Priority { get; set; }
-        public virtual TicketStatus Status { get; set; }
-        public virtual TicketType Type { get; set; }
+        public virtual TicketPriority TicketPriority { get; set; }
+        public virtual TicketStatus TicketStatus { get; set; }
+        public virtual TicketType TicketType { get; set; }
         public virtual BTUser OwnerUser { get; set; }
         public virtual BTUser DeveloperUser { get; set; }
 

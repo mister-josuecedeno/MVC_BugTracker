@@ -76,7 +76,15 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ProjectPriority.Id)
         </dd>
+
     </dl>
+    
+    Members:
+    @foreach (BTUser member in Model.Members)
+    {
+        <p>@member.FullName</p>
+    }
+
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using MVC_BugTracker.Data;
 using MVC_BugTracker.Extensions;
 using MVC_BugTracker.Models;
+using MVC_BugTracker.Models.Enums;
 using MVC_BugTracker.Models.ViewModels;
 using MVC_BugTracker.Services.Interfaces;
 
@@ -18,12 +20,15 @@ namespace MVC_BugTracker.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IBTProjectService _projectService;
+        private readonly IBTCompanyInfoService _infoService;
 
-        public ProjectsController(ApplicationDbContext context, 
-                                  IBTProjectService projectService)
+        public ProjectsController(ApplicationDbContext context,
+                                  IBTProjectService projectService, 
+                                  IBTCompanyInfoService infoService)
         {
             _context = context;
             _projectService = projectService;
+            _infoService = infoService;
         }
 
         // GET: Projects
@@ -42,6 +47,7 @@ namespace MVC_BugTracker.Controllers
             }
 
             var project = await _context.Project
+                .Include(p => p.Members)
                 .Include(p => p.Company)
                 .Include(p => p.ProjectPriority)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -140,26 +146,112 @@ namespace MVC_BugTracker.Controllers
         {
             ProjectMembersViewModel model = new ();
 
+            
+            // GET company id
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            
+            // *** PROJECT ***
+            // GET the project
+            Project project = new();
+
             try
             {
-                // Get company id
-                //int companyId = User.Identity.GetCompanyId().Value;
-                //Project project = (await _projectService.GetAllProjectsByCompany(companyId))
-                //                                .FirstOrDefaultAsync(p => p.Id == id);
-
-                //model.Project = project;
-                //List<BTUser> users = await _context.Users.ToListAsync();
-                //List<BTUser> members = (List<BTUser)await _projectService.UsersOnProjectAsync(id);
-                //model.Users = new MultiSelectList(users, "Id", "FullName", members);
-
+                List<Project> projects = await _projectService.GetAllProjectsByCompany(companyId);
+                project = projects.FirstOrDefault(p => p.Id == id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Debug.WriteLine($"*** ERROR *** - Error getting projects - {ex.Message}");
                 throw;
             }
 
+            // ADD to viewmodel
+            model.Project = project;
+
+
+            // *** MULTISELECT ***
+            // ?? How to return a null multiselect
+            
+            // GET users (? not on the project)
+            List<BTUser> users = new();
+
+            try
+            {
+                // REFACTOR - concat devs and submitters
+
+                List<BTUser> developers = await _infoService.GetMembersInRoleAsync(Roles.Developer.ToString(), companyId);
+                List<BTUser> submitters = await _infoService.GetMembersInRoleAsync(Roles.Submitter.ToString(), companyId);
+
+                users = developers.Concat(submitters).ToList();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting users not on project - {ex.Message}");
+                throw;
+            }
+
+            // GET all members from the project
+            List<string> members = new();
+
+            try
+            {
+                if(project?.Members != null)
+                {
+                    members = project.Members.Select(m => m.Id).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting members on project - {ex.Message}");
+                throw;
+            }
+
+            // Add users to multiselect in the VM
+            // MS(source, what to select, user sees, optional - show already selected)
+            model.Users = new MultiSelectList(users, "Id", "FullName", members);
+
+            // ?? What to do if the model is missing data
+
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignUsers(ProjectMembersViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.SelectedUsers != null)
+                {
+                    List<string> memberIds = (await _projectService.GetMembersWithoutPMAsync(model.Project.Id))
+                                                    .Select(m => m.Id).ToList(); // select a column
+
+                    foreach (string id in memberIds)
+                    {
+                        await _projectService.RemoveUserFromProjectAsync(id, model.Project.Id);
+                    }
+
+                    foreach (string id in model.SelectedUsers)
+                    {
+                        await _projectService.AddUserToProjectAsync(id, model.Project.Id);
+                    }
+                
+                    // Goto project details
+                    return RedirectToAction("Details", "Projects", new { id = model.Project.Id });
+                }
+                else
+                {
+                    // send an error mesage back
+                }
+            }
+
+            return View(model);
+        }
+
+        private IActionResult RedirectAction(string v1, string v2)
+        {
+            throw new NotImplementedException();
         }
 
 

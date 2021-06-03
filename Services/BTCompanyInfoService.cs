@@ -56,11 +56,11 @@ namespace MVC_BugTracker.Services
                                     .Include(p => p.Tickets)
                                         .ThenInclude(t => t.History)
                                     .Include(p => p.Tickets)
-                                        .ThenInclude(t => t.Priority)
+                                        .ThenInclude(t => t.TicketPriority)
                                     .Include(p => p.Tickets)
-                                        .ThenInclude(t => t.Status)
+                                        .ThenInclude(t => t.TicketStatus)
                                     .Include(p => p.Tickets)
-                                        .ThenInclude(t => t.Type)
+                                        .ThenInclude(t => t.TicketType)
                                     .Where(p => p.CompanyId == companyId).ToListAsync();
 
             return projects;

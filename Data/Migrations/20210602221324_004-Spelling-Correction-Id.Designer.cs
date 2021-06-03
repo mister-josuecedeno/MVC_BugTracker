@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MVC_BugTracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210527144747_003-TickeTypeId-Correction")]
-    partial class _003TickeTypeIdCorrection
+    [Migration("20210602221324_004-Spelling-Correction-Id")]
+    partial class _004SpellingCorrectionId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

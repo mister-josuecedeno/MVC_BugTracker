@@ -13,16 +13,17 @@ namespace MVC_BugTracker.Services.Factories
     {
         public BTUserClaimsPrincipalFactory(UserManager<BTUser> userManager, 
                                             RoleManager<IdentityRole> roleManager,
-                                            IOptions<IdentityOptions> optionsAccessor) :
-                                            base(userManager, roleManager, optionsAccessor)
+                                            IOptions<IdentityOptions> optionsAccessor) 
+        : base(userManager, roleManager, optionsAccessor)
         {
-
         }
 
         protected override async Task<ClaimsIdentity> GenerateClaimsAsync(BTUser user)
         {
             ClaimsIdentity identity = await base.GenerateClaimsAsync(user);
             identity.AddClaim(new Claim("CompanyId", user.CompanyId.ToString()));
+            //identity.AddClaim(new Claim("FullName", user.FullName));
+
             return identity;
         }
     }

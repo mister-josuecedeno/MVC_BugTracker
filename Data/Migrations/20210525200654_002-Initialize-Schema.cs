@@ -216,7 +216,7 @@ namespace MVC_BugTracker.Data.Migrations
                     TicketPriorityId = table.Column<int>(type: "integer", nullable: false),
                     TicketStatusId = table.Column<int>(type: "integer", nullable: false),
                     TicketType = table.Column<int>(type: "integer", nullable: false),
-                    OwnerUserid = table.Column<string>(type: "text", nullable: true),
+                    OwnerUserId = table.Column<string>(type: "text", nullable: true),
                     DeveloperUserId = table.Column<string>(type: "text", nullable: true),
                     Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
@@ -237,7 +237,7 @@ namespace MVC_BugTracker.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Ticket_AspNetUsers_OwnerUserid",
-                        column: x => x.OwnerUserid,
+                        column: x => x.OwnerUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -457,7 +457,7 @@ namespace MVC_BugTracker.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Ticket_OwnerUserid",
                 table: "Ticket",
-                column: "OwnerUserid");
+                column: "OwnerUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ticket_ProjectId",

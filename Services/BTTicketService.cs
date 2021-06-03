@@ -111,9 +111,9 @@ namespace MVC_BugTracker.Services
                                         .Include(t => t.History)
                                         .Include(t => t.DeveloperUser)
                                         .Include(t => t.OwnerUser)
-                                        .Include(t => t.Priority)
-                                        .Include(t => t.Status)
-                                        .Include(t => t.Type)
+                                        .Include(t => t.TicketPriority)
+                                        .Include(t => t.TicketStatus)
+                                        .Include(t => t.TicketType)
                                         .Include(t => t.Project)
                                         .ToListAsync();
             }
@@ -134,7 +134,7 @@ namespace MVC_BugTracker.Services
             try
             {
                 List<Ticket> companyTickets = await GetAllTicketsByCompanyAsync(companyId);
-                tickets = companyTickets.Where(t => t.Priority.Name.Equals(priorityName)).ToList();
+                tickets = companyTickets.Where(t => t.TicketPriority.Name.Equals(priorityName)).ToList();
             }
             catch (Exception ex)
             {
@@ -160,9 +160,9 @@ namespace MVC_BugTracker.Services
                                             .Include(t => t.Comments)
                                             .Include(t => t.DeveloperUser)
                                             .Include(t => t.OwnerUser)
-                                            .Include(t => t.Priority)
-                                            .Include(t => t.Status)
-                                            .Include(t => t.Type)
+                                            .Include(t => t.TicketPriority)
+                                            .Include(t => t.TicketStatus)
+                                            .Include(t => t.TicketType)
                                             .Include(t => t.Project)
                                                 .ThenInclude(p => p.Members)
                                             .Include(t => t.Project)
@@ -187,14 +187,14 @@ namespace MVC_BugTracker.Services
                                             .Include(t => t.Comments)
                                             .Include(t => t.DeveloperUser)
                                             .Include(t => t.OwnerUser)
-                                            .Include(t => t.Priority)
-                                            .Include(t => t.Status)
-                                            .Include(t => t.Type)
+                                            .Include(t => t.TicketPriority)
+                                            .Include(t => t.TicketStatus)
+                                            .Include(t => t.TicketType)
                                             .Include(t => t.Project)
                                                 .ThenInclude(p => p.Members)
                                             .Include(t => t.Project)
                                                 .ThenInclude(p => p.ProjectPriority)
-                                            .Where(t => t.OwnerUserid.Equals(userId))
+                                            .Where(t => t.OwnerUserId.Equals(userId))
                                             .ToListAsync();
                     }
                     catch (Exception ex)
@@ -222,7 +222,7 @@ namespace MVC_BugTracker.Services
             try
             {
                 List<Ticket> companyTickets = await GetAllTicketsByCompanyAsync(companyId);
-                tickets = companyTickets.Where(t => t.Status.Name.Equals(statusName)).ToList();
+                tickets = companyTickets.Where(t => t.TicketStatus.Name.Equals(statusName)).ToList();
 
             }
             catch (Exception ex)
@@ -241,7 +241,7 @@ namespace MVC_BugTracker.Services
             try
             {
                 List<Ticket> companyTickets = await GetAllTicketsByCompanyAsync(companyId);
-                tickets = companyTickets.Where(t => t.Type.Name.Equals(typeName)).ToList();
+                tickets = companyTickets.Where(t => t.TicketType.Name.Equals(typeName)).ToList();
 
             }
             catch (Exception ex)
@@ -304,7 +304,7 @@ namespace MVC_BugTracker.Services
                 }
                 else
                 {
-                    tickets = tickets.Where(t => t.OwnerUserid.Equals(userId)).ToList();
+                    tickets = tickets.Where(t => t.OwnerUserId.Equals(userId)).ToList();
                 }
             }
             catch (Exception ex)

@@ -328,7 +328,7 @@ namespace MVC_BugTracker.Data.Migrations
                     b.Property<string>("DeveloperUserId")
                         .HasColumnType("text");
 
-                    b.Property<string>("OwnerUserid")
+                    b.Property<string>("OwnerUserId")
                         .HasColumnType("text");
 
                     b.Property<int>("ProjectId")
@@ -354,7 +354,7 @@ namespace MVC_BugTracker.Data.Migrations
 
                     b.HasIndex("DeveloperUserId");
 
-                    b.HasIndex("OwnerUserid");
+                    b.HasIndex("OwnerUserId");
 
                     b.HasIndex("ProjectId");
 
@@ -750,7 +750,7 @@ namespace MVC_BugTracker.Data.Migrations
 
                     b.HasOne("MVC_BugTracker.Models.BTUser", "OwnerUser")
                         .WithMany()
-                        .HasForeignKey("OwnerUserid");
+                        .HasForeignKey("OwnerUserId");
 
                     b.HasOne("MVC_BugTracker.Models.Project", "Project")
                         .WithMany("Tickets")
@@ -758,19 +758,19 @@ namespace MVC_BugTracker.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MVC_BugTracker.Models.TicketPriority", "Priority")
+                    b.HasOne("MVC_BugTracker.Models.TicketPriority", "TicketPriority")
                         .WithMany()
                         .HasForeignKey("TicketPriorityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MVC_BugTracker.Models.TicketStatus", "Status")
+                    b.HasOne("MVC_BugTracker.Models.TicketStatus", "TicketStatus")
                         .WithMany()
                         .HasForeignKey("TicketStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MVC_BugTracker.Models.TicketType", "Type")
+                    b.HasOne("MVC_BugTracker.Models.TicketType", "TicketType")
                         .WithMany()
                         .HasForeignKey("TicketTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -780,13 +780,13 @@ namespace MVC_BugTracker.Data.Migrations
 
                     b.Navigation("OwnerUser");
 
-                    b.Navigation("Priority");
+                    b.Navigation("TicketPriority");
 
                     b.Navigation("Project");
 
-                    b.Navigation("Status");
+                    b.Navigation("TicketStatus");
 
-                    b.Navigation("Type");
+                    b.Navigation("TicketType");
                 });
 
             modelBuilder.Entity("MVC_BugTracker.Models.TicketAttachment", b =>

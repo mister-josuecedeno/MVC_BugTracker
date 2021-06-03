@@ -1,22 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVC_BugTracker.Data;
+using MVC_BugTracker.Extensions;
 using MVC_BugTracker.Models;
+using MVC_BugTracker.Models.Enums;
+using MVC_BugTracker.Models.ViewModels;
+using MVC_BugTracker.Services.Interfaces;
 
 namespace MVC_BugTracker.Controllers
 {
     public class TicketsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IBTCompanyInfoService _infoService;
+        private readonly IBTTicketService _ticketService;
+        private readonly UserManager<BTUser> _userManager;
 
-        public TicketsController(ApplicationDbContext context)
+
+        public TicketsController(ApplicationDbContext context,
+                                 IBTCompanyInfoService infoService,
+                                 IBTTicketService ticketService, 
+                                 UserManager<BTUser> userManager)
         {
             _context = context;
+            _infoService = infoService;
+            _ticketService = ticketService;
+            _userManager = userManager;
         }
 
         // GET: Tickets
@@ -25,12 +41,61 @@ namespace MVC_BugTracker.Controllers
             var applicationDbContext = _context.Ticket
                                         .Include(t => t.DeveloperUser)
                                         .Include(t => t.OwnerUser)
-                                        .Include(t => t.Priority)
+                                        .Include(t => t.TicketPriority)
                                         .Include(t => t.Project)
-                                        .Include(t => t.Status)
+                                        .Include(t => t.TicketStatus)
                                         .ToListAsync();
 
             return View(await applicationDbContext);
+        }
+
+        // GET: ALL Tickets
+        public async Task<IActionResult> AllTickets()
+        {
+            // GET company id
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            List<Ticket> tickets = new();
+
+            try
+            {
+                tickets = await _infoService.GetAllTicketsAsync(companyId);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting all tickets - {ex.Message}");
+                throw;
+            }
+
+            return View(tickets);
+        }
+
+        // GET: MY Tickets
+        public async Task<IActionResult> MyTickets()
+        {
+            // GET my user id
+            string userId = _userManager.GetUserId(User);
+
+            // SET ViewModel
+            MyTicketsViewModel tickets = new();
+            List<Ticket> developerTickets = new();
+            List<Ticket> submitterTickets = new();
+
+            try
+            {
+                developerTickets = await _ticketService.GetAllTicketsByRoleAsync(Roles.Developer.ToString(), userId);
+                tickets.Developer = developerTickets;
+
+                submitterTickets = await _ticketService.GetAllTicketsByRoleAsync(Roles.Submitter.ToString(), userId);
+                tickets.Submitter = submitterTickets;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting all tickets - {ex.Message}");
+                throw;
+            }
+
+            return View(tickets);
         }
 
         // GET: Tickets/Details/5
@@ -44,9 +109,9 @@ namespace MVC_BugTracker.Controllers
             var ticket = await _context.Ticket
                 .Include(t => t.DeveloperUser)
                 .Include(t => t.OwnerUser)
-                .Include(t => t.Priority)
+                .Include(t => t.TicketPriority)
                 .Include(t => t.Project)
-                .Include(t => t.Status)
+                .Include(t => t.TicketStatus)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticket == null)
             {
@@ -60,7 +125,7 @@ namespace MVC_BugTracker.Controllers
         public IActionResult Create()
         {
             ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["OwnerUserid"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["OwnerUserId"] = new SelectList(_context.Users, "Id", "Id");
             ViewData["TicketPriorityId"] = new SelectList(_context.Set<TicketPriority>(), "Id", "Id");
             ViewData["ProjectId"] = new SelectList(_context.Project, "Id", "Id");
             ViewData["TicketStatusId"] = new SelectList(_context.Set<TicketStatus>(), "Id", "Id");
@@ -72,7 +137,7 @@ namespace MVC_BugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProjectId,TicketPriorityId,TicketStatusId,TicketType,OwnerUserid,DeveloperUserId,Title,Description,Created,Updated,Archived,ArchivedDate")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("Id,ProjectId,TicketPriorityId,TicketStatusId,TicketType,OwnerUserId,DeveloperUserId,Title,Description,Created,Updated,Archived,ArchivedDate")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +146,7 @@ namespace MVC_BugTracker.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.DeveloperUserId);
-            ViewData["OwnerUserid"] = new SelectList(_context.Users, "Id", "Id", ticket.OwnerUserid);
+            ViewData["OwnerUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.OwnerUserId);
             ViewData["TicketPriorityId"] = new SelectList(_context.Set<TicketPriority>(), "Id", "Id", ticket.TicketPriorityId);
             ViewData["ProjectId"] = new SelectList(_context.Project, "Id", "Id", ticket.ProjectId);
             ViewData["TicketStatusId"] = new SelectList(_context.Set<TicketStatus>(), "Id", "Id", ticket.TicketStatusId);
@@ -101,8 +166,12 @@ namespace MVC_BugTracker.Controllers
             {
                 return NotFound();
             }
-            ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.DeveloperUserId);
-            ViewData["OwnerUserid"] = new SelectList(_context.Users, "Id", "Id", ticket.OwnerUserid);
+            ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "FullName", ticket.DeveloperUserId);
+            
+            
+            ViewData["OwnerUserId"] = new SelectList(_context.Users, "Id", "FullName", ticket.OwnerUserId);
+            
+            
             ViewData["TicketPriorityId"] = new SelectList(_context.Set<TicketPriority>(), "Id", "Id", ticket.TicketPriorityId);
             ViewData["ProjectId"] = new SelectList(_context.Project, "Id", "Id", ticket.ProjectId);
             ViewData["TicketStatusId"] = new SelectList(_context.Set<TicketStatus>(), "Id", "Id", ticket.TicketStatusId);
@@ -114,7 +183,7 @@ namespace MVC_BugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProjectId,TicketPriorityId,TicketStatusId,TicketType,OwnerUserid,DeveloperUserId,Title,Description,Created,Updated,Archived,ArchivedDate")] Ticket ticket)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProjectId,TicketPriorityId,TicketStatusId,TicketType,OwnerUserId,DeveloperUserId,Title,Description,Created,Updated,Archived,ArchivedDate")] Ticket ticket)
         {
             if (id != ticket.Id)
             {
@@ -142,7 +211,7 @@ namespace MVC_BugTracker.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.DeveloperUserId);
-            ViewData["OwnerUserid"] = new SelectList(_context.Users, "Id", "Id", ticket.OwnerUserid);
+            ViewData["OwnerUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.OwnerUserId);
             ViewData["TicketPriorityId"] = new SelectList(_context.Set<TicketPriority>(), "Id", "Id", ticket.TicketPriorityId);
             ViewData["ProjectId"] = new SelectList(_context.Project, "Id", "Id", ticket.ProjectId);
             ViewData["TicketStatusId"] = new SelectList(_context.Set<TicketStatus>(), "Id", "Id", ticket.TicketStatusId);
@@ -160,9 +229,9 @@ namespace MVC_BugTracker.Controllers
             var ticket = await _context.Ticket
                 .Include(t => t.DeveloperUser)
                 .Include(t => t.OwnerUser)
-                .Include(t => t.Priority)
+                .Include(t => t.TicketPriority)
                 .Include(t => t.Project)
-                .Include(t => t.Status)
+                .Include(t => t.TicketStatus)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticket == null)
             {
