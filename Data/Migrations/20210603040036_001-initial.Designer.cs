@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MVC_BugTracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210527144747_003-TickeTypeId-Correction")]
-    partial class _003TickeTypeIdCorrection
+    [Migration("20210603040036_001-initial")]
+    partial class _001initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -782,9 +782,9 @@ namespace MVC_BugTracker.Data.Migrations
 
                     b.Navigation("OwnerUser");
 
-                    b.Navigation("TicketPriority");
-
                     b.Navigation("Project");
+
+                    b.Navigation("TicketPriority");
 
                     b.Navigation("TicketStatus");
 

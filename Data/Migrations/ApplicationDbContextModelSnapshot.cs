@@ -780,9 +780,9 @@ namespace MVC_BugTracker.Data.Migrations
 
                     b.Navigation("OwnerUser");
 
-                    b.Navigation("TicketPriority");
-
                     b.Navigation("Project");
+
+                    b.Navigation("TicketPriority");
 
                     b.Navigation("TicketStatus");
 

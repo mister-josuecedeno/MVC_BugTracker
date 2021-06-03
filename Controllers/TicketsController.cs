@@ -121,6 +121,29 @@ namespace MVC_BugTracker.Controllers
             return View(ticket);
         }
 
+        // GET: Tickets/TicketDetails/5
+        public async Task<IActionResult> TicketDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var ticket = await _context.Ticket
+                .Include(t => t.DeveloperUser)
+                .Include(t => t.OwnerUser)
+                .Include(t => t.TicketPriority)
+                .Include(t => t.Project)
+                .Include(t => t.TicketStatus)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+
+            return View(ticket);
+        }
+
         // GET: Tickets/Create
         public IActionResult Create()
         {
@@ -183,7 +206,7 @@ namespace MVC_BugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProjectId,TicketPriorityId,TicketStatusId,TicketType,OwnerUserId,DeveloperUserId,Title,Description,Created,Updated,Archived,ArchivedDate")] Ticket ticket)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,OwnerUserId,DeveloperUserId,Title,Description,Created,Updated,Archived,ArchivedDate")] Ticket ticket)
         {
             if (id != ticket.Id)
             {

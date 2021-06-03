@@ -4,33 +4,23 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MVC_BugTracker.Data.Migrations
 {
-    public partial class _002InitializeSchema : Migration
+    public partial class _001initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "AvatarContentType",
-                table: "AspNetUsers",
-                type: "text",
-                nullable: true);
-
-            migrationBuilder.AddColumn<byte[]>(
-                name: "AvatarFileData",
-                table: "AspNetUsers",
-                type: "bytea",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "AvatarFileName",
-                table: "AspNetUsers",
-                type: "text",
-                nullable: true);
-
-            migrationBuilder.AddColumn<int>(
-                name: "CompanyId",
-                table: "AspNetUsers",
-                type: "integer",
-                nullable: true);
+            migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Company",
@@ -102,6 +92,64 @@ namespace MVC_BugTracker.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    CompanyId = table.Column<int>(type: "integer", nullable: true),
+                    FirstName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    AvatarFileName = table.Column<string>(type: "text", nullable: true),
+                    AvatarFileData = table.Column<byte[]>(type: "bytea", nullable: true),
+                    AvatarContentType = table.Column<string>(type: "text", nullable: true),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Company_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Company",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Project",
                 columns: table => new
                 {
@@ -134,6 +182,91 @@ namespace MVC_BugTracker.Data.Migrations
                         principalTable: "ProjectPriority",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    RoleId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -215,7 +348,7 @@ namespace MVC_BugTracker.Data.Migrations
                     ProjectId = table.Column<int>(type: "integer", nullable: false),
                     TicketPriorityId = table.Column<int>(type: "integer", nullable: false),
                     TicketStatusId = table.Column<int>(type: "integer", nullable: false),
-                    TicketType = table.Column<int>(type: "integer", nullable: false),
+                    TicketTypeId = table.Column<int>(type: "integer", nullable: false),
                     OwnerUserId = table.Column<string>(type: "text", nullable: true),
                     DeveloperUserId = table.Column<string>(type: "text", nullable: true),
                     Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
@@ -223,8 +356,7 @@ namespace MVC_BugTracker.Data.Migrations
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     Updated = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     Archived = table.Column<bool>(type: "boolean", nullable: false),
-                    ArchivedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    TypeId = table.Column<int>(type: "integer", nullable: true)
+                    ArchivedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -236,7 +368,7 @@ namespace MVC_BugTracker.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Ticket_AspNetUsers_OwnerUserid",
+                        name: "FK_Ticket_AspNetUsers_OwnerUserId",
                         column: x => x.OwnerUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -260,11 +392,11 @@ namespace MVC_BugTracker.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Ticket_TicketType_TypeId",
-                        column: x => x.TypeId,
+                        name: "FK_Ticket_TicketType_TicketTypeId",
+                        column: x => x.TicketTypeId,
                         principalTable: "TicketType",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -395,9 +527,46 @@ namespace MVC_BugTracker.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_CompanyId",
                 table: "AspNetUsers",
                 column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_BTUserProject_ProjectsId",
@@ -455,7 +624,7 @@ namespace MVC_BugTracker.Data.Migrations
                 column: "DeveloperUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ticket_OwnerUserid",
+                name: "IX_Ticket_OwnerUserId",
                 table: "Ticket",
                 column: "OwnerUserId");
 
@@ -475,9 +644,9 @@ namespace MVC_BugTracker.Data.Migrations
                 column: "TicketStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ticket_TypeId",
+                name: "IX_Ticket_TicketTypeId",
                 table: "Ticket",
-                column: "TypeId");
+                column: "TicketTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TicketAttachment_TicketId",
@@ -508,21 +677,24 @@ namespace MVC_BugTracker.Data.Migrations
                 name: "IX_TicketHistory_UserId",
                 table: "TicketHistory",
                 column: "UserId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUsers_Company_CompanyId",
-                table: "AspNetUsers",
-                column: "CompanyId",
-                principalTable: "Company",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_AspNetUsers_Company_CompanyId",
-                table: "AspNetUsers");
+            migrationBuilder.DropTable(
+                name: "AspNetRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
                 name: "BTUserProject");
@@ -543,7 +715,13 @@ namespace MVC_BugTracker.Data.Migrations
                 name: "TicketHistory");
 
             migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
                 name: "Ticket");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Project");
@@ -562,26 +740,6 @@ namespace MVC_BugTracker.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProjectPriority");
-
-            migrationBuilder.DropIndex(
-                name: "IX_AspNetUsers_CompanyId",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "AvatarContentType",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "AvatarFileData",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "AvatarFileName",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "CompanyId",
-                table: "AspNetUsers");
         }
     }
 }

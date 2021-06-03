@@ -151,7 +151,7 @@ namespace MVC_BugTracker.Services
 
             try
             {
-                if (role.Equals(Roles.Developer)) 
+                if (role.Equals(Roles.Developer.ToString())) 
                 {
                     try
                     {
