@@ -190,7 +190,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                     <div class="info">
                         @*<a href="#" class="d-block">Alexander Pierce</a>*@
-                        <a class="d-block" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@btUser.FullName</a>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <a class="d-block" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@btUser.FullName</a>
+
+                        }
+                        else 
+                        { 
+                            <span class="text-light">Please Login/Register</span>
+                        }
                     </div>
                 </div>
 
