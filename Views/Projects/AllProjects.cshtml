@@ -9,88 +9,122 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            @*<th>
-                Description
-            </th>*@
-            <th>
-                Start Date
-            </th>
-            <th>
-                End Date
-            </th>
-            @*<th>
-            @Html.DisplayNameFor(model => model.Archived)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ArchivedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImageFileName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImageFileData)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImageContentType)
-        </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Company)
-            </th>*@
-            <th>
-                Priority
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <div class="font-weight-bold">@Html.DisplayFor(modelItem => item.Name)</div>
-                <div>Created: @Html.DisplayFor(modelItem => item.StartDate)</div>
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Archived)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ArchivedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageFileName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageFileData)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageContentType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Company.Id)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjectPriority.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+                <div class="col">
+
+
+                    <table id="dtAllProjects" class="table table-bordered table-hover dataTables_wrapper dtr-inline" role="grid" aria-describedby="example2-info">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                @*<th>
+                                        Description
+                                    </th>*@
+                                <th>
+                                    Start Date
+                                </th>
+                                <th>
+                                    End Date
+                                </th>
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.Archived)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ArchivedDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ImageFileName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ImageFileData)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ImageContentType)
+                                    </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Company)
+                                        </th>*@
+                                <th>
+                                    Priority
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="font-weight-bold">@Html.DisplayFor(modelItem => item.Name)</div>
+                                        <div>Created: @Html.DisplayFor(modelItem => item.StartDate)</div>
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>*@
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StartDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EndDate)
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.Archived)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ArchivedDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ImageFileName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ImageFileData)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ImageContentType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Company.Id)
+                                        </td>*@
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProjectPriority.Name)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#dtAllProjects').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+
 }
-    </tbody>
-</table>

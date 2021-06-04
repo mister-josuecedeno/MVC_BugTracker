@@ -16,8 +16,8 @@
         <div class="dataTables_wrapper dt-bootstrap4">
             <div class="row">
                 <div class="col">
-                    <!-- TABLE -->
-                    <table id="example" class="table table-bordered table-hover dataTables_wrapper dtr-inline" role="grid" aria-describedby="example2-info">
+                    <!-- All Tickets DATA-TABLE -->
+                    <table id="dtAllTickets" class="table table-bordered table-hover dataTables_wrapper dtr-inline" role="grid" aria-describedby="example2-info">
                         <thead>
                             <tr>
                                 <th>
@@ -36,11 +36,11 @@
                                     Date Updated
                                 </th>
                                 @*<th>
-                                    @Html.DisplayNameFor(model => model.Archived)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ArchivedDate)
-                                </th>*@
+                                        @Html.DisplayNameFor(model => model.Archived)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ArchivedDate)
+                                    </th>*@
                                 <th>
                                     Project
                                 </th>
@@ -79,11 +79,11 @@
                                         @Html.DisplayFor(modelItem => item.Updated)
                                     </td>
                                     @*<td>
-                                        @Html.DisplayFor(modelItem => item.Archived)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ArchivedDate)
-                                    </td>*@
+                                            @Html.DisplayFor(modelItem => item.Archived)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ArchivedDate)
+                                        </td>*@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Project.Name)
                                     </td>
@@ -117,4 +117,20 @@
     </div>
 </div>
 
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#dtAllTickets').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": [[5, "asc"]],
+                "rowGroup": {dataSrc: 5},
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 
+}

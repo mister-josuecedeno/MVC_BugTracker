@@ -10,192 +10,252 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-<h1>My Developer Tickets</h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Type
-            </th>
-            <th>
-                Title
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                Created
-            </th>
-            <th>
-                Updated
-            </th>
-            <th>
-                Archived
-            </th>
-            <th>
-                ArchivedDate
-            </th>
-            <th>
-                Project
-            </th>
-            <th>
-                Priority
-            </th>
-            <th>
-                Status
-            </th>
-            <th>
-                Submitter
-            </th>
-            <th>
-                Developer
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Developer)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketType.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Created)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Updated)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Archived)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ArchivedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Project.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OwnerUser.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeveloperUser.FullName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="TicketDetails" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
+<!-- DEVELOPER -->
+<div class="card">
+    <div class="card-header"><h3>Developer</h3></div>
+    <div class="card-body">
+        <div class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+                <div class="col">
+
+                    <!--Developer Tickets TABLE -->
+                    <table id="dtDeveloper" class="table table-bordered table-hover dataTables_wrapper dtr-inline" role="grid" aria-describedby="basicDataTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Type
+                                </th>
+                                <th>
+                                    Title
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Created
+                                </th>
+                                <th>
+                                    Updated
+                                </th>
+                                <th>
+                                    Archived
+                                </th>
+                                <th>
+                                    ArchivedDate
+                                </th>
+                                <th>
+                                    Project
+                                </th>
+                                <th>
+                                    Priority
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Submitter
+                                </th>
+                                <th>
+                                    Developer
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Developer)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TicketType.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Created)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Updated)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Archived)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ArchivedDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Project.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OwnerUser.FullName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DeveloperUser.FullName)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                        <a asp-action="TicketDetails" asp-route-id="@item.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
 
 
-    </tbody>
-</table>
+                        </tbody>
+                    </table>
 
-<h1 class="mt-5">My Submitter Tickets</h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Type
-            </th>
-            <th>
-                Title
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                Created
-            </th>
-            <th>
-                Updated
-            </th>
-            <th>
-                Archived
-            </th>
-            <th>
-                ArchivedDate
-            </th>
-            <th>
-                Project
-            </th>
-            <th>
-                Priority
-            </th>
-            <th>
-                Status
-            </th>
-            <th>
-                Submitter
-            </th>
-            <th>
-                Developer
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Submitter)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketType.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Created)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Updated)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Archived)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ArchivedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Project.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OwnerUser.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeveloperUser.FullName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SUBMITTER -->
+<div class="card">
+    <div class="card-header"><h3>Submitter</h3></div>
+    <div class="card-body">
+        <div class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+                <div class="col">
+
+                    <!--Submitter Tickets TABLE -->
+                    <table id="dtSubmitter" class="table table-bordered table-hover dataTables_wrapper dtr-inline" role="grid" aria-describedby="basicDataTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Type
+                                </th>
+                                <th>
+                                    Title
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Created
+                                </th>
+                                <th>
+                                    Updated
+                                </th>
+                                <th>
+                                    Archived
+                                </th>
+                                <th>
+                                    ArchivedDate
+                                </th>
+                                <th>
+                                    Project
+                                </th>
+                                <th>
+                                    Priority
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Submitter
+                                </th>
+                                <th>
+                                    Developer
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Submitter)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TicketType.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Created)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Updated)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Archived)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ArchivedDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Project.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OwnerUser.FullName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DeveloperUser.FullName)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
 
 
-    </tbody>
-</table>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#dtDeveloper').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": [[7, "asc"]],
+                "rowGroup": { dataSrc: 7 },
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#dtSubmitter').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": [[7, "asc"]],
+                "rowGroup": { dataSrc: 7 },
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+}
