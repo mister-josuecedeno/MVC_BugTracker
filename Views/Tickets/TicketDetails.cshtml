@@ -18,20 +18,22 @@
         <div class="row">
             <div class="col-lg-6" id="ticket-detail-left">
                 <div class="row">
+                    
                     <!-- Ticket -->
                     <div class="col-12 mb-3">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">@Model.Title</h5>
-                                <a href="#" class="badge badge-success">New Ticket</a>
-                                <p class="card-text">@Model.Project.Name</p>
+                                <h3 class="card-title">Ticket: <span class="font-weight-bold">@Model.Title</span></h3>
+                                <div class="card-text"><a href="#" class="badge badge-success">New Ticket</a></div>
+                                
+                                <div class="card-text mt-3">Project: @Model.Project.Name</div>
 
                                 <!-- Progress Bar -->
                                 <div class="progress">
                                     <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
                                 </div>
 
-                                <p class="card-text">Developer: @Model.DeveloperUser?.FullName</p>
+                                <p class="card-text mt-3">Developer: @Model.DeveloperUser?.FullName</p>
                             </div>
                         </div>
                     </div>
@@ -62,7 +64,7 @@
                                     <h6>Add Attachment</h6>
                                     <form>
                                         <div class="form-group">
-                                            <label for="exampleFormControlFile1">Description</label>
+                                            <label for="fileDescription">Description</label>
                                             <input type="text" class="form-control" id="fileDescription">
                                         </div>
                                         <div class="form-group">
@@ -91,10 +93,10 @@
                                     <h6>Add Comment</h6>
                                     <form>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="fileDescription">
+                                            <input type="text" class="form-control" id="ticketComment">
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-success" id="fileSubmit">Submit</button>
+                                            <button type="submit" class="btn btn-success" id="commentSubmit">Submit</button>
                                         </div>
                                     </form>
                                     <hr />

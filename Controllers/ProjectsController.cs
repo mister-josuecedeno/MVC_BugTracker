@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,14 +22,17 @@ namespace MVC_BugTracker.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IBTProjectService _projectService;
         private readonly IBTCompanyInfoService _infoService;
+        private readonly UserManager<BTUser> _userManager;
 
         public ProjectsController(ApplicationDbContext context,
-                                  IBTProjectService projectService, 
-                                  IBTCompanyInfoService infoService)
+                                  IBTProjectService projectService,
+                                  IBTCompanyInfoService infoService, 
+                                  UserManager<BTUser> userManager)
         {
             _context = context;
             _projectService = projectService;
             _infoService = infoService;
+            _userManager = userManager;
         }
 
         // GET: Projects
@@ -36,6 +40,49 @@ namespace MVC_BugTracker.Controllers
         {
             var applicationDbContext = _context.Project.Include(p => p.Company).Include(p => p.ProjectPriority);
             return View(await applicationDbContext.ToListAsync());
+        }
+
+        // GET: ALL Projects (By Company)
+        public async Task<IActionResult> AllProjects()
+        {
+            // GET company id
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            List<Project> projects = new();
+
+            try
+            {
+                projects = await _projectService.GetAllProjectsByCompany(companyId);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting all projects - {ex.Message}");
+                throw;
+            }
+
+            return View(projects);
+        }
+
+        // GET: MY Projects
+        public async Task<IActionResult> MyProjects()
+        {
+            // GET my user id
+            string userId = _userManager.GetUserId(User);
+
+            // SET ViewModel
+            List<Project> projects = new();
+
+            try
+            {
+                
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting all tickets - {ex.Message}");
+                throw;
+            }
+
+            return View(projects);
         }
 
         // GET: Projects/Details/5
