@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MVC_BugTracker.Data.Migrations
 {
-    public partial class _001initial : Migration
+    public partial class Initial_001 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

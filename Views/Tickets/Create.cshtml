@@ -14,28 +14,24 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ProjectId" class="control-label"></label>
-                <select asp-for="ProjectId" class ="form-control" asp-items="ViewBag.ProjectId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="TicketPriorityId" class="control-label"></label>
-                <select asp-for="TicketPriorityId" class ="form-control" asp-items="ViewBag.TicketPriorityId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="TicketStatusId" class="control-label"></label>
-                <select asp-for="TicketStatusId" class ="form-control" asp-items="ViewBag.TicketStatusId"></select>
+                <select asp-for="ProjectId" class="form-control" asp-items="ViewBag.ProjectId">
+                    <option>Select a Project</option>
+                </select>
+                <span asp-validation-for="ProjectId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TicketTypeId" class="control-label"></label>
-                <input asp-for="TicketTypeId" class="form-control" />
+                <select asp-for="TicketTypeId" class="form-control" asp-items="ViewBag.TicketTypeId">
+                    <option>Select a Ticket Type</option>
+                </select>
                 <span asp-validation-for="TicketTypeId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="OwnerUserId" class="control-label"></label>
-                <select asp-for="OwnerUserId" class ="form-control" asp-items="ViewBag.OwnerUserId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeveloperUserId" class="control-label"></label>
-                <select asp-for="DeveloperUserId" class ="form-control" asp-items="ViewBag.DeveloperUserId"></select>
+                <label asp-for="TicketPriorityId" class="control-label"></label>
+                <select asp-for="TicketPriorityId" class="form-control" asp-items="ViewBag.TicketPriorityId">
+                    <option>Select a Ticket Priority</option>
+                </select>
+                <span asp-validation-for="TicketPriorityId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -47,26 +43,40 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            @*<div class="form-group">
+                <label asp-for="TicketStatusId" class="control-label"></label>
+                <select asp-for="TicketStatusId" class ="form-control" asp-items="ViewBag.TicketStatusId"></select>
+            </div>*@
+            @*<div class="form-group">
+                <label asp-for="OwnerUserId" class="control-label"></label>
+                <select asp-for="OwnerUserId" class ="form-control" asp-items="ViewBag.OwnerUserId"></select>
+            </div>*@
+            @*<div class="form-group">
+                <label asp-for="DeveloperUserId" class="control-label"></label>
+                <select asp-for="DeveloperUserId" class ="form-control" asp-items="ViewBag.DeveloperUserId"></select>
+            </div>*@
+            @*<div class="form-group">
                 <label asp-for="Created" class="control-label"></label>
                 <input asp-for="Created" class="form-control" />
                 <span asp-validation-for="Created" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+            @*<div class="form-group">
                 <label asp-for="Updated" class="control-label"></label>
                 <input asp-for="Updated" class="form-control" />
                 <span asp-validation-for="Updated" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
+            </div>*@
+            @*<div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Archived" /> @Html.DisplayNameFor(model => model.Archived)
                 </label>
-            </div>
-            <div class="form-group">
+            </div>*@
+            @*<div class="form-group">
                 <label asp-for="ArchivedDate" class="control-label"></label>
                 <input asp-for="ArchivedDate" class="form-control" />
                 <span asp-validation-for="ArchivedDate" class="text-danger"></span>
-            </div>
+            </div>*@
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

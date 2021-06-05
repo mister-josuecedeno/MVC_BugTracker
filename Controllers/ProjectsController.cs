@@ -95,6 +95,7 @@ namespace MVC_BugTracker.Controllers
 
             var project = await _context.Project
                 .Include(p => p.Members)
+                .Include(p => p.Tickets)
                 .Include(p => p.Company)
                 .Include(p => p.ProjectPriority)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -107,10 +108,10 @@ namespace MVC_BugTracker.Controllers
         }
 
         // GET: Projects/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["CompanyId"] = new SelectList(_context.Company, "Id", "Id");
-            ViewData["ProjectPriorityId"] = new SelectList(_context.Set<ProjectPriority>(), "Id", "Id");
+            // ViewData["CompanyId"] = new SelectList(_context.Company, "Id", "Id");
+            ViewData["ProjectPriorityId"] = new SelectList(_context.Set<ProjectPriority>(), "Id", "Name");
             return View();
         }
 
@@ -119,17 +120,29 @@ namespace MVC_BugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProjectPriorityId,CompanyId,Name,Description,StartDate,EndDate,Archived,ArchivedDate,ImageFileName,ImageFileData,ImageContentType")] Project project)
+        public async Task<IActionResult> Create([Bind("Id,ProjectPriorityId,Name,Description,StartDate,EndDate")] Project project)
         {
+            //CompanyId,
+            // [TBD - Later] Archived,ArchivedDate,ImageFileName,ImageFileData,ImageContentType
+
             if (ModelState.IsValid)
             {
+                // Get current user
+                // BTUser btuser = await _userManager.GetUserAsync(User);
+
+                // Get current company
+                int companyId = User.Identity.GetCompanyId().Value;
+                project.CompanyId = companyId;
+
                 _context.Add(project);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details","Projects", new { id=project.Id });
             }
-            ViewData["CompanyId"] = new SelectList(_context.Company, "Id", "Id", project.CompanyId);
-            ViewData["ProjectPriorityId"] = new SelectList(_context.Set<ProjectPriority>(), "Id", "Id", project.ProjectPriorityId);
-            return View(project);
+            
+            //ViewData["CompanyId"] = new SelectList(_context.Company, "Id", "Id", project.CompanyId);
+            //ViewData["ProjectPriorityId"] = new SelectList(_context.Set<ProjectPriority>(), "Id", "Id", project.ProjectPriorityId);
+
+            return RedirectToAction("Create");
         }
 
         // GET: Projects/Edit/5

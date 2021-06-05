@@ -25,10 +25,10 @@ namespace MVC_BugTracker.Models
 
 
         // Data Fields
-        [Display(Name = "Project Manager")]
+        [Display(Name = "Submitter")]
         public string OwnerUserId { get; set; }
 
-        [Display(Name = "Assignee")]
+        [Display(Name = "Developer")]
         public string DeveloperUserId { get; set; }
 
         [StringLength(50)]

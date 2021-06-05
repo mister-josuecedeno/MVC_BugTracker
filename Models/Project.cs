@@ -12,6 +12,7 @@ namespace MVC_BugTracker.Models
     {
         // PK/FK
         public int Id { get; set; }
+        [Display(Name = "Project Priority")]
         public int? ProjectPriorityId { get; set; }
         public int? CompanyId { get; set; }
 

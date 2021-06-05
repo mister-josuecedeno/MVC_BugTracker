@@ -45,8 +45,8 @@
                                 <h5 class="card-title">Ticket Details</h5>
                                 <div class="card-text">
                                     <div class="mb-2">Created: <span class="btn btn-sm btn-outline-info text-uppercase float-right">@Model.Created.ToString("dd MMM, yyyy")</span>  </div>
-                                    <div class="mb-2">Project Deadline:  </div>
-                                    <div class="mb-2">Type: @Model.TicketType?.Name  </div>
+                                    <div class="mb-2">Project Deadline: <span class="btn btn-sm btn-outline-info text-uppercase float-right">@Model.Project.EndDate?.ToString("dd MMM, yyyy")</span> </div>
+                                    <div class="mb-2">Type: <span class="btn btn-sm btn-outline-info text-uppercase float-right">@Model.TicketType?.Name</span>  </div>
                                     <div class="mb-2">Priority: <span class="btn btn-sm btn-outline-info text-uppercase float-right">@Model.TicketPriority?.Name </span> </div>
                                     <div class="mb-2">Status: <span class="btn btn-sm btn-outline-info text-uppercase float-right">@Model.TicketStatus?.Name </span> </div>
                                 </div>
