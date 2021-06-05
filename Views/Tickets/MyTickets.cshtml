@@ -23,29 +23,29 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Type
-                                </th>
-                                <th>
-                                    Title
-                                </th>
-                                <th>
-                                    Description
+                                    Project
                                 </th>
                                 <th>
                                     Created
                                 </th>
                                 <th>
+                                    Type
+                                </th>
+                                <th>
+                                    Title
+                                </th>
+                                @*<th>
+                                    Description
+                                </th>*@
+                                @*<th>
                                     Updated
-                                </th>
-                                <th>
+                                </th>*@
+                                @*<th>
                                     Archived
-                                </th>
-                                <th>
+                                </th>*@
+                                @*<th>
                                     ArchivedDate
-                                </th>
-                                <th>
-                                    Project
-                                </th>
+                                </th>*@
                                 <th>
                                     Priority
                                 </th>
@@ -58,7 +58,9 @@
                                 <th>
                                     Developer
                                 </th>
-                                <th></th>
+                                <th>
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,29 +68,29 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.TicketType.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Title)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Description)
+                                        @Html.DisplayFor(modelItem => item.Project.Name)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Created)
                                     </td>
                                     <td>
+                                        @Html.DisplayFor(modelItem => item.TicketType.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    @*<td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>*@
+                                    @*<td>
                                         @Html.DisplayFor(modelItem => item.Updated)
-                                    </td>
-                                    <td>
+                                    </td>*@
+                                    @*<td>
                                         @Html.DisplayFor(modelItem => item.Archived)
-                                    </td>
-                                    <td>
+                                    </td>*@
+                                    @*<td>
                                         @Html.DisplayFor(modelItem => item.ArchivedDate)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Project.Name)
-                                    </td>
+                                    </td>*@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.TicketPriority.Name)
                                     </td>
@@ -132,29 +134,29 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Type
-                                </th>
-                                <th>
-                                    Title
-                                </th>
-                                <th>
-                                    Description
+                                    Project
                                 </th>
                                 <th>
                                     Created
                                 </th>
                                 <th>
+                                    Type
+                                </th>
+                                <th>
+                                    Title
+                                </th>
+                                @*<th>
+                                    Description
+                                </th>*@
+                                @*<th>
                                     Updated
-                                </th>
-                                <th>
+                                </th>*@
+                                @*<th>
                                     Archived
-                                </th>
-                                <th>
+                                </th>*@
+                                @*<th>
                                     ArchivedDate
-                                </th>
-                                <th>
-                                    Project
-                                </th>
+                                </th>*@
                                 <th>
                                     Priority
                                 </th>
@@ -167,7 +169,9 @@
                                 <th>
                                     Developer
                                 </th>
-                                <th></th>
+                                <th>
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -175,29 +179,29 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.TicketType.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Title)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Description)
+                                        @Html.DisplayFor(modelItem => item.Project.Name)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Created)
                                     </td>
                                     <td>
+                                        @Html.DisplayFor(modelItem => item.TicketType.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    @*<td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>*@
+                                    @*<td>
                                         @Html.DisplayFor(modelItem => item.Updated)
-                                    </td>
-                                    <td>
+                                    </td>*@
+                                    @*<td>
                                         @Html.DisplayFor(modelItem => item.Archived)
-                                    </td>
-                                    <td>
+                                    </td>*@
+                                    @*<td>
                                         @Html.DisplayFor(modelItem => item.ArchivedDate)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Project.Name)
-                                    </td>
+                                    </td>*@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.TicketPriority.Name)
                                     </td>
@@ -235,11 +239,18 @@
                 "paging": true,
                 "lengthChange": false,
                 "searching": false,
-                "ordering": [[7, "asc"]],
-                "rowGroup": { dataSrc: 7 },
+                "order": [[1, "desc"]],
+                "rowGroup": { dataSrc: 0 },
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
+                "columnDefs": [
+                    {
+                        "targets": [0, 1],
+                        "visible": false,
+                        "searchable": true
+                    }
+                ]
             });
         });
     </script>
@@ -250,11 +261,18 @@
                 "paging": true,
                 "lengthChange": false,
                 "searching": false,
-                "ordering": [[7, "asc"]],
-                "rowGroup": { dataSrc: 7 },
+                "order": [[1, "desc"]],
+                "rowGroup": { dataSrc: 0 },
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
+                "columnDefs": [
+                    {
+                        "targets": [0, 1],
+                        "visible": false,
+                        "searchable": true
+                    }
+                ]
             });
         });
     </script>
