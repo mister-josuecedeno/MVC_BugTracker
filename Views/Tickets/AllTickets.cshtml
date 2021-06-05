@@ -20,30 +20,32 @@
                     <table id="dtAllTickets" class="table table-bordered table-hover dataTables_wrapper dtr-inline" role="grid" aria-describedby="example2-info">
                         <thead>
                             <tr>
-                                <th>
+                                @*<th>
                                     Ticket Type
-                                </th>
+                                </th>*@
                                 <th>
-                                    Title
-                                </th>
-                                <th>
-                                    Description
+                                    Project
                                 </th>
                                 <th>
                                     Date Created
                                 </th>
                                 <th>
-                                    Date Updated
+                                    Title
                                 </th>
+                                @*<th>
+                                    Description
+                                </th>*@
+                                
+                                @*<th>
+                                    Date Updated
+                                </th>*@
                                 @*<th>
                                         @Html.DisplayNameFor(model => model.Archived)
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.ArchivedDate)
                                     </th>*@
-                                <th>
-                                    Project
-                                </th>
+                                
                                 <th>
                                     Priority
                                 </th>
@@ -56,37 +58,45 @@
                                 <th>
                                     Developer
                                 </th>
-                                <th></th>
+                                <th>
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>
+                                    @*<td>
                                         @Html.DisplayFor(modelItem => item.TicketType.Name)
-                                    </td>
+                                    </td>*@
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Title)
+                                        @Html.DisplayFor(modelItem => item.Project.Name)
                                     </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Description)
-                                    </td>
+
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Created)
                                     </td>
+
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Updated)
+                                        <div class="font-weight-bold">@Html.DisplayFor(modelItem => item.Title)</div>
+                                        <div>Created: @Html.DisplayFor(modelItem => item.Created)</div>
+
                                     </td>
+                                    @*<td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>*@
+                                    
+                                    @*<td>
+                                        @Html.DisplayFor(modelItem => item.Updated)
+                                    </td>*@
                                     @*<td>
                                             @Html.DisplayFor(modelItem => item.Archived)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.ArchivedDate)
                                         </td>*@
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Project.Name)
-                                    </td>
+                                    
                                     <td>
                                         @Html.DisplayFor(modelItem => item.TicketPriority.Name)
                                     </td>
@@ -124,11 +134,18 @@
                 "paging": true,
                 "lengthChange": false,
                 "searching": false,
-                "ordering": [[5, "asc"]],
-                "rowGroup": {dataSrc: 5},
+                "order": [[1, "desc"]],
+                "rowGroup": {dataSrc: 0},
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
+                "columnDefs": [
+                    {
+                        "targets": [0, 1],
+                        "visible": false,
+                        "searchable": true
+                    }
+                ]
             });
         });
     </script>
