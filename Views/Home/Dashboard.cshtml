@@ -7,7 +7,7 @@
 
 <div class="container-fluid">
     
-    <div><h1>@Model.Company.Name</h1></div>
+    <div><h1>Dashboard - @Model.Company.Name</h1></div>
         
     
     <div class="row">
@@ -48,7 +48,7 @@
                 <div class="icon">
                     <i class="fas fa-tasks"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a class="small-box-footer" asp-controller="Tickets" asp-action="AllTickets">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         

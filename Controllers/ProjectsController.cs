@@ -17,6 +17,7 @@ using MVC_BugTracker.Services.Interfaces;
 
 namespace MVC_BugTracker.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -77,8 +78,6 @@ namespace MVC_BugTracker.Controllers
 
             try
             {
-                //projects = await _projectService.GetAllProjectsByCompany(companyId);
-                
                 myProjects = (await _projectService.ListUserProjectsAsync(userId));
             }
             catch (Exception ex)

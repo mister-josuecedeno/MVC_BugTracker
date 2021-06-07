@@ -4,10 +4,11 @@
     ViewData["Title"] = "Project Details";
 }
 
-<h1>Project Details</h1>
+<h1>Project Details - @Model.Name</h1>
 
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="AssignUsers" asp-route-id="@Model.Id">Assign Users</a> |
     <a asp-action="AllProjects">Back to List</a>
 </div>
 
@@ -157,7 +158,7 @@
                         <ul>
                             @foreach (Ticket ticket in Model.Tickets)
                             {
-                                <li>@ticket.Title</li>
+                                <li><a asp-action="TicketDetails" asp-controller="Tickets" asp-route-id="@ticket.Id">@ticket.Title</a></li>
                             }
                         </ul>
 

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MVC_BugTracker.Controllers
 {
@@ -36,10 +37,11 @@ namespace MVC_BugTracker.Controllers
 
         public IActionResult Index()
         {
-            //return View();
+            // return View();
             return RedirectToAction("Dashboard");
         }
 
+        [Authorize]
         public async Task<IActionResult> Dashboard()
         {
             DashboardViewModel dashboardVM = new();
