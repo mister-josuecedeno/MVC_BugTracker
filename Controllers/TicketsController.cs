@@ -264,7 +264,7 @@ namespace MVC_BugTracker.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("AllTickets");
             }
             ViewData["ProjectId"] = new SelectList(_context.Project, "Id", "Id", ticket.ProjectId);
             ViewData["TicketPriorityId"] = new SelectList(_context.Set<TicketPriority>(), "Id", "Id", ticket.TicketPriorityId);

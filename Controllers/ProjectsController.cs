@@ -66,15 +66,20 @@ namespace MVC_BugTracker.Controllers
         // GET: MY Projects
         public async Task<IActionResult> MyProjects()
         {
+            // GET company id
+            //int companyId = User.Identity.GetCompanyId().Value;
+
             // GET my user id
             string userId = _userManager.GetUserId(User);
 
-            // SET ViewModel
-            List<Project> projects = new();
+            // SET Model
+            List<Project> myProjects = new();
 
             try
             {
+                //projects = await _projectService.GetAllProjectsByCompany(companyId);
                 
+                myProjects = (await _projectService.ListUserProjectsAsync(userId));
             }
             catch (Exception ex)
             {
@@ -82,7 +87,7 @@ namespace MVC_BugTracker.Controllers
                 throw;
             }
 
-            return View(projects);
+            return View(myProjects);
         }
 
         // GET: Projects/Details/5

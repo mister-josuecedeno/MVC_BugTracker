@@ -21,6 +21,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="~/css/all.min.css">
+
+    <!-- Ion Icons -->
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
     <!-- Data Tables -->
     <link href="~/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="~/css/responsive.bootstrap4.min.css" rel="stylesheet" />
@@ -29,7 +34,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Theme style -->
     <link rel="stylesheet" href="~/css/adminlte.min.css">
-    
+
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -180,7 +185,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a class="brand-link" asp-controller="Home" asp-action="Dashboard">
                 <img src="~/img/MVC-Bug-Tracker-Logo.png" alt="MVC Bug Tracker Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">MVC Bug Tracker</span>
             </a>
@@ -226,10 +231,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         with font-awesome or any other icon font library -->
                         <!-- Portfolio -->
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a class="nav-link" asp-controller="Home" asp-action="Dashboard">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
-                                    Portfolio
+                                    Dashboard
                                     <span class="right badge badge-danger">New</span>
                                 </p>
                             </a>
@@ -263,7 +268,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a class="nav-link" asp-area="" asp-controller="Projects" asp-action="MyProjects">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>My Projects</p>
                                     </a>

@@ -1,0 +1,77 @@
+﻿@model MVC_BugTracker.Models.ViewModels.DashboardViewModel
+
+@using MVC_BugTracker.Services.Interfaces
+@using Microsoft.AspNetCore.Identity
+@using MVC_BugTracker.Extensions
+
+
+<div class="container-fluid">
+    
+    <div><h1>@Model.Company.Name</h1></div>
+        
+    
+    <div class="row">
+        <div class="col">
+            <!-- small box - PROJECTS -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    @{
+                        int projectCount = @Model.Projects.Count;
+                    }
+
+                    <h3>@projectCount</h3>
+
+                    <p>Projects</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                    
+                <a class="small-box-footer" asp-area="" asp-controller="Projects" asp-action="AllProjects">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="col">
+            <!-- small box - TICKETS -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    @{
+                        int ticketCount = @Model.Tickets.Count;
+                     }
+                    
+                    <h3>@ticketCount</h3>
+
+                    <p>Tickets</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        
+        <div class="col">
+            <!-- small box - MEMBERS -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    
+                    @{
+                        int memberCount = @Model.Members.Count;
+                     }
+                    
+                    <h3>@memberCount</h3>
+
+                    <p>Members</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+
+    </div>
+</div>

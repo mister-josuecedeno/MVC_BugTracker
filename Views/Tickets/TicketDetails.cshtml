@@ -1,207 +1,90 @@
 ﻿@model MVC_BugTracker.Models.Ticket
 
 @{
-    ViewData["Title"] = "Ticket Details";
+    ViewData["Title"] = "Details";
 }
 
-<h1>Ticket Details</h1>
+<h1>Details</h1>
 
 <div>
-    <!-- Breadcrumbs -->
-    <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-        <a asp-action="AllTickets">Back to List</a>
-    </div>
+    <h4>Ticket</h4>
     <hr />
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6" id="ticket-detail-left">
-                <div class="row">
-                    
-                    <!-- Ticket -->
-                    <div class="col-12 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h3 class="card-title">Ticket: <span class="font-weight-bold">@Model.Title</span></h3>
-                                <div class="card-text"><a href="#" class="badge badge-success">New Ticket</a></div>
-                                
-                                <div class="card-text mt-3">Project: @Model.Project.Name</div>
-
-                                <!-- Progress Bar -->
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                                </div>
-
-                                <p class="card-text mt-3">Developer: @Model.DeveloperUser?.FullName</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Ticket Details -->
-                    <div class="col-12 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Ticket Details</h5>
-                                <div class="card-text">
-                                    <div class="mb-2">Created: <span class="btn btn-sm btn-outline-info text-uppercase float-right">@Model.Created.ToString("dd MMM, yyyy")</span>  </div>
-                                    <div class="mb-2">Project Deadline: <span class="btn btn-sm btn-outline-info text-uppercase float-right">@Model.Project.EndDate?.ToString("dd MMM, yyyy")</span> </div>
-                                    <div class="mb-2">Type: <span class="btn btn-sm btn-outline-info text-uppercase float-right">@Model.TicketType?.Name</span>  </div>
-                                    <div class="mb-2">Priority: <span class="btn btn-sm btn-outline-info text-uppercase float-right">@Model.TicketPriority?.Name </span> </div>
-                                    <div class="mb-2">Status: <span class="btn btn-sm btn-outline-info text-uppercase float-right">@Model.TicketStatus?.Name </span> </div>
-                                </div>
-                                @*<a href="#" class="badge badge-success">New Ticket</a>*@
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Ticket Attachments -->
-                    <div class="col mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Ticket Attachments</h5>
-                                <div class="card-text">
-                                    <h6>Add Attachment</h6>
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="fileDescription">Description</label>
-                                            <input type="text" class="form-control" id="fileDescription">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="file" class="form-control-file" id="ticketAttachmentFile">
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-success" id="fileSubmit">Submit</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col" id="ticket-detail-right">
-                <div class="row">
-                    <!-- Ticket Comments -->
-                    <div class="col-12 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Ticket Comments</h5>
-                                <div class="card-text">
-                                    <h6>Add Comment</h6>
-                                    <form>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="ticketComment">
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-success" id="commentSubmit">Submit</button>
-                                        </div>
-                                    </form>
-                                    <hr />
-                                    <div>Comments</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Ticket History -->
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Ticket History</h5>
-                                <div class="card-text">
-                                    <div>Ticket History</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-      
-        
-    </div>
-
-
-    @*<dl class="row">
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.TicketTypeId)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.TicketTypeId)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Title)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Created)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Created)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Updated)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Updated)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Archived)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Archived)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.ArchivedDate)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.ArchivedDate)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Project)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Project.Id)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.TicketPriority)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.TicketPriority.Id)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.TicketStatus)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.TicketStatus.Id)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.OwnerUser)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.OwnerUser.Id)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.DeveloperUser)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.DeveloperUser.Id)
-            </dd>
-        </dl>*@
-
-
-
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TicketTypeId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TicketTypeId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Updated)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Updated)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Archived)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Archived)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ArchivedDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ArchivedDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Project)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Project.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TicketPriority)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TicketPriority.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TicketStatus)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TicketStatus.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OwnerUser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OwnerUser.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DeveloperUser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DeveloperUser.Id)
+        </dd>
+    </dl>
 </div>
-
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

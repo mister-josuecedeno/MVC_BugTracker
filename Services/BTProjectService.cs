@@ -263,9 +263,11 @@ namespace MVC_BugTracker.Services
 
         public async Task<List<Project>> ListUserProjectsAsync(string userId)
         {
+            List<Project> userProjects = new();
+            
             try
             {
-                List<Project> userProjects = (await _context.Users
+                userProjects = (await _context.Users
                     .Include(u => u.Projects)
                         .ThenInclude(p => p.Company)
                     .Include(u => u.Projects)

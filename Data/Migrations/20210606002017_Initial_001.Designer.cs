@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MVC_BugTracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210604181946_Initial_001")]
+    [Migration("20210606002017_Initial_001")]
     partial class Initial_001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
