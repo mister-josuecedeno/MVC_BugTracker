@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MVC_BugTracker.Controllers
 {
-    //[Authorize(Roles="Admin")]
+    [Authorize(Roles="Admin")]
     public class UserRolesController : Controller
     {
         private readonly ApplicationDbContext _context;
