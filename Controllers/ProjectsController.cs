@@ -112,6 +112,7 @@ namespace MVC_BugTracker.Controllers
         }
 
         // GET: Projects/Create
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> Create()
         {
             // ViewData["CompanyId"] = new SelectList(_context.Company, "Id", "Id");
@@ -124,6 +125,7 @@ namespace MVC_BugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> Create([Bind("Id,ProjectPriorityId,Name,Description,StartDate,EndDate")] Project project)
         {
             //CompanyId,
