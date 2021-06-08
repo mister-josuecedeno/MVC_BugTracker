@@ -197,7 +197,8 @@ namespace MVC_BugTracker.Controllers
                 string userId = _userManager.GetUserId(User);
                 ticket.OwnerUserId = userId;
 
-                ticket.TicketStatusId = (await _ticketService.LookupTicketStatusIdAsync("New")).Value;
+                // All new tickets are 'unassigned
+                ticket.TicketStatusId = (await _ticketService.LookupTicketStatusIdAsync("Unassigned")).Value;
                 
                 _context.Add(ticket);
                 await _context.SaveChangesAsync();
