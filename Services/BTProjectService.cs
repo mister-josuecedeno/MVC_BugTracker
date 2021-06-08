@@ -269,6 +269,8 @@ namespace MVC_BugTracker.Services
             {
                 userProjects = (await _context.Users
                     .Include(u => u.Projects)
+                        .ThenInclude(p => p.ProjectPriority)
+                    .Include(u => u.Projects)
                         .ThenInclude(p => p.Company)
                     .Include(u => u.Projects)
                         .ThenInclude(p => p.Members)
