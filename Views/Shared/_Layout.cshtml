@@ -261,12 +261,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Projects" asp-action="AllProjects">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>All Projects</p>
-                                    </a>
-                                </li>
+
+                                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-controller="Projects" asp-action="AllProjects">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>All Projects</p>
+                                        </a>
+                                    </li>
+                                }
+                                
                                 <li class="nav-item">
                                     <a class="nav-link" asp-area="" asp-controller="Projects" asp-action="MyProjects">
                                         <i class="far fa-circle nav-icon"></i>

@@ -44,6 +44,7 @@ namespace MVC_BugTracker.Controllers
         }
 
         // GET: ALL Projects (By Company)
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> AllProjects()
         {
             // GET company id
@@ -152,6 +153,7 @@ namespace MVC_BugTracker.Controllers
         }
 
         // GET: Projects/Edit/5
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -174,6 +176,7 @@ namespace MVC_BugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ProjectPriorityId,CompanyId,Name,Description,StartDate,EndDate,Archived,ArchivedDate,ImageFileName,ImageFileData,ImageContentType")] Project project)
         {
             if (id != project.Id)
@@ -206,8 +209,8 @@ namespace MVC_BugTracker.Controllers
             return View(project);
         }
 
-        //[Authorize(Roles = "Admin, ProjectManager")]
         [HttpGet]
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> AssignUsers(int id) 
         {
             ProjectMembersViewModel model = new ();
@@ -284,6 +287,7 @@ namespace MVC_BugTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> AssignUsers(ProjectMembersViewModel model)
         {
             if (ModelState.IsValid)
@@ -322,6 +326,7 @@ namespace MVC_BugTracker.Controllers
 
 
         // GET: Projects/Delete/5
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -344,6 +349,7 @@ namespace MVC_BugTracker.Controllers
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var project = await _context.Project.FindAsync(id);
