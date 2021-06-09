@@ -25,18 +25,21 @@ namespace MVC_BugTracker.Controllers
         private readonly IBTProjectService _projectService;
         private readonly IBTTicketService _ticketService;
         private readonly UserManager<BTUser> _userManager;
+        private readonly IBTHistoryService _historyService;
 
 
         public TicketsController(ApplicationDbContext context,
                                  IBTCompanyInfoService infoService,
                                  IBTTicketService ticketService,
-                                 UserManager<BTUser> userManager, IBTProjectService projectService)
+                                 UserManager<BTUser> userManager, 
+                                 IBTProjectService projectService, IBTHistoryService historyService)
         {
             _context = context;
             _infoService = infoService;
             _ticketService = ticketService;
             _userManager = userManager;
             _projectService = projectService;
+            _historyService = historyService;
         }
 
         // GET: Tickets
@@ -251,8 +254,28 @@ namespace MVC_BugTracker.Controllers
 
             if (ModelState.IsValid)
             {
+                // Get Current User
+                BTUser btUser = await _userManager.GetUserAsync(User);
+
+                // Get Current User Company Id
+                int companyId = User.Identity.GetCompanyId().Value;
+
+                // project manager
+                BTUser projectManager = await _projectService.GetProjectManagerAsync(ticket.ProjectId);
+
+                // Old Ticket (AsNoTracking gives a snapshot)
+                Ticket oldTicket = await _context.Ticket
+                                             .Include(t => t.TicketPriority)
+                                             .Include(t => t.TicketStatus)
+                                             .Include(t => t.TicketType)
+                                             .Include(t => t.Project)
+                                             .Include(t => t.DeveloperUser)
+                                             .AsNoTracking().FirstOrDefaultAsync(t => t.Id == ticket.Id);
+
                 try
                 {
+                    ticket.Updated = DateTimeOffset.Now;
+                    
                     _context.Update(ticket);
                     await _context.SaveChangesAsync();
                 }
@@ -267,6 +290,19 @@ namespace MVC_BugTracker.Controllers
                         throw;
                     }
                 }
+
+                // New Ticket (AsNoTracking gives a snapshot)
+                Ticket newTicket = await _context.Ticket
+                                             .Include(t => t.TicketPriority)
+                                             .Include(t => t.TicketStatus)
+                                             .Include(t => t.TicketType)
+                                             .Include(t => t.Project)
+                                             .Include(t => t.DeveloperUser)
+                                             .AsNoTracking().FirstOrDefaultAsync(t => t.Id == ticket.Id);
+
+                await _historyService.AddHistoryAsync(oldTicket, newTicket, btUser.Id);
+
+
                 return RedirectToAction("AllTickets");
             }
             ViewData["ProjectId"] = new SelectList(_context.Project, "Id", "Id", ticket.ProjectId);
