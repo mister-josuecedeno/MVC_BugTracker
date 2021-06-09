@@ -62,6 +62,7 @@ namespace MVC_BugTracker
             services.AddScoped<IBTProjectService, BTProjectService>();
             services.AddScoped<IBTTicketService, BTTicketService>();
             services.AddScoped<IBTCompanyInfoService, BTCompanyInfoService>();
+            services.AddScoped<IBTHistoryService, BTHistoryService>();
 
             // Data Utility
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -94,7 +95,7 @@ namespace MVC_BugTracker
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Dashboard}/{id?}");
+                    pattern: "{controller=Home}/{action=Landing}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

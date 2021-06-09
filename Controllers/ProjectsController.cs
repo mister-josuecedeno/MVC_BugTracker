@@ -90,6 +90,9 @@ namespace MVC_BugTracker.Controllers
             return View(myProjects);
         }
 
+
+
+
         // GET: Projects/Details/5
         public async Task<IActionResult> Details(int? id)
         {
