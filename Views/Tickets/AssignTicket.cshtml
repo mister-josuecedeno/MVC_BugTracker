@@ -1,0 +1,39 @@
+﻿@model MVC_BugTracker.Models.ViewModels.AssignDeveloperViewModel
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                
+                <form asp-action="AssignTicket" method="post">
+                    <div class="card">
+                        <div class="card-body">
+                            <input asp-for="@Model.Ticket.Id" hidden/>
+                            <input asp-for="@Model.Ticket.ProjectId" hidden/>
+
+                            <div class="row clearfix">
+                                <div class="col-md-6 col-sm-12">
+                                    <label>Select Developer</label>
+                                    <div class="form-group">
+                                        <select class="form-control show-tick" asp-for="DeveloperId" asp-items="Model.Developers">
+                                            <option>Select Developer</option>
+                                        </select>
+                                    </div>
+                                    <div class="mt-4 form-group">
+                                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                                        <button asp-action="AllTIckets" asp-controller="Ticket" class="btn btn-outline-secondary">Cancel</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>

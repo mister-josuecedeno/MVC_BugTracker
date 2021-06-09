@@ -63,6 +63,12 @@ namespace MVC_BugTracker.Controllers
             return View(dashboardVM);
         }
 
+        public IActionResult Landing()
+        {
+            return View();
+        }
+
+
         public IActionResult Privacy()
         {
             return View();
