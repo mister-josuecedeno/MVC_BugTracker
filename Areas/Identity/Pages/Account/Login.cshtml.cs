@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using MVC_BugTracker.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace MVC_BugTracker.Areas.Identity.Pages.Account
 {
@@ -21,14 +22,17 @@ namespace MVC_BugTracker.Areas.Identity.Pages.Account
         private readonly UserManager<BTUser> _userManager;
         private readonly SignInManager<BTUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IConfiguration _configuration;
 
-        public LoginModel(SignInManager<BTUser> signInManager, 
-            ILogger<LoginModel> logger,
-            UserManager<BTUser> userManager)
+        public LoginModel(SignInManager<BTUser> signInManager,
+                          ILogger<LoginModel> logger,
+                          UserManager<BTUser> userManager, 
+                          IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _configuration = configuration;
         }
 
         [BindProperty]
@@ -73,11 +77,31 @@ namespace MVC_BugTracker.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null, string demoEmail = null)
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl ??= Url.Content("~/Home/Dashboard");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            // Demo Users
+            if (!string.IsNullOrWhiteSpace(demoEmail))
+            {
+                var email = _configuration[demoEmail];
+                var password = _configuration["DemoUserPassword"];
+
+                var result = await _signInManager.PasswordSignInAsync(email, password, false, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User logged in");
+                    return LocalRedirect(returnUrl);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
+            }
         
             if (ModelState.IsValid)
             {
