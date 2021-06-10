@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Log in</title>
+    <title>MVC Bug Tracker - @ViewData["Title"]</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -17,22 +17,18 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="../../index2.html"><b>Admin</b>LTE</a>
+            @*<a href="../../index2.html"><b>MVC</b> Bug Tracker</a>*@
+            <a asp-controller="Home" asp-action="Dashboard"><b>MVC</b> Bug Tracker</a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+                @*<p class="login-box-msg">Sign in to start your session</p>*@
 
                 <!-- Render Body -->
                 @RenderBody()
 
-                <div class="social-auth-links text-center mb-3">
-                    <p>- OR -</p>
-                    
-                </div>
-                <!-- /.social-auth-links -->
-
+                
                 
             </div>
             <!-- /.login-card-body -->
