@@ -180,7 +180,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </a>
                 </li>
                 <li class="nav-item">
-                    
+
                     <partial name="_LogoutPartial" />
                     <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit();">
                         <i class="fas fa-power-off"></i>
@@ -212,8 +212,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a class="d-block" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@btUser.FullName</a>
 
                         }
-                        else 
-                        { 
+                        else
+                        {
                             <span class="text-light">Please Login/Register</span>
                         }
                     </div>
@@ -235,7 +235,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
+                        with font-awesome or any other icon font library -->
                         <!-- Portfolio -->
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Dashboard">
@@ -278,7 +278,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                 }
-                                
+
                                 <li class="nav-item">
                                     <a class="nav-link" asp-area="" asp-controller="Projects" asp-action="MyProjects">
                                         <i class="far fa-circle nav-icon"></i>
@@ -330,7 +330,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <p>Manage User Roles</p>
                                     </a>
                                 </li>
-                                
+
 
                             </ul>
                         </li>
@@ -400,11 +400,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="~/js/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="~/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/js/adminlte.min.js"></script>
-    <script src="~/js/jquery.dataTables.min.js"></script>
+
+
     <!-- Data Tables and plugins -->
-    <!-- DataTables  & Plugins -->
     <script src="~/js/jquery.dataTables.min.js"></script>
     <script src="~/js/dataTables.bootstrap4.min.js"></script>
     <script src="~/js/dataTables.responsive.min.js"></script>
@@ -419,6 +417,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="~/js/buttons.colVis.min.js"></script>
     <script src="~/js/dataTables.rowGroup.min.js"></script>
     <script src="~/js/rowGroup.bootstrap4.min.js"></script>
+
+    <!-- Charts -->
+    <script src="~/js/Chart.min.js"></script>
+
+    <!-- AdminLTE App -->
+    <script src="~/js/adminlte.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

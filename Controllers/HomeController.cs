@@ -63,6 +63,29 @@ namespace MVC_BugTracker.Controllers
             return View(dashboardVM);
         }
 
+        [HttpPost]
+        public async Task<JsonResult> PieChartMethod()
+        {
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            List<Project> projects = await _projectService.GetAllProjectsByCompany(companyId);
+
+            List<object> chartData = new();
+            // chartData.Add(new object[] { "ProjectPriority", "TicketCount"});
+
+            //foreach(Project prj in projects)
+            //{
+            //    chartData.Add(new object[] { prj.ProjectPriority.Name, prj.Tickets.Count() });
+            //}
+
+            chartData.Add(new object[] { "Urgent", projects.Where(p => p.ProjectPriority.Name == "Urgent").Count() });
+            chartData.Add(new object[] { "High", projects.Where(p => p.ProjectPriority.Name == "High").Count() });
+            chartData.Add(new object[] { "Medium", projects.Where(p => p.ProjectPriority.Name == "Medium").Count() });
+            chartData.Add(new object[] { "Low", projects.Where(p => p.ProjectPriority.Name == "Low").Count() });
+
+            return Json(chartData);
+        }
+
         public IActionResult Landing()
         {
             return View();
