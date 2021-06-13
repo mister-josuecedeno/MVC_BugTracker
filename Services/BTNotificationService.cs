@@ -14,17 +14,34 @@ namespace MVC_BugTracker.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IEmailSender _emailSender;
+        private readonly IBTCompanyInfoService _infoService;
 
-        public BTNotificationService(ApplicationDbContext context, 
-                                     IEmailSender emailSender)
+        public BTNotificationService(ApplicationDbContext context,
+                                     IEmailSender emailSender, 
+                                     IBTCompanyInfoService infoService)
         {
             _context = context;
             _emailSender = emailSender;
+            _infoService = infoService;
         }
 
-        public Task AdminsNotificationAsync(Notification notification, int companyId)
+        public async Task AdminsNotificationAsync(Notification notification, int companyId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // Get company admins
+                List<BTUser> admins = await _infoService.GetMembersInRoleAsync("Admin", companyId);
+
+                foreach (BTUser btUser in admins)
+                {
+                    notification.RecipientId = btUser.Id;
+                    await EmailNotificationAsync(notification, notification.Title);
+                }
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task EmailNotificationAsync(Notification notification, string emailSubject)
