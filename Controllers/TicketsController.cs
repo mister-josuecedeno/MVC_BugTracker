@@ -246,10 +246,12 @@ namespace MVC_BugTracker.Controllers
                 {
                     // Notify the PM
                     await _notificationService.SaveNotificationAsync(notification);
+                    await _notificationService.EmailNotificationAsync(notification, notification.Title);
                 } else
                 {
                     // Notify the Admin
                     await _notificationService.AdminsNotificationAsync(notification, companyId);
+                    await _notificationService.EmailNotificationAsync(notification, notification.Title);
                 }
 
                 #endregion
@@ -408,13 +410,15 @@ namespace MVC_BugTracker.Controllers
 
                     if (projectManager != null)
                     {
-                        // Notify the PM
+                        // Notify the PM 
                         await _notificationService.SaveNotificationAsync(notification);
+                        await _notificationService.EmailNotificationAsync(notification, notification.Title);
                     }
                     else
                     {
                         // Notify the Admin
                         await _notificationService.AdminsNotificationAsync(notification, companyId);
+                        await _notificationService.EmailNotificationAsync(notification, notification.Title);
                     }
 
                     if(ticket.DeveloperUserId != null)
@@ -431,6 +435,7 @@ namespace MVC_BugTracker.Controllers
                         };
 
                         await _notificationService.SaveNotificationAsync(notification);
+                        await _notificationService.EmailNotificationAsync(notification, notification.Title);
                     }
                     #endregion
 

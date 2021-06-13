@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MVC_BugTracker.Data.Migrations
 {
-    public partial class Initial_001 : Migration
+    public partial class _001_Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -304,11 +304,11 @@ namespace MVC_BugTracker.Data.Migrations
                     InviteeId = table.Column<string>(type: "text", nullable: true),
                     InvitorId = table.Column<string>(type: "text", nullable: true),
                     InviteDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CompanyToken = table.Column<string>(type: "text", nullable: true),
+                    CompanyToken = table.Column<Guid>(type: "uuid", nullable: false),
                     InviteeEmail = table.Column<string>(type: "text", nullable: true),
-                    FirstName = table.Column<string>(type: "text", nullable: true),
-                    LastName = table.Column<string>(type: "text", nullable: true),
-                    isValid = table.Column<bool>(type: "boolean", nullable: false)
+                    InviteeFirstName = table.Column<string>(type: "text", nullable: true),
+                    InviteeLastName = table.Column<string>(type: "text", nullable: true),
+                    IsValid = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

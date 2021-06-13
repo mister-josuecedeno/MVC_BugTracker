@@ -49,18 +49,18 @@
                 <span asp-validation-for="InviteeEmail" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <label asp-for="InviteeFirstName" class="control-label"></label>
+                <input asp-for="InviteeFirstName" class="form-control" />
+                <span asp-validation-for="InviteeFirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <label asp-for="InviteeLastName" class="control-label"></label>
+                <input asp-for="InviteeLastName" class="form-control" />
+                <span asp-validation-for="InviteeLastName" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="isValid" /> @Html.DisplayNameFor(model => model.isValid)
+                    <input class="form-check-input" asp-for="IsValid" /> @Html.DisplayNameFor(model => model.IsValid)
                 </label>
             </div>
             <div class="form-group">

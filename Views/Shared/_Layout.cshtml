@@ -330,6 +330,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <p>Manage User Roles</p>
                                     </a>
                                 </li>
+                                <li>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                    <a class="nav-link" asp-action="Create" asp-controller="Invites">Company Invite</a>
+                                    }
+                                </li>
 
 
                             </ul>

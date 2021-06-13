@@ -159,11 +159,8 @@ namespace MVC_BugTracker.Data.Migrations
                     b.Property<int>("CompanyId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("CompanyToken")
-                        .HasColumnType("text");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("text");
+                    b.Property<Guid>("CompanyToken")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("InviteDate")
                         .HasColumnType("timestamp with time zone");
@@ -171,20 +168,23 @@ namespace MVC_BugTracker.Data.Migrations
                     b.Property<string>("InviteeEmail")
                         .HasColumnType("text");
 
+                    b.Property<string>("InviteeFirstName")
+                        .HasColumnType("text");
+
                     b.Property<string>("InviteeId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("InviteeLastName")
                         .HasColumnType("text");
 
                     b.Property<string>("InvitorId")
                         .HasColumnType("text");
 
-                    b.Property<string>("LastName")
-                        .HasColumnType("text");
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("isValid")
-                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 

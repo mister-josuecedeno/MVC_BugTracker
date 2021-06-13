@@ -30,18 +30,18 @@ namespace MVC_BugTracker.Models
         public DateTimeOffset InviteDate { get; set; }
 
         [Display(Name = "Company Token")]
-        public string CompanyToken { get; set; }
+        public Guid CompanyToken { get; set; }
 
         [Display(Name = "Email")]
         public string InviteeEmail { get; set; }
 
         [Display(Name = "First Name")]
-        public string FirstName { get; set; }
+        public string InviteeFirstName { get; set; }
 
         [Display(Name = "Last Name")]
-        public string LastName { get; set; }
+        public string InviteeLastName { get; set; }
 
-        public bool isValid { get; set; }
+        public bool IsValid { get; set; }
 
         // Navigation
 

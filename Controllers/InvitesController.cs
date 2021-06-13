@@ -2,21 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVC_BugTracker.Data;
+using MVC_BugTracker.Extensions;
 using MVC_BugTracker.Models;
+using MVC_BugTracker.Models.ViewModels;
+using MVC_BugTracker.Services.Interfaces;
 
 namespace MVC_BugTracker.Controllers
 {
     public class InvitesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<BTUser> _userManager;
+        private readonly IDataProtector _protector;
+        private readonly IBTProjectService _projectService;
+        private readonly IEmailSender _emailService;
+        private readonly IBTInviteService _inviteService;
 
-        public InvitesController(ApplicationDbContext context)
+        public InvitesController(ApplicationDbContext context,
+                              UserManager<BTUser> userManager,
+                              IDataProtectionProvider dataProtectionProvider,
+                              IBTProjectService projectService,
+                              IEmailSender emailService,
+                              IBTInviteService inviteService)
         {
             _context = context;
+            _userManager = userManager;
+            _protector = dataProtectionProvider.CreateProtector("CF.RockwellTracker.21");
+            _projectService = projectService;
+            _emailService = emailService;
+            _inviteService = inviteService;
         }
 
         // GET: Invites
@@ -49,13 +70,22 @@ namespace MVC_BugTracker.Controllers
         }
 
         // GET: Invites/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["CompanyId"] = new SelectList(_context.Company, "Id", "Id");
-            ViewData["InviteeId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["InvitorId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["ProjectId"] = new SelectList(_context.Set<Project>(), "Id", "Id");
-            return View();
+            InviteViewModel model = new();
+
+            if (User.IsInRole("Admin"))
+            {
+                model.ProjectsList = new SelectList(_context.Project, "Id", "Name");
+            }
+            else if (User.IsInRole("ProjectManager"))
+            {
+                string userId = _userManager.GetUserId(User);
+                List<Project> projects = await _projectService.ListUserProjectsAsync(userId);
+                model.ProjectsList = new SelectList(projects, "Id", "Name");
+            }
+
+            return View(model);
         }
 
         // POST: Invites/Create
@@ -63,20 +93,74 @@ namespace MVC_BugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CompanyId,ProjectId,InviteeId,InvitorId,InviteDate,CompanyToken,InviteeEmail,FirstName,LastName,isValid")] Invite invite)
+        public async Task<ActionResult> Create(InviteViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            var companyId = User.Identity.GetCompanyId();
+
+            Guid guid = Guid.NewGuid();
+
+            var token = _protector.Protect(guid.ToString());
+            var email = _protector.Protect(viewModel.Email);
+
+            var callbackUrl = Url.Action("ProcessInvite", "Invites", new { token, email }, protocol: Request.Scheme);
+
+            var body = "Please join my Company." + Environment.NewLine + "Please click the following link to join <a href=\"" + callbackUrl + "\">COLLABORATE</a>";
+            var destination = viewModel.Email;
+            var subject = "Company Invite";
+
+
+            await _emailService.SendEmailAsync(destination, subject, body);
+
+            //Create record in the Invites table
+            Invite model = new()
             {
-                _context.Add(invite);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CompanyId"] = new SelectList(_context.Company, "Id", "Id", invite.CompanyId);
-            ViewData["InviteeId"] = new SelectList(_context.Users, "Id", "Id", invite.InviteeId);
-            ViewData["InvitorId"] = new SelectList(_context.Users, "Id", "Id", invite.InvitorId);
-            ViewData["ProjectId"] = new SelectList(_context.Set<Project>(), "Id", "Id", invite.ProjectId);
-            return View(invite);
+                InviteeEmail = viewModel.Email,
+                InviteeFirstName = viewModel.FirstName,
+                InviteeLastName = viewModel.LastName,
+                CompanyToken = guid,
+                CompanyId = companyId.Value,
+                ProjectId = viewModel.ProjectId,
+                InviteDate = DateTimeOffset.Now,
+                InvitorId = _userManager.GetUserId(User),
+                IsValid = true
+            };
+
+            _context.Invite.Add(model);
+            _context.SaveChanges();
+
+            return RedirectToAction("Dashboard", "Home");
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ProcessInvite(string token, string email)
+        {
+            if (token == null)
+            {
+                return NotFound();
+            }
+
+            Guid companyToken = Guid.Parse(_protector.Unprotect(token));
+            string inviteeEmail = _protector.Unprotect(email);
+
+            //Use InviteService to validate invite code 
+            Invite invite = await _inviteService.GetInviteAsync(companyToken, inviteeEmail);
+
+            if (invite != null)
+            {
+                return View(invite);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ProcessInvite(Invite invite)
+        {
+            return RedirectToPage("RegisterByInvite", new { invite });
+        }
+
 
         // GET: Invites/Edit/5
         public async Task<IActionResult> Edit(int? id)
