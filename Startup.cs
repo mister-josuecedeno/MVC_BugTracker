@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -63,10 +64,14 @@ namespace MVC_BugTracker
             services.AddScoped<IBTTicketService, BTTicketService>();
             services.AddScoped<IBTCompanyInfoService, BTCompanyInfoService>();
             services.AddScoped<IBTHistoryService, BTHistoryService>();
+            services.AddScoped<IBTInviteService, BTInviteService>();
 
             // Data Utility
             services.AddDbContext<ApplicationDbContext>(options =>
               options.UseNpgsql(DataUtility.GetConnectionString(Configuration)));
+
+            // Add service using an existing interface
+            services.AddScoped<IEmailSender, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
