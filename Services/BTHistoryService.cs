@@ -39,6 +39,8 @@ namespace MVC_BugTracker.Services
             else
             {
                 // Existing Tickets
+
+                // Check Ticket Title
                 if(oldTicket.Title != newTicket.Title)
                 {
                     TicketHistory history = new()
@@ -54,6 +56,7 @@ namespace MVC_BugTracker.Services
                     await _context.TicketHistory.AddAsync(history);
                 }
 
+                // Check Ticket Description
                 if (oldTicket.Description != newTicket.Description)
                 {
                     TicketHistory history = new()
@@ -69,6 +72,7 @@ namespace MVC_BugTracker.Services
                     await _context.TicketHistory.AddAsync(history);
                 }
 
+                // Check Ticket Type
                 if (oldTicket.TicketTypeId != newTicket.TicketTypeId)
                 {
                     TicketHistory history = new()
@@ -84,6 +88,7 @@ namespace MVC_BugTracker.Services
                     await _context.TicketHistory.AddAsync(history);
                 }
 
+                // Check Ticket Priority
                 if (oldTicket.TicketPriorityId != newTicket.TicketPriorityId)
                 {
                     TicketHistory history = new()
@@ -99,6 +104,7 @@ namespace MVC_BugTracker.Services
                     await _context.TicketHistory.AddAsync(history);
                 }
 
+                // Check Ticket Status
                 if (oldTicket.TicketStatusId != newTicket.TicketStatusId)
                 {
                     TicketHistory history = new()
@@ -114,6 +120,7 @@ namespace MVC_BugTracker.Services
                     await _context.TicketHistory.AddAsync(history);
                 }
 
+                // Check Ticket Developer
                 if (oldTicket.DeveloperUserId != newTicket.DeveloperUserId)
                 {
                     TicketHistory history = new()
@@ -145,6 +152,7 @@ namespace MVC_BugTracker.Services
                                             .FirstOrDefaultAsync(c => c.Id == companyId)).Projects.ToList();
 
             List<Ticket> tickets = projects.SelectMany(p => p.Tickets).ToList();
+
             List<TicketHistory> ticketHistory = tickets.SelectMany(t => t.History).ToList();
 
             return ticketHistory;
