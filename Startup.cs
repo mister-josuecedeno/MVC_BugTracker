@@ -65,6 +65,7 @@ namespace MVC_BugTracker
             services.AddScoped<IBTCompanyInfoService, BTCompanyInfoService>();
             services.AddScoped<IBTHistoryService, BTHistoryService>();
             services.AddScoped<IBTInviteService, BTInviteService>();
+            services.AddScoped<IBTNotificationService, BTNotificationService>();
 
             // Data Utility
             services.AddDbContext<ApplicationDbContext>(options =>
