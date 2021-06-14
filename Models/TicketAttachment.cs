@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using MVC_BugTracker.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -29,6 +30,8 @@ namespace MVC_BugTracker.Models
         [NotMapped]
         [DataType(DataType.Upload)]
         [Display(Name = "Form File")]
+        [MaxFileSize(2 * 1024 * 1024)]
+        [AllowedExtensions(new string[] { ".jpg", ".png", ".doc", ".docx", ".xls", ".xlsx", ".pdf"})]
         public IFormFile FormFile { get; set; }
 
         [Display(Name = "File Name")]
