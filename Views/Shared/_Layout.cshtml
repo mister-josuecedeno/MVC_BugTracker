@@ -235,7 +235,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-                        with font-awesome or any other icon font library -->
+    with font-awesome or any other icon font library -->
                         <!-- Portfolio -->
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Dashboard">
@@ -314,32 +314,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>
 
-                        <!-- Admin -->
-                        <li class="nav-item menu-open">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Admin
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-controller="UserRoles" asp-action="ManageUserRoles">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Manage User Roles</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                    <a class="nav-link" asp-action="Create" asp-controller="Invites">Company Invite</a>
-                                    }
-                                </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <!-- Admin -->
+                            <li class="nav-item menu-open">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        Admin
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-controller="UserRoles" asp-action="ManageUserRoles">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Manage User Roles</p>
+                                        </a>
+                                    </li>
+                                    <li>
+
+                                    
+                                        <a class="nav-link" asp-action="Create" asp-controller="Invites">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Company Invite</p>
+
+                                        </a>
+
+                                    </li>
 
 
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
+                        }
 
 
                     </ul>
