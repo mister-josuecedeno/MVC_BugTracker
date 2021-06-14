@@ -160,7 +160,7 @@ namespace MVC_BugTracker.Controllers
         }
 
         // GET: Tickets/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int? projId)
         {
             // REMOVE
             //ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "Id");
@@ -176,19 +176,29 @@ namespace MVC_BugTracker.Controllers
             // Get Current User Company Id
             int companyId = User.Identity.GetCompanyId().Value;
 
-            if (User.IsInRole("Admin"))
+            Ticket ticket = new();
+            
+            if (projId == null)
             {
-                ViewData["ProjectId"] = new SelectList(await _projectService.GetAllProjectsByCompany(companyId), "Id", "Name");
-            }
-            else
+                if (User.IsInRole("Admin"))
+                {
+                    ViewData["ProjectId"] = new SelectList(await _projectService.GetAllProjectsByCompany(companyId), "Id", "Name");
+                }
+                else
+                {
+                    ViewData["ProjectId"] = new SelectList(await _projectService.ListUserProjectsAsync(btUser.Id), "Id", "Name");
+                }
+            } 
+            else 
             {
-                ViewData["ProjectId"] = new SelectList(await _projectService.ListUserProjectsAsync(btUser.Id), "Id", "Name");
+                ticket.ProjectId = (int)projId;
             }
+            
 
             ViewData["TicketPriorityId"] = new SelectList(_context.Set<TicketPriority>(), "Id", "Name");
             ViewData["TicketTypeId"] = new SelectList(_context.Set<TicketType>(), "Id", "Name");
 
-            return View();
+            return View(ticket);
         }
 
         // POST: Tickets/Create

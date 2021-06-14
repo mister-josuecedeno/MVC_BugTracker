@@ -9,6 +9,7 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="AssignUsers" asp-route-id="@Model.Id">Assign Users</a> |
+    <a asp-action="Create" asp-controller="Tickets" asp-route-projId="@Model.Id">Create Ticket</a> |
     <a asp-action="AllProjects">Back to List</a>
 </div>
 
@@ -88,7 +89,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col">
+            <div class="col-12 col-md-6">
                 <div class="info-box">
                     <span class="info-box-icon bg-info"><i class="fas fa-users"></i></span>
 
