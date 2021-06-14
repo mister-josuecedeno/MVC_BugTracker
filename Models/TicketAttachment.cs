@@ -31,7 +31,7 @@ namespace MVC_BugTracker.Models
         [DataType(DataType.Upload)]
         [Display(Name = "Form File")]
         [MaxFileSize(2 * 1024 * 1024)]
-        [AllowedExtensions(new string[] { ".jpg", ".png", ".doc", ".docx", ".xls", ".xlsx", ".pdf"})]
+        [AllowedExtensions(new string[] { ".jpg", ".png", ".gif", ".doc", ".docx", ".xls", ".xlsx", ".pdf"})]
         public IFormFile FormFile { get; set; }
 
         [Display(Name = "File Name")]
