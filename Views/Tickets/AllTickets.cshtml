@@ -20,6 +20,9 @@
                     <table id="dtAllTickets" class="table table-bordered table-hover dataTables_wrapper dtr-inline" role="grid" aria-describedby="example2-info">
                         <thead>
                             <tr>
+                                <th>
+                                    Title (Date Created)
+                                </th>
                                 @*<th>
                                     Ticket Type
                                 </th>*@
@@ -67,6 +70,11 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td>
+                                        <div class="font-weight-bold">@Html.DisplayFor(modelItem => item.Title)</div>
+                                        <div>Created: @Html.DisplayFor(modelItem => item.Created)</div>
+
+                                    </td>
                                     @*<td>
                                         @Html.DisplayFor(modelItem => item.TicketType.Name)
                                     </td>*@
@@ -77,11 +85,8 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Created)
                                     </td>
-
                                     <td>
-                                        <div class="font-weight-bold">@Html.DisplayFor(modelItem => item.Title)</div>
-                                        <div>Created: @Html.DisplayFor(modelItem => item.Created)</div>
-
+                                        @Html.DisplayFor(modelItem => item.Title)
                                     </td>
                                     @*<td>
                                         @Html.DisplayFor(modelItem => item.Description)
@@ -134,14 +139,14 @@
                 "paging": true,
                 "lengthChange": false,
                 "searching": true,
-                "order": [[1, "desc"]],
-                "rowGroup": {dataSrc: 0},
+                "order": [[2, "desc"]],
+                "rowGroup": {dataSrc: 1},
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
                 "columnDefs": [
                     {
-                        "targets": [0, 1],
+                        "targets": [1, 2, 3],
                         "visible": false,
                         "searchable": true
                     }
