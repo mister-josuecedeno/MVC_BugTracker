@@ -34,7 +34,7 @@ namespace MVC_BugTracker.Controllers
         {
             _context = context;
             _userManager = userManager;
-            _protector = dataProtectionProvider.CreateProtector("CF.RockwellTracker.21");
+            _protector = dataProtectionProvider.CreateProtector("MVC.BugTracker.21");
             _projectService = projectService;
             _emailService = emailService;
             _inviteService = inviteService;
@@ -76,14 +76,17 @@ namespace MVC_BugTracker.Controllers
 
             if (User.IsInRole("Admin"))
             {
-                model.ProjectsList = new SelectList(_context.Project, "Id", "Name");
-            }
-            else if (User.IsInRole("ProjectManager"))
-            {
-                string userId = _userManager.GetUserId(User);
-                List<Project> projects = await _projectService.ListUserProjectsAsync(userId);
+                int companyId = User.Identity.GetCompanyId().Value;
+                List<Project> projects = await _projectService.GetAllProjectsByCompany(companyId);
+
                 model.ProjectsList = new SelectList(projects, "Id", "Name");
             }
+            //else if (User.IsInRole("ProjectManager"))
+            //{
+            //    string userId = _userManager.GetUserId(User);
+            //    List<Project> projects = await _projectService.ListUserProjectsAsync(userId);
+            //    model.ProjectsList = new SelectList(projects, "Id", "Name");
+            //}
 
             return View(model);
         }
