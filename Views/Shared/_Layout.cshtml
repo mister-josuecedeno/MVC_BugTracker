@@ -1,10 +1,17 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using MVC_BugTracker.Services.Interfaces
+
 @inject SignInManager<BTUser> SignInManager
 @inject UserManager<BTUser> UserManager
+@inject IBTRolesService _roleService 
+
 
 @{
     BTUser btUser = await UserManager.GetUserAsync(User);
- }
+
+    // Get Roles
+    List<string> btUserRoles = (await _roleService.ListUserRolesAsync(btUser)).ToList();
+}
 
 <!DOCTYPE html>
 <!--
@@ -169,18 +176,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
                 </li>
+                <!-- Full Screen -->
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
+                <!-- Side Bar -->
                 <li class="nav-item">
                     <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
                         <i class="fas fa-th-large"></i>
                     </a>
                 </li>
+                <!-- Logout -->
                 <li class="nav-item">
-
                     <partial name="_LogoutPartial" />
                     <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit();">
                         <i class="fas fa-power-off"></i>
@@ -206,10 +215,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <img src="~/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        @*<a href="#" class="d-block">Alexander Pierce</a>*@
+
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <a class="d-block" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@btUser.FullName</a>
+                            <div>
+                                <!-- Role/s -->
+                                @foreach (var role in btUserRoles)
+                                {
+                                    <span class="badge badge-secondary">@role</span>
+                                }
+                            </div>
 
                         }
                         else
@@ -235,7 +251,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
+                        with font-awesome or any other icon font library -->
                         <!-- Portfolio -->
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Dashboard">
@@ -334,7 +350,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
                                     <li>
 
-                                    
+
                                         <a class="nav-link" asp-action="Create" asp-controller="Invites">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Company Invite</p>
