@@ -26,9 +26,11 @@ namespace MVC_BugTracker.Models
 
         // Data Fields
         [Display(Name = "Submitter")]
+        [DisplayFormat(NullDisplayText = "Unassigned", ApplyFormatInEditMode = true)]
         public string OwnerUserId { get; set; }
 
         [Display(Name = "Developer")]
+        [DisplayFormat(NullDisplayText = "Unassigned", ApplyFormatInEditMode = true)]
         public string DeveloperUserId { get; set; }
 
         [StringLength(50)]
