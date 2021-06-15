@@ -7,8 +7,8 @@
 <h1>Project Details - @Model.Name</h1>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit Project </a> |
-    <a asp-action="Delete" asp-route-id="@Model.Id">Delete Project</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit </a> |
+    <a asp-action="Delete" asp-route-id="@Model.Id">Delete </a> |
     <a asp-action="AllProjects">Back to Projects List</a>
 </div>
 
@@ -91,55 +91,10 @@
     <div class="container-fluid">
         <div class="row">
             
-            <!-- Members -->
+            <!-- Tickets -->
             <div class="col-12 col-md-6">
                 <div class="info-box">
-                    <span class="info-box-icon bg-info"><i class="fas fa-users"></i></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text">Members</span>
-                        <span class="info-box-number">@Model.Members.Count</span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-                <!-- Add Members -->
-                <div>
-                    <a asp-action="AssignUsers" asp-route-id="@Model.Id">Assign Users</a>
-                </div>
-
-                <div class="card card-primary collapsed-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Members</h3>
-
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                        <!-- /.card-tools -->
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <!-- MEMBERS -->
-
-                        <ul>
-                            @foreach (BTUser member in Model.Members)
-                            {
-                                <li>@member.FullName</li>
-                            }
-                        </ul>
-
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-            </div>
-
-            <!-- Tickets -->
-            <div class="col">
-                <div class="info-box">
-                    <span class="info-box-icon bg-info"><i class="fas fa-tasks"></i></span>
+                    <span class="info-box-icon bg-success"><i class="fas fa-tasks"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Tickets</span>
@@ -181,6 +136,52 @@
                 <!-- /.card -->
 
             </div>
+            
+            <!-- Members -->
+            <div class="col">
+                <div class="info-box">
+                    <span class="info-box-icon bg-warning"><i class="fas fa-users"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Members</span>
+                        <span class="info-box-number">@Model.Members.Count</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+                <!-- Add Members -->
+                <div>
+                    <a asp-action="AssignUsers" asp-route-id="@Model.Id">Add Team Members</a>
+                </div>
+
+                <div class="card card-primary collapsed-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Members</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <!-- /.card-tools -->
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- MEMBERS -->
+
+                        <ul>
+                            @foreach (BTUser member in Model.Members)
+                            {
+                                <li>@member.FullName</li>
+                            }
+                        </ul>
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+
         </div>
     </div>
 
