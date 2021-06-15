@@ -1,7 +1,12 @@
 ﻿@model MVC_BugTracker.Models.Project
+@using MVC_BugTracker.Services.Interfaces
+
+@inject IBTProjectService _projectService
 
 @{
     ViewData["Title"] = "Project Details";
+
+    BTUser projectManager = await _projectService.GetProjectManagerAsync(Model.Id);
 }
 
 <h1>Project Details - @Model.Name</h1>
@@ -49,42 +54,47 @@
             @Html.DisplayFor(model => model.EndDate)
         </dd>
         @*<dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Archived)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Archived)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.ArchivedDate)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.ArchivedDate)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.ImageFileName)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.ImageFileName)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.ImageFileData)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.ImageFileData)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.ImageContentType)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.ImageContentType)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Company)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Company.Id)
-            </dd>*@
-
+            @Html.DisplayNameFor(model => model.Archived)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Archived)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ArchivedDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ArchivedDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ImageFileName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ImageFileName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ImageFileData)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ImageFileData)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ImageContentType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ImageContentType)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Company)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Company.Id)
+        </dd>*@
+        <dt class="col-sm-2">
+            Project Manager
+        </dt>
+        <dd class="col-sm-10">
+            @projectManager?.FullName
+        </dd>
 
     </dl>
 
