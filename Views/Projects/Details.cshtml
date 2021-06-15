@@ -7,11 +7,12 @@
 <h1>Project Details - @Model.Name</h1>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="AssignUsers" asp-route-id="@Model.Id">Assign Users</a> |
-    <a asp-action="Create" asp-controller="Tickets" asp-route-projId="@Model.Id">Create Ticket</a> |
-    <a asp-action="AllProjects">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit Project </a> |
+    <a asp-action="Delete" asp-route-id="@Model.Id">Delete Project</a> |
+    <a asp-action="AllProjects">Back to Projects List</a>
 </div>
+
+
 
 <div>
 
@@ -89,6 +90,8 @@
 
     <div class="container-fluid">
         <div class="row">
+            
+            <!-- Members -->
             <div class="col-12 col-md-6">
                 <div class="info-box">
                     <span class="info-box-icon bg-info"><i class="fas fa-users"></i></span>
@@ -100,6 +103,10 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
+                <!-- Add Members -->
+                <div>
+                    <a asp-action="AssignUsers" asp-route-id="@Model.Id">Assign Users</a>
+                </div>
 
                 <div class="card card-primary collapsed-card">
                     <div class="card-header">
@@ -129,6 +136,7 @@
                 <!-- /.card -->
             </div>
 
+            <!-- Tickets -->
             <div class="col">
                 <div class="info-box">
                     <span class="info-box-icon bg-info"><i class="fas fa-tasks"></i></span>
@@ -140,6 +148,10 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
+                <!-- Add Tickets -->
+                <div>
+                    <a asp-action="Create" asp-controller="Tickets" asp-route-projId="@Model.Id">Create Ticket</a>
+                </div>
 
                 <div class="card card-primary collapsed-card">
                     <div class="card-header">
