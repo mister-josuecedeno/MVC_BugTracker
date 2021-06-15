@@ -358,7 +358,7 @@ namespace MVC_BugTracker.Controllers
             var project = await _context.Project.FindAsync(id);
             _context.Project.Remove(project);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("AllProjects");
         }
 
         private bool ProjectExists(int id)
