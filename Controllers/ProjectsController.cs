@@ -322,6 +322,114 @@ namespace MVC_BugTracker.Controllers
             return View(model);
         }
 
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AssignPM(int id)
+        {
+            PMViewModel model = new();
+
+
+            // GET company id
+            int companyId = User.Identity.GetCompanyId().Value;
+
+
+            // *** PROJECT ***
+            // GET the project
+            Project project = new();
+
+            try
+            {
+                List<Project> projects = await _projectService.GetAllProjectsByCompany(companyId);
+                project = projects.FirstOrDefault(p => p.Id == id);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting projects - {ex.Message}");
+                throw;
+            }
+
+            // ADD to viewmodel
+            model.Project = project;
+
+
+            // *** MULTISELECT ***
+
+            // GET users = project manager
+            List<BTUser> users = new();
+
+            try
+            {
+                List<BTUser> pm = await _infoService.GetMembersInRoleAsync(Roles.ProjectManager.ToString(), companyId);
+                users = pm;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting users not on project - {ex.Message}");
+                throw;
+            }
+
+            // Add to viewmodel???
+            // model.Users = users;
+
+
+
+            // GET all members from the project
+            List<string> members = new();
+
+            try
+            {
+                if (project?.Members != null)
+                {
+                    members = project.Members.Select(m => m.Id).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting members on project - {ex.Message}");
+                throw;
+            }
+
+            // Add users to multiselect in the VM
+            // MS(source, what to select, user sees, optional - show already selected)
+            model.Users = new SelectList(users, "Id", "FullName", members);
+
+            BTUser currentPM = await _projectService.GetProjectManagerAsync(project.Id);
+            model.SelectedUser = currentPM.Id;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AssignPM(PMViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                try
+                {
+                    await _projectService.AddProjectManagerAsync(model.SelectedUser, model.Project.Id);
+
+                    // Goto project details
+                    return RedirectToAction("Details", "Projects", new { id = model.Project.Id });
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                
+            }
+
+            return View(model);
+        }
+
+
+
+
         private IActionResult RedirectAction(string v1, string v2)
         {
             throw new NotImplementedException();

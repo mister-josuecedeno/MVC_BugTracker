@@ -94,6 +94,10 @@
         </dt>
         <dd class="col-sm-10">
             @projectManager?.FullName
+
+            <div>
+                <a asp-action="AssignPM" asp-route-id="@Model.Id">Add Project Manager</a>
+            </div>
         </dd>
 
     </dl>
