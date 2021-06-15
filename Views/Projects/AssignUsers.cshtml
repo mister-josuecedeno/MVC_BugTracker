@@ -11,28 +11,25 @@
 }
 
 
-<div class="container">
-    <h2>Assign Users </h2>
-
+<div class="container-fluid">
+    <h2>Assign Team Members -  @Model.Project.Name</h2>
+    <hr />
     <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-green margin-bottom-40">
+        <div class="col">
+            @*<div class="panel panel-green margin-bottom-40">
                 <div class="panel-heading">
-                    <h3 class="panel-title"> @Model.Project.Name</h3>
+                    <h3 class="panel-title"></h3>
                 </div>
-            </div>
-            <p>
-                Name :
-                <span>@Model.Project.Name</span>
-            </p>
+            </div>*@
+            
 
             <form asp-action="AssignUsers" asp-controller="Projects" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="@Model.Project.Id">
                 <input type="hidden" asp-for="@Model.Project.Name">
-                <div class="col-12">
+                <div class="col-6">
                     <div class="form-group">
-                        <label asp-for="@Model.Users" class="control-label">Assign team members for Project: @Model.Project.Name</label>
+                        <label asp-for="@Model.Users" class="control-label">Team members for Project: @Model.Project.Name</label>
                         <select asp-for="@Model.SelectedUsers" class="form-control" asp-items="@Model.Users" multiple="multiple"></select>
                     </div>
                 </div>
@@ -48,6 +45,7 @@
         <!--End Hover Rows-->
     </div>
     <div>
-        @Html.ActionLink("Back to List", "Index")
+        @*@Html.ActionLink("Back to List", "Index")*@
+        <a asp-action="Details" asp-controller="Projects" asp-route-id="@Model.Project.Id">Back to List</a>
     </div>
 </div>
