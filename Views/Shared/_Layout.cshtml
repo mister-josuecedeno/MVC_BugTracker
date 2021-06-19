@@ -9,8 +9,20 @@
 @{
     BTUser btUser = await UserManager.GetUserAsync(User);
 
-    // Get Roles
-    List<string> btUserRoles = (await _roleService.ListUserRolesAsync(btUser)).ToList();
+    List<string> btUserRoles = new();
+
+    try
+    {
+        // Get Roles
+        if(btUser != null)
+        {
+            btUserRoles = (await _roleService.ListUserRolesAsync(btUser)).ToList();
+        }
+    }
+    catch (Exception)
+    {
+        throw;
+    }
 }
 
 <!DOCTYPE html>
@@ -224,9 +236,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a class="d-block" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@btUser.FullName</a>
                             <div>
                                 <!-- Role/s -->
-                                @foreach (var role in btUserRoles)
+                                @if(btUserRoles != null)
                                 {
-                                    <span class="badge badge-secondary">@role</span>
+                                    @foreach (var role in btUserRoles)
+                                    {
+                                        <span class="badge badge-secondary">@role</span>
+                                    }
                                 }
                             </div>
 

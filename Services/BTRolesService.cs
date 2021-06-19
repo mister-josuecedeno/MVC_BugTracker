@@ -48,7 +48,18 @@ namespace MVC_BugTracker.Services
 
         public async Task<IEnumerable<string>> ListUserRolesAsync(BTUser user)
         {
-            IEnumerable<string> result = await _userManager.GetRolesAsync(user);
+            IEnumerable<string> result = new string[] { };
+
+            try
+            {
+                result = await _userManager.GetRolesAsync(user);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
             return result;
         }
 
