@@ -20,8 +20,17 @@ namespace MVC_BugTracker
         public async static Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            await DataUtility.ManageDataAsync(host);
-            host.Run();
+
+            try
+            {
+                await DataUtility.ManageDataAsync(host);
+                host.Run();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
