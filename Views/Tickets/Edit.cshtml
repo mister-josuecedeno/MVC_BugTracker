@@ -112,7 +112,8 @@
 </div>
 
 <div>
-    <a asp-action="AllTickets">Back to List</a>
+    @*<a asp-action="AllTickets">Back to List</a>*@
+    <a href="@ViewBag.returnUrl">Return to Previous Page</a>
 </div>
 
 @section Scripts {
