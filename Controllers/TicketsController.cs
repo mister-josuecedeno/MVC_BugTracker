@@ -381,6 +381,7 @@ namespace MVC_BugTracker.Controllers
 
             if (ModelState.IsValid)
             {
+                
                 Notification notification;
                 
                 // Get Current User
