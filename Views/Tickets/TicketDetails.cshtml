@@ -114,7 +114,7 @@
                                             {
                                                 <!-- CURRENT USER -->
                                                 <!-- Message. Default to the left -->
-                                                <div class="direct-chat-msg">
+                                                <div class="direct-chat-msg right">
                                                     <div class="direct-chat-infos clearfix">
                                                         <span class="direct-chat-name float-left">@comment.User.FullName</span>
                                                         <span class="direct-chat-timestamp float-right">@comment.Created.ToString("MMM dd, yyyy h:mm tt")</span>
@@ -134,7 +134,7 @@
                                             {
                                                 <!-- OTHER USER -->
                                                 <!-- Message to the right -->
-                                                <div class="direct-chat-msg right">
+                                                <div class="direct-chat-msg">
                                                     <div class="direct-chat-infos clearfix">
                                                         <span class="direct-chat-name float-right">@comment.User.FullName</span>
                                                         <span class="direct-chat-timestamp float-left">@comment.Created.ToString("MMM dd, yyyy h:mm tt")</span>
@@ -152,25 +152,6 @@
                                         }
 
 
-                                        <!-- OTHER USER -->
-                                        <!-- Message to the right -->
-                                        <div class="direct-chat-msg right">
-                                            <div class="direct-chat-infos clearfix">
-                                                <span class="direct-chat-name float-right">Sarah Bullock</span>
-                                                <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                                            </div>
-                                            <!-- /.direct-chat-infos -->
-                                            <img class="direct-chat-img" src="~/img/user3-128x128.jpg" alt="message user image">
-                                            <!-- /.direct-chat-img -->
-                                            <div class="direct-chat-text">
-                                                You better believe it!
-                                            </div>
-                                            <!-- /.direct-chat-text -->
-                                        </div>
-                                        <!-- /.direct-chat-msg -->
-
-
-
                                     </div>
                                     <!--/.direct-chat-messages-->
                                     <!-- /.direct-chat-pane -->
@@ -182,7 +163,7 @@
                                     <form asp-action="Create" asp-controller="TicketComments" method="post">
                                         <input type="hidden" name="TicketId" value="@Model.Id" />
                                         <div class="input-group">
-                                            <input type="text" name="Comment" placeholder="Type Message ..." class="form-control">
+                                            <input required type="text" name="Comment" placeholder="Type Message ..." class="form-control">
 
                                             <span class="input-group-append">
                                                 <button type="submit" value="Create" class="btn btn-primary">Send</button>
