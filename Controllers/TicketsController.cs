@@ -355,6 +355,8 @@ namespace MVC_BugTracker.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["ProjectName"] = (await _context.Ticket.Include(t => t.Project).FirstOrDefaultAsync(t => t.Id == id)).Project.Name;
             ViewData["ProjectId"] = new SelectList(_context.Project, "Id", "Name", ticket.ProjectId);
             ViewData["TicketPriorityId"] = new SelectList(_context.Set<TicketPriority>(), "Id", "Name", ticket.TicketPriorityId);
             ViewData["TicketStatusId"] = new SelectList(_context.Set<TicketStatus>(), "Id", "Name", ticket.TicketStatusId);
