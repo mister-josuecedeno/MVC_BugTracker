@@ -3,13 +3,14 @@
 @model MVC_BugTracker.Models.Ticket
 
 @inject IBTProjectService _projectService
+    
 
 @{
     ViewData["Title"] = "Details";
     BTUser projectManager = await _projectService.GetProjectManagerAsync(Model.ProjectId);
+
 }
 
-<!-- NEW LAYOUT from Admin LTE -->
 <!-- Content Wrapper. Contains page content -->
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -83,41 +84,75 @@
                         <div class="col-12">
                             <!-- DIRECT CHAT -->
                             <div class="card direct-chat direct-chat-primary">
+
+                                <!-- Card Header -->
                                 <div class="card-header">
-                                    <h3 class="card-title">Direct Chat</h3>
+                                    <h3 class="card-title">Ticket Comments</h3>
 
                                     <div class="card-tools">
-                                        <span title="3 New Messages" class="badge badge-primary">3</span>
+                                        @*<span title="3 New Messages" class="badge badge-primary">3</span>*@
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
                                         </button>
-                                        <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
-                                            <i class="fas fa-comments"></i>
-                                        </button>
+                                        @*<button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
+                                                <i class="fas fa-comments"></i>
+                                            </button>*@
                                         <button type="button" class="btn btn-tool" data-card-widget="remove">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
                                 </div>
                                 <!-- /.card-header -->
+                                <!-- Card Body -->
                                 <div class="card-body">
                                     <!-- Conversations are loaded here -->
                                     <div class="direct-chat-messages">
-                                        <!-- Message. Default to the left -->
-                                        <div class="direct-chat-msg">
-                                            <div class="direct-chat-infos clearfix">
-                                                <span class="direct-chat-name float-left">Alexander Pierce</span>
-                                                <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
-                                            </div>
-                                            <!-- /.direct-chat-infos -->
-                                            <img class="direct-chat-img" src="~/img/user1-128x128.jpg" alt="message user image">
-                                            <!-- /.direct-chat-img -->
-                                            <div class="direct-chat-text">
-                                                Is this template really for free? That's unbelievable!
-                                            </div>
-                                            <!-- /.direct-chat-text -->
-                                        </div>
-                                        <!-- /.direct-chat-msg -->
+
+                                        @foreach (var comment in Model.Comments.OrderByDescending(c => c.Created))
+                                        {
+                                            if (@ViewData["CurrentUserId"].Equals(@comment.UserId))
+                                            {
+                                                <!-- CURRENT USER -->
+                                                <!-- Message. Default to the left -->
+                                                <div class="direct-chat-msg">
+                                                    <div class="direct-chat-infos clearfix">
+                                                        <span class="direct-chat-name float-left">@comment.User.FullName</span>
+                                                        <span class="direct-chat-timestamp float-right">@comment.Created.ToString("MMM dd, yyyy h:mm tt")</span>
+                                                    </div>
+                                                    <!-- /.direct-chat-infos -->
+                                                    <img class="direct-chat-img" src="~/img/user1-128x128.jpg" alt="message user image">
+                                                    <!-- /.direct-chat-img -->
+                                                    <div class="direct-chat-text">
+                                                        @comment.Comment
+                                                    </div>
+                                                    <!-- /.direct-chat-text -->
+                                                </div>
+                                                <!-- /.direct-chat-msg -->
+
+                                            }
+                                            else
+                                            {
+                                                <!-- OTHER USER -->
+                                                <!-- Message to the right -->
+                                                <div class="direct-chat-msg right">
+                                                    <div class="direct-chat-infos clearfix">
+                                                        <span class="direct-chat-name float-right">@comment.User.FullName</span>
+                                                        <span class="direct-chat-timestamp float-left">@comment.Created.ToString("MMM dd, yyyy h:mm tt")</span>
+                                                    </div>
+                                                    <!-- /.direct-chat-infos -->
+                                                    <img class="direct-chat-img" src="~/img/user3-128x128.jpg" alt="message user image">
+                                                    <!-- /.direct-chat-img -->
+                                                    <div class="direct-chat-text">
+                                                        @comment.Comment
+                                                    </div>
+                                                    <!-- /.direct-chat-text -->
+                                                </div>
+                                                <!-- /.direct-chat-msg -->
+                                            }
+                                        }
+
+
+                                        <!-- OTHER USER -->
                                         <!-- Message to the right -->
                                         <div class="direct-chat-msg right">
                                             <div class="direct-chat-infos clearfix">
@@ -133,144 +168,24 @@
                                             <!-- /.direct-chat-text -->
                                         </div>
                                         <!-- /.direct-chat-msg -->
-                                        <!-- Message. Default to the left -->
-                                        <div class="direct-chat-msg">
-                                            <div class="direct-chat-infos clearfix">
-                                                <span class="direct-chat-name float-left">Alexander Pierce</span>
-                                                <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
-                                            </div>
-                                            <!-- /.direct-chat-infos -->
-                                            <img class="direct-chat-img" src="~/img/user1-128x128.jpg" alt="message user image">
-                                            <!-- /.direct-chat-img -->
-                                            <div class="direct-chat-text">
-                                                Working with AdminLTE on a great new app! Wanna join?
-                                            </div>
-                                            <!-- /.direct-chat-text -->
-                                        </div>
-                                        <!-- /.direct-chat-msg -->
-                                        <!-- Message to the right -->
-                                        <div class="direct-chat-msg right">
-                                            <div class="direct-chat-infos clearfix">
-                                                <span class="direct-chat-name float-right">Sarah Bullock</span>
-                                                <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
-                                            </div>
-                                            <!-- /.direct-chat-infos -->
-                                            <img class="direct-chat-img" src="~/img/user3-128x128.jpg" alt="message user image">
-                                            <!-- /.direct-chat-img -->
-                                            <div class="direct-chat-text">
-                                                I would love to.
-                                            </div>
-                                            <!-- /.direct-chat-text -->
-                                        </div>
-                                        <!-- /.direct-chat-msg -->
+
+
 
                                     </div>
                                     <!--/.direct-chat-messages-->
-                                    <!-- Contacts are loaded here -->
-                                    <div class="direct-chat-contacts">
-                                        <ul class="contacts-list">
-                                            <li>
-                                                <a href="#">
-                                                    <img class="contacts-list-img" src="~/img/user1-128x128.jpg" alt="User Avatar">
-
-                                                    <div class="contacts-list-info">
-                                                        <span class="contacts-list-name">
-                                                            Count Dracula
-                                                            <small class="contacts-list-date float-right">2/28/2015</small>
-                                                        </span>
-                                                        <span class="contacts-list-msg">How have you been? I was...</span>
-                                                    </div>
-                                                    <!-- /.contacts-list-info -->
-                                                </a>
-                                            </li>
-                                            <!-- End Contact Item -->
-                                            <li>
-                                                <a href="#">
-                                                    <img class="contacts-list-img" src="~/img/user7-128x128.jpg" alt="User Avatar">
-
-                                                    <div class="contacts-list-info">
-                                                        <span class="contacts-list-name">
-                                                            Sarah Doe
-                                                            <small class="contacts-list-date float-right">2/23/2015</small>
-                                                        </span>
-                                                        <span class="contacts-list-msg">I will be waiting for...</span>
-                                                    </div>
-                                                    <!-- /.contacts-list-info -->
-                                                </a>
-                                            </li>
-                                            <!-- End Contact Item -->
-                                            <li>
-                                                <a href="#">
-                                                    <img class="contacts-list-img" src="~/img/user3-128x128.jpg" alt="User Avatar">
-
-                                                    <div class="contacts-list-info">
-                                                        <span class="contacts-list-name">
-                                                            Nadia Jolie
-                                                            <small class="contacts-list-date float-right">2/20/2015</small>
-                                                        </span>
-                                                        <span class="contacts-list-msg">I'll call you back at...</span>
-                                                    </div>
-                                                    <!-- /.contacts-list-info -->
-                                                </a>
-                                            </li>
-                                            <!-- End Contact Item -->
-                                            <li>
-                                                <a href="#">
-                                                    <img class="contacts-list-img" src="~/img/user5-128x128.jpg" alt="User Avatar">
-
-                                                    <div class="contacts-list-info">
-                                                        <span class="contacts-list-name">
-                                                            Nora S. Vans
-                                                            <small class="contacts-list-date float-right">2/10/2015</small>
-                                                        </span>
-                                                        <span class="contacts-list-msg">Where is your new...</span>
-                                                    </div>
-                                                    <!-- /.contacts-list-info -->
-                                                </a>
-                                            </li>
-                                            <!-- End Contact Item -->
-                                            <li>
-                                                <a href="#">
-                                                    <img class="contacts-list-img" src="~/img/user6-128x128.jpg" alt="User Avatar">
-
-                                                    <div class="contacts-list-info">
-                                                        <span class="contacts-list-name">
-                                                            John K.
-                                                            <small class="contacts-list-date float-right">1/27/2015</small>
-                                                        </span>
-                                                        <span class="contacts-list-msg">Can I take a look at...</span>
-                                                    </div>
-                                                    <!-- /.contacts-list-info -->
-                                                </a>
-                                            </li>
-                                            <!-- End Contact Item -->
-                                            <li>
-                                                <a href="#">
-                                                    <img class="contacts-list-img" src="~/img/user8-128x128.jpg" alt="User Avatar">
-
-                                                    <div class="contacts-list-info">
-                                                        <span class="contacts-list-name">
-                                                            Kenneth M.
-                                                            <small class="contacts-list-date float-right">1/4/2015</small>
-                                                        </span>
-                                                        <span class="contacts-list-msg">Never mind I found...</span>
-                                                    </div>
-                                                    <!-- /.contacts-list-info -->
-                                                </a>
-                                            </li>
-                                            <!-- End Contact Item -->
-                                        </ul>
-                                        <!-- /.contacts-list -->
-                                    </div>
                                     <!-- /.direct-chat-pane -->
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer">
-                                    <form action="#" method="post">
+
+                                    <!-- CREATE new comment -->
+                                    <form asp-action="Create" asp-controller="TicketComments" method="post">
+                                        <input type="hidden" name="TicketId" value="@Model.Id" />
                                         <div class="input-group">
-                                            <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                                            <input type="text" name="Comment" placeholder="Type Message ..." class="form-control">
+
                                             <span class="input-group-append">
-                                                <button type="button" class="btn btn-primary">Send</button>
+                                                <button type="submit" value="Create" class="btn btn-primary">Send</button>
                                             </span>
                                         </div>
                                     </form>
@@ -323,6 +238,32 @@
                     </div>
 
                     <h5 class="mt-5 text-muted">Project files</h5>
+
+                    <!-- UPLOAD Ticket Attachments -->
+                    
+                    <form asp-action="Create" asp-controller="TicketAttachments" enctype="multipart/form-data" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="@Model.Id" name="TicketId">
+
+                        <div class="media-body">
+                            <label class="form-label d-block mb-2">Add Attachment</label>
+                            <label>
+                                Description
+                                <input asp-for="@Model.Attachments.FirstOrDefault().Description" 
+                                        type="text" 
+                                        class="form-control" />
+                            </label>
+                            <br />
+                            <label class="btn btn-outline-primary btn-sm">
+                                <input asp-for="@Model.Attachments.FirstOrDefault().FormFile" type="file" />
+                            </label>
+                            <button type="submit" class="btn btn-outline-secondary btn-sm md-btn-flat">Submit</button>
+                        </div>
+                    </form>
+                    
+
+                    <hr />
+
                     <ul class="list-unstyled">
                         <li>
                             <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> Functional-requirements.docx</a>
@@ -341,30 +282,11 @@
                         </li>
                     </ul>
                     @*<div class="text-center mt-5 mb-3">
-                            <a href="#" class="btn btn-sm btn-primary">Add files</a>
-                            <a href="#" class="btn btn-sm btn-warning">Report contact</a>
-                        </div>*@
-
-                    <!-- UPLOAD Ticket Attachments -->
-                    <div>
-                        <form asp-action="Create" asp-controller="TicketAttachments" enctype="multipart/form-data" method="post">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input type="hidden" asp-for="@Model.Id" name="TicketId">
+            <a href="#" class="btn btn-sm btn-primary">Add files</a>
+            <a href="#" class="btn btn-sm btn-warning">Report contact</a>
+        </div>*@
 
 
-                            <div class="media-body ml-3">
-                                <label class="form-label d-block mb-2">Add Attachment</label>
-                                <label>
-                                    Description
-                                    <input asp-for="@Model.Attachments.FirstOrDefault().Description" type="text" class="form-control" />
-                                </label><br />
-                                <label class="btn btn-outline-primary btn-sm">
-                                    <input asp-for="@Model.Attachments.FirstOrDefault().FormFile" type="file" />
-                                </label>
-                                <button type="submit" class="btn btn-outline-secondary btn-sm md-btn-flat">Submit</button>
-                            </div>
-                        </form>
-                    </div>
 
                 </div>
             </div>
@@ -505,47 +427,47 @@
                 </span>
                 <span class="description">Shared publicly - 7:45 PM today</span>
             </div>-->
-            <!-- /.user-block -->
-            <!--<p>
-                Lorem ipsum represents a long-held tradition for designers,
-                typographers and the like. Some people hate it and argue for
-                its demise, but others ignore.
-            </p>
+<!-- /.user-block -->
+<!--<p>
+        Lorem ipsum represents a long-held tradition for designers,
+        typographers and the like. Some people hate it and argue for
+        its demise, but others ignore.
+    </p>
 
-            <p>
-                <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v2</a>
-            </p>
-        </div>
+    <p>
+        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v2</a>
+    </p>
+</div>
 
-        <div class="post clearfix">
-            <div class="user-block">
-                <img class="img-circle img-bordered-sm" src="~/img/user7-128x128.jpg" alt="User Image">
-                <span class="username">
-                    <a href="#">Sarah Ross</a>
-                </span>
-                <span class="description">Sent you a message - 3 days ago</span>
-            </div>-->
-            <!-- /.user-block -->
-            <!--<p>
-                Lorem ipsum represents a long-held tradition for designers,
-                typographers and the like. Some people hate it and argue for
-                its demise, but others ignore.
-            </p>
-            <p>
-                <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 2</a>
-            </p>
-        </div>
+<div class="post clearfix">
+    <div class="user-block">
+        <img class="img-circle img-bordered-sm" src="~/img/user7-128x128.jpg" alt="User Image">
+        <span class="username">
+            <a href="#">Sarah Ross</a>
+        </span>
+        <span class="description">Sent you a message - 3 days ago</span>
+    </div>-->
+<!-- /.user-block -->
+<!--<p>
+        Lorem ipsum represents a long-held tradition for designers,
+        typographers and the like. Some people hate it and argue for
+        its demise, but others ignore.
+    </p>
+    <p>
+        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 2</a>
+    </p>
+</div>
 
-        <div class="post">
-            <div class="user-block">
-                <img class="img-circle img-bordered-sm" src="~/img/user1-128x128.jpg" alt="user image">
-                <span class="username">
-                    <a href="#">Jonathan Burke Jr.</a>
-                </span>
-                <span class="description">Shared publicly - 5 days ago</span>
-            </div>-->
-            <!-- /.user-block -->
-            <!--<p>
+<div class="post">
+    <div class="user-block">
+        <img class="img-circle img-bordered-sm" src="~/img/user1-128x128.jpg" alt="user image">
+        <span class="username">
+            <a href="#">Jonathan Burke Jr.</a>
+        </span>
+        <span class="description">Shared publicly - 5 days ago</span>
+    </div>-->
+<!-- /.user-block -->
+<!--<p>
                 Lorem ipsum represents a long-held tradition for designers,
                 typographers and the like. Some people hate it and argue for
                 its demise, but others ignore.

@@ -143,6 +143,9 @@ namespace MVC_BugTracker.Controllers
                 return NotFound();
             }
 
+            string userId = _userManager.GetUserId(User);
+            ViewData["CurrentUserId"] = userId;
+
             var ticket = await _context.Ticket
                 .Include(t => t.DeveloperUser)
                 .Include(t => t.OwnerUser)
@@ -150,6 +153,9 @@ namespace MVC_BugTracker.Controllers
                 .Include(t => t.Project)
                 .Include(t => t.TicketStatus)
                 .Include(t => t.TicketType)
+                .Include(t => t.Attachments)
+                .Include(t => t.Comments)
+                    .ThenInclude(c => c.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticket == null)
             {
