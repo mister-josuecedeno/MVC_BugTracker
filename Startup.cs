@@ -37,13 +37,14 @@ namespace MVC_BugTracker
             //    options.UseSqlServer(
             //        Configuration.GetConnectionString("DefaultConnection")));
 
-            //[BLOG VERSION] services.AddDbContext<ApplicationDbContext>(options =>
+
+            //[DEVELOPMENT] services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseNpgsql(
-            //        Connection.GetConnectionString(Configuration)));
+            //        Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Connection.GetConnectionString(Configuration)));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
