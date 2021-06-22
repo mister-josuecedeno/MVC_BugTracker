@@ -356,6 +356,9 @@ namespace MVC_BugTracker.Controllers
                 return NotFound();
             }
 
+            // Return to Referring Page
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
+
             ViewData["ProjectName"] = (await _context.Ticket.Include(t => t.Project).FirstOrDefaultAsync(t => t.Id == id)).Project.Name;
             ViewData["ProjectId"] = new SelectList(_context.Project, "Id", "Name", ticket.ProjectId);
             ViewData["TicketPriorityId"] = new SelectList(_context.Set<TicketPriority>(), "Id", "Name", ticket.TicketPriorityId);
@@ -371,7 +374,7 @@ namespace MVC_BugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,OwnerUserId,DeveloperUserId,Title,Description,Created,Updated,Archived,ArchivedDate")] Ticket ticket)
+        public async Task<IActionResult> Edit(int id, string returnUrl, [Bind("Id,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,OwnerUserId,DeveloperUserId,Title,Description,Created,Updated,Archived,ArchivedDate")] Ticket ticket)
         {
             if (id != ticket.Id)
             {
@@ -476,8 +479,9 @@ namespace MVC_BugTracker.Controllers
 
                 await _historyService.AddHistoryAsync(oldTicket, newTicket, btUser.Id);
 
-
-                return RedirectToAction("AllTickets");
+                // Redirect to Referrer
+                //return RedirectToAction("AllTickets");
+                return Redirect(returnUrl);
             }
             ViewData["ProjectId"] = new SelectList(_context.Project, "Id", "Id", ticket.ProjectId);
             ViewData["TicketPriorityId"] = new SelectList(_context.Set<TicketPriority>(), "Id", "Id", ticket.TicketPriorityId);
