@@ -519,18 +519,22 @@ namespace MVC_BugTracker.Controllers
                 return NotFound();
             }
 
+            // Return to Referring Page
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
+
             return View(ticket);
         }
 
         // POST: Tickets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, string returnUrl)
         {
             var ticket = await _context.Ticket.FindAsync(id);
             _context.Ticket.Remove(ticket);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+            return Redirect(returnUrl);
         }
 
         private bool TicketExists(int id)
