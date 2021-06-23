@@ -64,6 +64,7 @@ namespace MVC_BugTracker.Controllers
         }
 
         // GET: ALL Tickets
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> AllTickets()
         {
             // GET company id
