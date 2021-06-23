@@ -1,4 +1,8 @@
-﻿@model IEnumerable<MVC_BugTracker.Models.Ticket>
+﻿@using MVC_BugTracker.Services.Interfaces
+
+@model IEnumerable<MVC_BugTracker.Models.Ticket>
+
+@inject IBTProjectService _projectService
 
 @{
     ViewData["Title"] = "All Tickets";
@@ -24,8 +28,8 @@
                                     Title (Date Created)
                                 </th>
                                 @*<th>
-                                    Ticket Type
-                                </th>*@
+                                        Ticket Type
+                                    </th>*@
                                 <th>
                                     Project
                                 </th>
@@ -36,19 +40,19 @@
                                     Title
                                 </th>
                                 @*<th>
-                                    Description
-                                </th>*@
-                                
+                                        Description
+                                    </th>*@
+
                                 @*<th>
-                                    Date Updated
-                                </th>*@
+                                        Date Updated
+                                    </th>*@
                                 @*<th>
                                         @Html.DisplayNameFor(model => model.Archived)
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.ArchivedDate)
                                     </th>*@
-                                
+
                                 <th>
                                     Priority
                                 </th>
@@ -72,15 +76,29 @@
                                 <tr>
                                     <td>
                                         <div class="font-weight-bold">@Html.DisplayFor(modelItem => item.Title)</div>
-                                        <div>Created: @Html.DisplayFor(modelItem => item.Created)</div>
+                                        @*<div>Created: @Html.DisplayFor(modelItem => item.Created)</div>*@
 
                                     </td>
                                     @*<td>
-                                        @Html.DisplayFor(modelItem => item.TicketType.Name)
-                                    </td>*@
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Project.Name)
-                                    </td>
+                                            @Html.DisplayFor(modelItem => item.TicketType.Name)
+                                        </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Project.Name)
+
+                                    @{
+                                        BTUser projectManager = await _projectService.GetProjectManagerAsync(item.ProjectId);
+
+                                        var pm = "Unassigned";
+
+
+                                        if (projectManager.FirstName != null)
+                                        {
+                                            pm = projectManager.FullName;
+                                        }
+                                    }
+
+                                    <div>Project Manager: @pm</div>
+                                </td>
 
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Created)
@@ -89,19 +107,19 @@
                                         @Html.DisplayFor(modelItem => item.Title)
                                     </td>
                                     @*<td>
-                                        @Html.DisplayFor(modelItem => item.Description)
-                                    </td>*@
-                                    
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>*@
+
                                     @*<td>
-                                        @Html.DisplayFor(modelItem => item.Updated)
-                                    </td>*@
+                                            @Html.DisplayFor(modelItem => item.Updated)
+                                        </td>*@
                                     @*<td>
                                             @Html.DisplayFor(modelItem => item.Archived)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.ArchivedDate)
                                         </td>*@
-                                    
+
                                     <td>
                                         @Html.DisplayFor(modelItem => item.TicketPriority.Name)
                                     </td>
@@ -140,7 +158,7 @@
                 "lengthChange": false,
                 "searching": true,
                 "order": [[2, "desc"]],
-                "rowGroup": {dataSrc: 1},
+                "rowGroup": { dataSrc: 1 },
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
@@ -154,9 +172,9 @@
             });
         });
 
-        //$(document).ready(function () {
-        //    $('#dtAllTickets').DataTable();
-        //});
+                //$(document).ready(function () {
+                //    $('#dtAllTickets').DataTable();
+                //});
     </script>
 
 }
