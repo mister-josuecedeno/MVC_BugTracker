@@ -31,6 +31,7 @@ namespace MVC_BugTracker.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ManageUserRoles()
         {
             List<ManageUserRolesViewModel> model = new();
@@ -52,6 +53,7 @@ namespace MVC_BugTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ManageUserRoles(ManageUserRolesViewModel member)
         {
             try
