@@ -27,10 +27,7 @@
 }
 
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -230,12 +227,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
                         <!--Change image using identity -->
-                        @*<img src="~/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">*@
-                        
-                        <img 
-                             src="@_fileService.DecodeImage(btUser.AvatarFileData, btUser.AvatarContentType)" 
-                             class="img-circle elevation-2" 
-                             alt="User Image">
+
+
+                        @if (btUser.AvatarFileData != null)
+                        {
+                            <img src="@_fileService.DecodeImage(btUser.AvatarFileData, btUser.AvatarContentType)"
+                                 class="img-circle elevation-2"
+                                 alt="User Image">
+                        }
+                        else
+                        {
+                            <img src="~/img/defaultUserImage.png" class="img-circle elevation-2" alt="User Image">
+                        }
 
 
                     </div>
