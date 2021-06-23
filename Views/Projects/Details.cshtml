@@ -25,6 +25,8 @@
 <div>
 
     <hr />
+
+    <!-- Top Section -->
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
@@ -120,11 +122,13 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
+                
                 <!-- Add Tickets -->
                 <div>
                     <a asp-action="Create" asp-controller="Tickets" asp-route-projId="@Model.Id">Create Ticket</a>
                 </div>
 
+                <!-- Ticket Card -->
                 <div class="card card-primary collapsed-card">
                     <div class="card-header">
                         <h3 class="card-title">Tickets</h3>
@@ -140,10 +144,25 @@
                     <div class="card-body">
                         <!-- TICKETS -->
 
-                        <ul>
+                        <ul class="nav flex-column">
                             @foreach (Ticket ticket in Model.Tickets)
                             {
-                                <li><a asp-action="TicketDetails" asp-controller="Tickets" asp-route-id="@ticket.Id">@ticket.Title</a></li>
+                                var developer = "Unassigned";
+                                var devColor = "danger";
+
+                                if (@ticket.DeveloperUser?.FullName != null) {
+                                    developer = @ticket.DeveloperUser?.FullName;
+                                    devColor = "success";
+                                }
+
+                                <li class="nav-item mb-2">
+                                    <a 
+                                       asp-action="TicketDetails" 
+                                       asp-controller="Tickets" 
+                                       asp-route-id="@ticket.Id">@ticket.Title
+                                    </a>
+                                    <span class="float-right badge bg-@devColor">@developer</span>
+                                </li>
                             }
                         </ul>
 
