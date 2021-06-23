@@ -180,7 +180,7 @@ namespace MVC_BugTracker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, ProjectManager")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProjectPriorityId,CompanyId,Name,Description,StartDate,EndDate,Archived,ArchivedDate,ImageFileName,ImageFileData,ImageContentType")] Project project)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProjectPriorityId,CompanyId,Name,Description,StartDate,EndDate,Archived,ImageFileName,ImageFileData,ImageContentType")] Project project)
         {
             if (id != project.Id)
             {
@@ -191,6 +191,15 @@ namespace MVC_BugTracker.Controllers
             {
                 try
                 {
+                    if (project.Archived == true) 
+                    {
+                        project.ArchivedDate = DateTimeOffset.Now;
+                    }
+                    else
+                    {
+                        project.ArchivedDate = null;
+                    }
+
                     _context.Update(project);
                     await _context.SaveChangesAsync();
                 }

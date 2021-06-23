@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit Project";
 }
 
-<h1>Edit Project</h1>
+<h1>Edit Project: @Model.Name</h1>
 
 <hr />
 <div class="row">
@@ -13,6 +13,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="CompanyId" />
+            <input type="hidden" asp-for="ArchivedDate" />
 
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -29,11 +30,7 @@
                 <select asp-for="ProjectPriorityId" class="form-control" asp-items="ViewBag.ProjectPriorityId"></select>
                 <span asp-validation-for="ProjectPriorityId" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                <label asp-for="CompanyId" class="control-label"></label>
-                <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.CompanyId"></select>
-                <span asp-validation-for="CompanyId" class="text-danger"></span>
-            </div>*@
+
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
                 <input asp-for="StartDate" class="form-control" />
@@ -44,31 +41,38 @@
                 <input asp-for="EndDate" class="form-control" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
-            @*<div class="form-group form-check">
+            <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Archived" /> @Html.DisplayNameFor(model => model.Archived)
                 </label>
             </div>
-            <div class="form-group">
-                <label asp-for="ArchivedDate" class="control-label"></label>
-                <input asp-for="ArchivedDate" class="form-control" />
-                <span asp-validation-for="ArchivedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageFileName" class="control-label"></label>
-                <input asp-for="ImageFileName" class="form-control" />
-                <span asp-validation-for="ImageFileName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageFileData" class="control-label"></label>
-                <input asp-for="ImageFileData" class="form-control" />
-                <span asp-validation-for="ImageFileData" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageContentType" class="control-label"></label>
-                <input asp-for="ImageContentType" class="form-control" />
-                <span asp-validation-for="ImageContentType" class="text-danger"></span>
+
+            @*<div class="form-group">
+            <label asp-for="CompanyId" class="control-label"></label>
+            <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.CompanyId"></select>
+            <span asp-validation-for="CompanyId" class="text-danger"></span>
             </div>*@
+
+            @*<div class="form-group">
+            <label asp-for="ArchivedDate" class="control-label"></label>
+            <input asp-for="ArchivedDate" class="form-control" />
+            <span asp-validation-for="ArchivedDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ImageFileName" class="control-label"></label>
+            <input asp-for="ImageFileName" class="form-control" />
+            <span asp-validation-for="ImageFileName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ImageFileData" class="control-label"></label>
+            <input asp-for="ImageFileData" class="form-control" />
+            <span asp-validation-for="ImageFileData" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ImageContentType" class="control-label"></label>
+            <input asp-for="ImageContentType" class="form-control" />
+            <span asp-validation-for="ImageContentType" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
