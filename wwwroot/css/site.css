@@ -75,3 +75,11 @@ body {
 .direct-chat-messages {
     height: 500px;
 }
+
+/* Manage User Profile Image
+-------------------------------------------------- */
+#profileImg {
+    min-height: 400px;
+    width: auto;
+    object-fit: cover;
+}
