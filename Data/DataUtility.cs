@@ -265,8 +265,8 @@ namespace MVC_BugTracker.Data
             //Seed Default ProjectManager1 User
             defaultUser = new BTUser
             {
-                UserName = "hmccoy@coderfoundry.com",
-                Email = "hmccoy@coderfoundry.com",
+                UserName = "hmccoy@mailinator.com",
+                Email = "hmccoy@mailinator.com",
                 FirstName = "Henry",
                 LastName = "McCoy",
                 EmailConfirmed = true,
@@ -294,8 +294,8 @@ namespace MVC_BugTracker.Data
             //Seed Default ProjectManager2 User
             defaultUser = new BTUser
             {
-                UserName = "pquill@coderfoundry.com",
-                Email = "pquill@coderfoundry.com",
+                UserName = "pquill@mailinator.com",
+                Email = "pquill@mailinator.com",
                 FirstName = "Peter",
                 LastName = "Quill",
                 EmailConfirmed = true,
@@ -323,8 +323,8 @@ namespace MVC_BugTracker.Data
             //Seed Default Developer1 User
             defaultUser = new BTUser
             {
-                UserName = "srogers@coderfoundry.com",
-                Email = "srogers@coderfoundry.com",
+                UserName = "srogers@mailinator.com",
+                Email = "srogers@mailinator.com",
                 FirstName = "Steve",
                 LastName = "Rogers",
                 EmailConfirmed = true,
@@ -352,8 +352,8 @@ namespace MVC_BugTracker.Data
             //Seed Default Developer2 User
             defaultUser = new BTUser
             {
-                UserName = "jhowlett@coderfoundry.com",
-                Email = "jhowlett@coderfoundry.com",
+                UserName = "jhowlett@mailinator.com",
+                Email = "jhowlett@mailinator.com",
                 FirstName = "James",
                 LastName = "Howlett",
                 EmailConfirmed = true,
@@ -381,8 +381,8 @@ namespace MVC_BugTracker.Data
             //Seed Default Developer3 User
             defaultUser = new BTUser
             {
-                UserName = "nromanova@coderfoundry.com",
-                Email = "nromanova@coderfoundry.com",
+                UserName = "nromanova@mailinator.com",
+                Email = "nromanova@mailinator.com",
                 FirstName = "Natasha",
                 LastName = "Romanova",
                 EmailConfirmed = true,
@@ -410,8 +410,8 @@ namespace MVC_BugTracker.Data
             //Seed Default Developer4 User
             defaultUser = new BTUser
             {
-                UserName = "cdanvers@coderfoundry.com",
-                Email = "cdanvers@coderfoundry.com",
+                UserName = "cdanvers@mailinator.com",
+                Email = "cdanvers@mailinator.com",
                 FirstName = "Carol",
                 LastName = "Danvers",
                 EmailConfirmed = true,
@@ -439,8 +439,8 @@ namespace MVC_BugTracker.Data
             //Seed Default Developer5 User
             defaultUser = new BTUser
             {
-                UserName = "tstark@coderfoundry.com",
-                Email = "tstark@coderfoundry.com",
+                UserName = "tstark@mailinator.com",
+                Email = "tstark@mailinator.com",
                 FirstName = "Tony",
                 LastName = "Stark",
                 EmailConfirmed = true,
@@ -468,8 +468,8 @@ namespace MVC_BugTracker.Data
             //Seed Default Submitter1 User
             defaultUser = new BTUser
             {
-                UserName = "ssummers@coderfoundry.com",
-                Email = "ssummers@coderfoundry.com",
+                UserName = "ssummers@mailinator.com",
+                Email = "ssummers@mailinator.com",
                 FirstName = "Scott",
                 LastName = "Summers",
                 EmailConfirmed = true,
@@ -497,8 +497,8 @@ namespace MVC_BugTracker.Data
             //Seed Default Submitter2 User
             defaultUser = new BTUser
             {
-                UserName = "sstorm@coderfoundry.com",
-                Email = "sstorm@coderfoundry.com",
+                UserName = "sstorm@mailinator.com",
+                Email = "sstorm@mailinator.com",
                 FirstName = "Sue",
                 LastName = "Storm",
                 EmailConfirmed = true,
