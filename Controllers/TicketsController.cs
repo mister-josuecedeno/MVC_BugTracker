@@ -175,7 +175,7 @@ namespace MVC_BugTracker.Controllers
             //ViewData["TicketStatusId"] = new SelectList(_context.Set<TicketStatus>(), "Id", "Id");
             //ViewData["ProjectId"] = new SelectList(_context.Project, "Id", "Name");
 
-            // TODO Filter List
+           
 
             // Get Current User
             BTUser btUser = await _userManager.GetUserAsync(User);
@@ -200,8 +200,8 @@ namespace MVC_BugTracker.Controllers
             {
                 ticket.ProjectId = (int)projId;
             }
-            
 
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
             ViewData["TicketPriorityId"] = new SelectList(_context.Set<TicketPriority>(), "Id", "Name");
             ViewData["TicketTypeId"] = new SelectList(_context.Set<TicketType>(), "Id", "Name");
 
@@ -213,7 +213,7 @@ namespace MVC_BugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProjectId,TicketPriorityId,TicketTypeId,Title,Description")] Ticket ticket)
+        public async Task<IActionResult> Create(string returnUrl, [Bind("Id,ProjectId,TicketPriorityId,TicketTypeId,Title,Description")] Ticket ticket)
         {
             // Created,Updated,Archived,ArchivedDate,OwnerUserId,DeveloperUserId,TicketStatusId,
 
@@ -274,7 +274,8 @@ namespace MVC_BugTracker.Controllers
                 #endregion
 
 
-                return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
+                //return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
+                return Redirect(returnUrl);
             }
 
             //ViewData["ProjectId"] = new SelectList(_context.Project, "Id", "Id", ticket.ProjectId);

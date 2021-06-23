@@ -11,6 +11,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
 
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -95,7 +96,8 @@
 </div>
 
 <div>
-    <a asp-controller="Projects" asp-action="Details" asp-route-id="@Model.ProjectId">Back to Project Detail</a>
+    @*<a asp-controller="Projects" asp-action="Details" asp-route-id="@Model.ProjectId">Back to Project Detail</a>*@
+    <a href="@ViewBag.returnUrl">Return to Previous Page</a>
 </div>
 
 @section Scripts {
