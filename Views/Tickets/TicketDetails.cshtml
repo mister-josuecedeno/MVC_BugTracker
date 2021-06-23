@@ -3,6 +3,7 @@
 @model MVC_BugTracker.Models.Ticket
 
 @inject IBTProjectService _projectService
+@inject IBTFileService _fileService
     
 
 @{
@@ -120,7 +121,11 @@
                                                         <span class="direct-chat-timestamp float-right">@comment.Created.ToString("MMM dd, yyyy h:mm tt")</span>
                                                     </div>
                                                     <!-- /.direct-chat-infos -->
-                                                    <img class="direct-chat-img" src="~/img/user1-128x128.jpg" alt="message user image">
+                                                    <img 
+                                                         class="direct-chat-img" 
+                                                         src="@_fileService.DecodeImage(comment.User.AvatarFileData, comment.User.AvatarContentType)"
+                                                         alt="message user image">
+
                                                     <!-- /.direct-chat-img -->
                                                     <div class="direct-chat-text">
                                                         @comment.Comment
@@ -140,7 +145,11 @@
                                                         <span class="direct-chat-timestamp float-left">@comment.Created.ToString("MMM dd, yyyy h:mm tt")</span>
                                                     </div>
                                                     <!-- /.direct-chat-infos -->
-                                                    <img class="direct-chat-img" src="~/img/user3-128x128.jpg" alt="message user image">
+                                                    <img 
+                                                         class="direct-chat-img" 
+                                                         src="@_fileService.DecodeImage(comment.User.AvatarFileData, comment.User.AvatarContentType)"
+                                                         alt="message user image">
+
                                                     <!-- /.direct-chat-img -->
                                                     <div class="direct-chat-text">
                                                         @comment.Comment
