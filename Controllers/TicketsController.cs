@@ -373,8 +373,15 @@ namespace MVC_BugTracker.Controllers
             ViewData["TicketPriorityId"] = new SelectList(_context.Set<TicketPriority>(), "Id", "Name", ticket.TicketPriorityId);
             ViewData["TicketStatusId"] = new SelectList(_context.Set<TicketStatus>(), "Id", "Name", ticket.TicketStatusId);
             ViewData["TicketTypeId"] = new SelectList(_context.Set<TicketType>(), "Id", "Name", ticket.TicketTypeId);
-            ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "FullName", ticket.DeveloperUserId);
             ViewData["OwnerUserId"] = new SelectList(_context.Users, "Id", "FullName", ticket.OwnerUserId);
+
+            // Only developers on the project
+            List<BTUser> projectUsers = await _projectService.GetMembersWithoutPMAsync(ticket.ProjectId);
+
+            //ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "FullName", ticket.DeveloperUserId);
+            ViewData["DeveloperUserId"] = new SelectList(projectUsers, "Id", "FullName", ticket.DeveloperUserId);
+            
+            
             return View(ticket);
         }
 
