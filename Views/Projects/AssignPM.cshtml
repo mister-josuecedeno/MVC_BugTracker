@@ -19,7 +19,9 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label class="control-label">Select a Project Manager</label>
-                        <select asp-for="@Model.SelectedUser" class="form-control" asp-items="@Model.Users"></select>
+                        <select asp-for="@Model.SelectedUser" class="form-control" asp-items="@Model.Users">
+                            <option value="">Select a Project Manager</option>
+                        </select>
                     </div>
 
                 </div>
