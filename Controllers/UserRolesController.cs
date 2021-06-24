@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MVC_BugTracker.Data;
+using MVC_BugTracker.Extensions;
 using MVC_BugTracker.Models;
 using MVC_BugTracker.Models.Enums;
 using MVC_BugTracker.Models.ViewModels;
@@ -20,14 +21,20 @@ namespace MVC_BugTracker.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<BTUser> _userManager;
         private readonly IBTRolesService _rolesService;
+        private readonly IBTProjectService _projectService;
+        private readonly IBTCompanyInfoService _infoService;
 
-        public UserRolesController(ApplicationDbContext context, 
-                                   UserManager<BTUser> userManager, 
-                                   IBTRolesService rolesService)
+        public UserRolesController(ApplicationDbContext context,
+                                   UserManager<BTUser> userManager,
+                                   IBTRolesService rolesService,
+                                   IBTProjectService projectService, 
+                                   IBTCompanyInfoService infoService)
         {
             _context = context;
             _userManager = userManager;
             _rolesService = rolesService;
+            _projectService = projectService;
+            _infoService = infoService;
         }
 
         [HttpGet]
@@ -36,8 +43,13 @@ namespace MVC_BugTracker.Controllers
         {
             List<ManageUserRolesViewModel> model = new();
 
-            // TODO: Company Users
-            List<BTUser> users = _context.Users.ToList();
+            // Get Company Id
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            // Get Project Members for Company Id
+            List<BTUser> companyMembers = await _infoService.GetAllMembersAsync(companyId);
+
+            List<BTUser> users = companyMembers.ToList();
 
             foreach (var user in users)
             {
