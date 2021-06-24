@@ -18,13 +18,19 @@
     @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
     {
         <a asp-action="Edit" asp-route-id="@Model.Id">Edit | </a>
+        
+    }
+
+    @if (User.IsInRole("Admin") )
+    {
+        
         <a asp-action="Delete" asp-route-id="@Model.Id">Delete | </a>
     }
 
     <a asp-action="AllProjects">Back to Projects List</a>
 </div>
 
-
+<partial name="_StatusMessage" model="@TempData["StatusMessage"]" />
 
 <div>
 
