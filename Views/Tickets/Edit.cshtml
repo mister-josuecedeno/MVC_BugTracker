@@ -87,20 +87,37 @@
                 </select>
                 <span asp-validation-for="TicketTypeId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="OwnerUserId" class="control-label"></label>
-                <select asp-for="OwnerUserId" class="form-control" asp-items="ViewBag.OwnerUserId">
-                    <option value="">Select a Submitter</option>
-                </select>
-                <span asp-validation-for="OwnerUserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeveloperUserId" class="control-label"></label>
-                <select asp-for="DeveloperUserId" class="form-control" asp-items="ViewBag.DeveloperUserId">
-                    <option value="">Select a Developer</option>
-                </select>
-                <span asp-validation-for="DeveloperUserId" class="text-danger"></span>
-            </div>
+
+            <!-- Admin and PM Only -->
+            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+            {
+
+                <div class="form-group">
+                    <label asp-for="OwnerUserId" class="control-label"></label>
+                    <select asp-for="OwnerUserId" class="form-control" asp-items="ViewBag.OwnerUserId">
+                        <option value="">Select a Submitter</option>
+                    </select>
+                    <span asp-validation-for="OwnerUserId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DeveloperUserId" class="control-label"></label>
+                    <select asp-for="DeveloperUserId" class="form-control" asp-items="ViewBag.DeveloperUserId">
+                        <option value="">Select a Developer</option>
+                    </select>
+                    <span asp-validation-for="DeveloperUserId" class="text-danger"></span>
+                </div>
+
+            }
+            else
+            {
+                <input type="hidden" asp-for="OwnerUserId" />
+                <input type="hidden" asp-for="DeveloperUserId" />
+            }
+
+
+
+            <!-- End Admin and PM Only-->
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
