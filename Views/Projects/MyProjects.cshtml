@@ -1,4 +1,8 @@
-﻿@model IEnumerable<MVC_BugTracker.Models.Project>
+﻿@using MVC_BugTracker.Services.Interfaces
+
+@model IEnumerable<MVC_BugTracker.Models.Project>
+
+@inject IBTProjectService _projectService
 
 @{
     ViewData["Title"] = "My Projects";
@@ -66,7 +70,21 @@
                                 <tr>
                                     <td>
                                         <div class="font-weight-bold">@Html.DisplayFor(modelItem => item.Name)</div>
-                                        <div>Created: @Html.DisplayFor(modelItem => item.StartDate)</div>
+                                        @*<div>Created: @Html.DisplayFor(modelItem => item.StartDate)</div>*@
+
+                                        @{
+                                            BTUser projectManager = await _projectService.GetProjectManagerAsync(item.Id);
+
+                                            var pm = "Unassigned";
+
+
+                                            if (projectManager.FirstName != null)
+                                            {
+                                                pm = projectManager.FullName;
+                                            }
+                                        }
+
+                                        <div>Project Manager: @pm</div>
                                     </td>
                                     @*<td>
                                             @Html.DisplayFor(modelItem => item.Description)
