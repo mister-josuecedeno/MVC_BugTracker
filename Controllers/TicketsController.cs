@@ -164,6 +164,7 @@ namespace MVC_BugTracker.Controllers
                 return NotFound();
             }
 
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
             return View(ticket);
         }
 
