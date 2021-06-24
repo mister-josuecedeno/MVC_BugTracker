@@ -7,6 +7,9 @@
 <h1>Edit Ticket </h1>
 <h4>Project: @ViewData["ProjectName"]</h4>
 <hr />
+
+<partial name="_StatusMessage" model="@TempData["StatusMessage"]" />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">

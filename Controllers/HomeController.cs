@@ -91,7 +91,6 @@ namespace MVC_BugTracker.Controllers
             return View();
         }
 
-
         public IActionResult Privacy()
         {
             return View();

@@ -28,6 +28,7 @@ namespace MVC_BugTracker.Controllers
         private readonly IBTHistoryService _historyService;
         private readonly IBTCompanyInfoService _companyService;
         private readonly IBTNotificationService _notificationService;
+        private readonly IBTRolesService _roleService;
 
 
         public TicketsController(ApplicationDbContext context,
@@ -35,9 +36,10 @@ namespace MVC_BugTracker.Controllers
                                  IBTTicketService ticketService,
                                  UserManager<BTUser> userManager,
                                  IBTProjectService projectService,
-                                 IBTHistoryService historyService, 
-                                 IBTCompanyInfoService companyService, 
-                                 IBTNotificationService notificationService)
+                                 IBTHistoryService historyService,
+                                 IBTCompanyInfoService companyService,
+                                 IBTNotificationService notificationService, 
+                                 IBTRolesService roleService)
         {
             _context = context;
             _infoService = infoService;
@@ -47,6 +49,7 @@ namespace MVC_BugTracker.Controllers
             _historyService = historyService;
             _companyService = companyService;
             _notificationService = notificationService;
+            _roleService = roleService;
         }
 
         // GET: Tickets
@@ -369,6 +372,58 @@ namespace MVC_BugTracker.Controllers
             // Return to Referring Page
             ViewBag.returnUrl = Request.Headers["Referer"].ToString();
 
+            #region IsThisMyTicket
+            // Is this my ticket???
+            bool isThisMyTicket = false;
+
+            // BTUser
+            BTUser btUser = await _userManager.GetUserAsync(User);
+
+            // UserId
+            string userId = _userManager.GetUserId(User);
+
+            // Developer
+            bool isDeveloper = false;
+            if(ticket?.DeveloperUserId != null)
+            {
+                isDeveloper = (bool)(ticket?.DeveloperUserId.Equals(userId));
+            }
+
+            // Submitter
+            bool isSubmitter = false;
+
+            if(ticket?.OwnerUserId != null)
+            {
+                isSubmitter = (bool)(ticket?.OwnerUserId.Equals(userId));
+            }
+
+            // Project Manager
+            var ticketPMId = (await _projectService.GetProjectManagerAsync(ticket.ProjectId)).Id;
+            bool isPM = false;
+            
+            if(ticketPMId != null)
+            {
+                isPM = ticketPMId.Equals(userId);
+            }
+
+            // Admin
+            var isAdmin = await _roleService.IsUserInRoleAsync(btUser, Roles.Admin.ToString());
+
+            // !!! Demo User should not be allowed to edit
+            var isDemo = await _roleService.IsUserInRoleAsync(btUser, Roles.DemoUser.ToString());
+
+            isThisMyTicket = (isDeveloper || isSubmitter || isPM || isAdmin) && (!isDemo);
+
+
+            if (!isThisMyTicket)
+            {
+                TempData["StatusMessage"] = "Error - You do not have access to this action.";
+                return Redirect(ViewBag.returnUrl);
+            }
+            #endregion
+
+            
+
             ViewData["ProjectName"] = (await _context.Ticket.Include(t => t.Project).FirstOrDefaultAsync(t => t.Id == id)).Project.Name;
             ViewData["ProjectId"] = new SelectList(_context.Project, "Id", "Name", ticket.ProjectId);
             ViewData["TicketPriorityId"] = new SelectList(_context.Set<TicketPriority>(), "Id", "Name", ticket.TicketPriorityId);
@@ -404,6 +459,55 @@ namespace MVC_BugTracker.Controllers
                 return NotFound();
             }
 
+            #region IsThisMyTicket
+            // Is this my ticket???
+            bool isThisMyTicket = false;
+
+            // BTUser
+            BTUser btUser = await _userManager.GetUserAsync(User);
+
+            // UserId
+            string userId = _userManager.GetUserId(User);
+
+            // Developer
+            bool isDeveloper = false;
+            if (ticket?.DeveloperUserId != null)
+            {
+                isDeveloper = (bool)(ticket?.DeveloperUserId.Equals(userId));
+            }
+
+            // Submitter
+            bool isSubmitter = false;
+
+            if (ticket?.OwnerUserId != null)
+            {
+                isSubmitter = (bool)(ticket?.OwnerUserId.Equals(userId));
+            }
+
+            // Project Manager
+            var ticketPMId = (await _projectService.GetProjectManagerAsync(ticket.ProjectId)).Id;
+            bool isPM = false;
+
+            if (ticketPMId != null)
+            {
+                isPM = ticketPMId.Equals(userId);
+            }
+
+            // Admin
+            var isAdmin = await _roleService.IsUserInRoleAsync(btUser, Roles.Admin.ToString());
+
+            // !!! Demo User should not be allowed to edit
+            var isDemo = await _roleService.IsUserInRoleAsync(btUser, Roles.DemoUser.ToString());
+
+            isThisMyTicket = (isDeveloper || isSubmitter || isPM || isAdmin) && (!isDemo);
+
+
+            if (!isThisMyTicket)
+            {
+                TempData["StatusMessage"] = "Error - You do not have access to this action.";
+                return Redirect(returnUrl);
+            }
+            #endregion
 
             if (ModelState.IsValid)
             {
@@ -411,7 +515,7 @@ namespace MVC_BugTracker.Controllers
                 Notification notification;
                 
                 // Get Current User
-                BTUser btUser = await _userManager.GetUserAsync(User);
+                btUser = await _userManager.GetUserAsync(User);
 
                 // Get Current User Company Id
                 int companyId = User.Identity.GetCompanyId().Value;
@@ -516,12 +620,28 @@ namespace MVC_BugTracker.Controllers
         }
 
         // GET: Tickets/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+
+            // Return to Referring Page
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
+            BTUser btUser = await _userManager.GetUserAsync(User);
+
+            #region CheckDemoUser
+            // !!! Demo User should not be allowed to delete
+            var isDemo = await _roleService.IsUserInRoleAsync(btUser, Roles.DemoUser.ToString());
+
+            if (isDemo)
+            {
+                TempData["StatusMessage"] = "Error - You do not have access to this action.";
+                return Redirect(ViewBag.returnUrl);
+            }
+            #endregion
 
             var ticket = await _context.Ticket
                 .Include(t => t.DeveloperUser)
@@ -535,17 +655,28 @@ namespace MVC_BugTracker.Controllers
                 return NotFound();
             }
 
-            // Return to Referring Page
-            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
-
             return View(ticket);
         }
 
         // POST: Tickets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id, string returnUrl)
         {
+            BTUser btUser = await _userManager.GetUserAsync(User);
+
+            #region CheckDemoUser
+            // !!! Demo User should not be allowed to delete
+            var isDemo = await _roleService.IsUserInRoleAsync(btUser, Roles.DemoUser.ToString());
+
+            if (isDemo)
+            {
+                TempData["StatusMessage"] = "Error - You do not have access to this action.";
+                return Redirect(returnUrl);
+            }
+            #endregion
+
             var ticket = await _context.Ticket.FindAsync(id);
             _context.Ticket.Remove(ticket);
             await _context.SaveChangesAsync();
