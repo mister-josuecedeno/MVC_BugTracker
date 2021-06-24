@@ -27,7 +27,7 @@
         <a asp-action="Delete" asp-route-id="@Model.Id">Delete | </a>
     }
 
-    <a asp-action="AllProjects">Back to Projects List</a>
+    <a asp-action="AllProjects">Back to All Projects List</a>
 </div>
 
 <partial name="_StatusMessage" model="@TempData["StatusMessage"]" />
@@ -122,16 +122,13 @@
             @pm
 
 
-            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+            @if (User.IsInRole("Admin"))
             {
                 <div>
                     <a asp-action="AssignPM" asp-route-id="@Model.Id">Add Project Manager</a>
                 </div>
             }
-            else
-            {
-                <div>Speak with your Admin or PM to add/edit the Project Manager role</div>
-            }
+            
         </dd>
 
     </dl>
