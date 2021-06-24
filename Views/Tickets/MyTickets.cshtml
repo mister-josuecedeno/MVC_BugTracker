@@ -104,9 +104,12 @@
                                         @Html.DisplayFor(modelItem => item.DeveloperUser.FullName)
                                     </td>
                                     <td>
-                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                                         <a asp-action="TicketDetails" asp-route-id="@item.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+
+                                        @if (User.IsInRole("Admin")) { 
+                                            <a asp-action="Delete" asp-route-id="@item.Id"> | Delete</a>
+                                        }
                                     </td>
                                 </tr>
                             }
@@ -177,49 +180,54 @@
                         <tbody>
                             @foreach (var item in Model.Submitter)
                             {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Project.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Created)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TicketType.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Title)
-                                    </td>
-                                    @*<td>
-                                        @Html.DisplayFor(modelItem => item.Description)
-                                    </td>*@
-                                    @*<td>
-                                        @Html.DisplayFor(modelItem => item.Updated)
-                                    </td>*@
-                                    @*<td>
-                                        @Html.DisplayFor(modelItem => item.Archived)
-                                    </td>*@
-                                    @*<td>
-                                        @Html.DisplayFor(modelItem => item.ArchivedDate)
-                                    </td>*@
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TicketPriority.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TicketStatus.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.OwnerUser.FullName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.DeveloperUser.FullName)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                        <a asp-action="TicketDetails" asp-route-id="@item.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Project.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Created)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TicketType.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                @*<td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>*@
+                                @*<td>
+            @Html.DisplayFor(modelItem => item.Updated)
+        </td>*@
+                                @*<td>
+            @Html.DisplayFor(modelItem => item.Archived)
+        </td>*@
+                                @*<td>
+            @Html.DisplayFor(modelItem => item.ArchivedDate)
+        </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OwnerUser.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DeveloperUser.FullName)
+                                </td>
+                                
+                                <td>
+                                    <a asp-action="TicketDetails" asp-route-id="@item.Id">Details</a> |
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a asp-action="Delete" asp-route-id="@item.Id"> | Delete</a>
+                                    }
+                                </td>
+                            </tr>
                             }
 
 
@@ -233,13 +241,14 @@
 </div>
 
 @section Scripts {
+    @* Developer Table *@
     <script>
         $(document).ready(function () {
             $('#dtDeveloper').DataTable({
                 "paging": true,
                 "lengthChange": false,
                 "searching": true,
-                "order": [[1, "desc"]],
+                "order": [[0, "asc"]],
                 "rowGroup": { dataSrc: 0 },
                 "info": true,
                 "autoWidth": false,
@@ -255,13 +264,14 @@
         });
     </script>
 
+    @* Submitter Table *@
     <script>
         $(document).ready(function () {
             $('#dtSubmitter').DataTable({
                 "paging": true,
                 "lengthChange": false,
                 "searching": true,
-                "order": [[1, "desc"]],
+                "order": [[0, "asc"]],
                 "rowGroup": { dataSrc: 0 },
                 "info": true,
                 "autoWidth": false,
