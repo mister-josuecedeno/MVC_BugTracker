@@ -145,20 +145,19 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
-                
                 <!-- Add Tickets -->
                 <div>
                     <a asp-action="Create" asp-controller="Tickets" asp-route-projId="@Model.Id">Create Ticket</a>
                 </div>
 
-                <!-- Ticket Card -->
-                <div class="card card-primary collapsed-card">
+                <!-- Ticket Card  collapsed-card -->
+                <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Tickets</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-minus"></i>
                             </button>
                         </div>
                         <!-- /.card-tools -->
@@ -173,17 +172,29 @@
                                 var developer = "Unassigned";
                                 var devColor = "danger";
 
-                                if (@ticket.DeveloperUser?.FullName != null) {
+                                if (@ticket.DeveloperUser?.FullName != null)
+                                {
                                     developer = @ticket.DeveloperUser?.FullName;
                                     devColor = "success";
                                 }
 
+
+
                                 <li class="nav-item mb-2">
-                                    <a 
-                                       asp-action="TicketDetails" 
-                                       asp-controller="Tickets" 
-                                       asp-route-id="@ticket.Id">@ticket.Title
+
+                                    @* Apply restrictions as needed *@
+                                    <a class="badge badge-primary mr-2"
+                                       asp-action="Edit"
+                                       asp-controller="Tickets"
+                                       asp-route-id="@ticket.Id">Edit</a>
+
+                                    <a asp-action="TicketDetails"
+                                       asp-controller="Tickets"
+                                       asp-route-id="@ticket.Id">
+                                        @ticket.Title
                                     </a>
+
+
                                     <span class="float-right badge bg-@devColor">@developer</span>
                                 </li>
                             }
@@ -215,17 +226,19 @@
                         <a asp-action="AssignUsers" asp-route-id="@Model.Id">Add Team Members</a>
                     </div>
                 }
-                else 
-                { 
+                else
+                {
                     <div>Speak with your Admin or PM to add team members</div>
                 }
-                <div class="card card-primary collapsed-card">
+
+                <!-- Team Members collapsed-card -->
+                <div class="card card-primary ">
                     <div class="card-header">
                         <h3 class="card-title">Members</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-minus"></i>
                             </button>
                         </div>
                         <!-- /.card-tools -->
