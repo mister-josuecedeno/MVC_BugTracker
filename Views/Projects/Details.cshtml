@@ -102,11 +102,30 @@
             Project Manager
         </dt>
         <dd class="col-sm-10">
-            @projectManager?.FullName
+            @{
+                var pm = "Unassigned";
 
-            <div>
-                <a asp-action="AssignPM" asp-route-id="@Model.Id">Add Project Manager</a>
-            </div>
+                if (projectManager.FirstName != null)
+                {
+                    pm = projectManager?.FullName;
+                }
+
+            }
+
+
+            @pm
+
+
+            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+            {
+                <div>
+                    <a asp-action="AssignPM" asp-route-id="@Model.Id">Add Project Manager</a>
+                </div>
+            }
+            else
+            {
+                <div>Speak with your Admin or PM to add/edit the Project Manager role</div>
+            }
         </dd>
 
     </dl>
@@ -190,10 +209,16 @@
                 </div>
                 <!-- /.info-box -->
                 <!-- Add Members -->
-                <div>
-                    <a asp-action="AssignUsers" asp-route-id="@Model.Id">Add Team Members</a>
-                </div>
-
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                {
+                    <div>
+                        <a asp-action="AssignUsers" asp-route-id="@Model.Id">Add Team Members</a>
+                    </div>
+                }
+                else 
+                { 
+                    <div>Speak with your Admin or PM to add team members</div>
+                }
                 <div class="card card-primary collapsed-card">
                     <div class="card-header">
                         <h3 class="card-title">Members</h3>
@@ -214,8 +239,8 @@
                             {
                                 var userRole = (await _roleService.ListUserRolesAsync(member)).FirstOrDefault();
                                 var color = "primary";
-                                
-                                if(userRole == "ProjectManager")
+
+                                if (userRole == "ProjectManager")
                                 {
                                     color = "success";
                                 }
@@ -224,7 +249,7 @@
                                     <span>@member.FullName</span>
                                     <span class="float-right badge bg-@color">@userRole</span>
                                 </li>
-                             }
+                            }
                         </ul>
 
                     </div>
