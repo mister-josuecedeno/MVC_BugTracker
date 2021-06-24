@@ -7,6 +7,8 @@
 <h1>Delete Project?</h1>
 
 <h3>Are you sure you want to delete this?</h3>
+
+<partial name="_StatusMessage" model="@TempData["StatusMessage"]" />
 <div>
     
     <hr />
@@ -82,6 +84,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
+        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="AllProjects">Back to Project List</a>
     </form>

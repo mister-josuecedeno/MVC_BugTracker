@@ -7,10 +7,13 @@
 <h1>Edit Project: @Model.Name</h1>
 
 <hr />
+<partial name="_StatusMessage" model="@TempData["StatusMessage"]" />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="CompanyId" />
             <input type="hidden" asp-for="ArchivedDate" />

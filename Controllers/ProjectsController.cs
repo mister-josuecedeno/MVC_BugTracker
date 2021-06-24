@@ -24,16 +24,19 @@ namespace MVC_BugTracker.Controllers
         private readonly IBTProjectService _projectService;
         private readonly IBTCompanyInfoService _infoService;
         private readonly UserManager<BTUser> _userManager;
+        private readonly IBTRolesService _roleService;
 
         public ProjectsController(ApplicationDbContext context,
                                   IBTProjectService projectService,
-                                  IBTCompanyInfoService infoService, 
-                                  UserManager<BTUser> userManager)
+                                  IBTCompanyInfoService infoService,
+                                  UserManager<BTUser> userManager, 
+                                  IBTRolesService roleService)
         {
             _context = context;
             _projectService = projectService;
             _infoService = infoService;
             _userManager = userManager;
+            _roleService = roleService;
         }
 
         // GET: Projects
@@ -179,7 +182,7 @@ namespace MVC_BugTracker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, ProjectManager")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProjectPriorityId,CompanyId,Name,Description,StartDate,EndDate,Archived,ImageFileName,ImageFileData,ImageContentType")] Project project)
+        public async Task<IActionResult> Edit(int id, string returnUrl, [Bind("Id,ProjectPriorityId,CompanyId,Name,Description,StartDate,EndDate,Archived,ImageFileName,ImageFileData,ImageContentType")] Project project)
         {
             if (id != project.Id)
             {
@@ -213,7 +216,8 @@ namespace MVC_BugTracker.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("AllProjects");
+                //return RedirectToAction("AllProjects");
+                return Redirect(returnUrl);
             }
             //ViewData["CompanyId"] = new SelectList(_context.Company, "Id", "Id", project.CompanyId);
             ViewData["ProjectPriorityId"] = new SelectList(_context.Set<ProjectPriority>(), "Id", "Name", project.ProjectPriorityId);
@@ -445,13 +449,28 @@ namespace MVC_BugTracker.Controllers
 
 
         // GET: Projects/Delete/5
-        [Authorize(Roles = "Admin, ProjectManager")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+
+            // Return to Referring Page
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
+            BTUser btUser = await _userManager.GetUserAsync(User);
+
+            #region CheckDemoUser
+            // !!! Demo User should not be allowed to delete
+            var isDemo = await _roleService.IsUserInRoleAsync(btUser, Roles.DemoUser.ToString());
+
+            if (isDemo)
+            {
+                TempData["StatusMessage"] = "Error - You do not have access to this action.";
+                return Redirect(ViewBag.returnUrl);
+            }
+            #endregion
 
             var project = await _context.Project
                 .Include(p => p.Company)
@@ -468,13 +487,27 @@ namespace MVC_BugTracker.Controllers
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, ProjectManager")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteConfirmed(int id, string returnUrl)
         {
+            BTUser btUser = await _userManager.GetUserAsync(User);
+
+            #region CheckDemoUser
+            // !!! Demo User should not be allowed to delete
+            var isDemo = await _roleService.IsUserInRoleAsync(btUser, Roles.DemoUser.ToString());
+
+            if (isDemo)
+            {
+                TempData["StatusMessage"] = "Error - You do not have access to this action.";
+                return Redirect(returnUrl);
+            }
+            #endregion
+
             var project = await _context.Project.FindAsync(id);
             _context.Project.Remove(project);
             await _context.SaveChangesAsync();
-            return RedirectToAction("AllProjects");
+            //return RedirectToAction("AllProjects");
+            return Redirect(returnUrl);
         }
 
         private bool ProjectExists(int id)
