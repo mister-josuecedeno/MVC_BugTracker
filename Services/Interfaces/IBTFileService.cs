@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,10 @@ namespace MVC_BugTracker.Services.Interfaces
         //public string FormatFileSize(long bytes);
 
         Task<byte[]> EncodeFileAsync(IFormFile file);
+        
+        // Use for png and jpg only
+        byte[] EncodeFileAsync(Image image, string contentType);
+        
         Task<byte[]> EncodeFileAsync(string fileName);
 
         string DecodeImage(byte[] data, string type);

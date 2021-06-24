@@ -68,66 +68,67 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td>
-                                        <div class="font-weight-bold">@Html.DisplayFor(modelItem => item.Name)</div>
-                                        @*<div>Created: @Html.DisplayFor(modelItem => item.StartDate)</div>*@
+                            <tr>
+                                <td>
+                                    <div class="font-weight-bold">@Html.DisplayFor(modelItem => item.Name)</div>
+                                    @*<div>Created: @Html.DisplayFor(modelItem => item.StartDate)</div>*@
 
-                                        @{
-                                            BTUser projectManager = await _projectService.GetProjectManagerAsync(item.Id);
+                                    @{
+                                        BTUser projectManager = await _projectService.GetProjectManagerAsync(item.Id);
 
-                                            var pm = "Unassigned";
+                                        var pm = "Unassigned";
 
 
-                                            if (projectManager.FirstName != null)
-                                            {
-                                                pm = projectManager.FullName;
-                                            }
-                                        }
-
-                                        <div>Project Manager: @pm</div>
-                                    </td>
-                                    @*<td>
-                                            @Html.DisplayFor(modelItem => item.Description)
-                                        </td>*@
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.StartDate)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.EndDate)
-                                    </td>
-                                    @*<td>
-                                            @Html.DisplayFor(modelItem => item.Archived)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ArchivedDate)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ImageFileName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ImageFileData)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ImageContentType)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Company.Id)
-                                        </td>*@
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ProjectPriority.Name)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-
-                                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                        if (projectManager.FirstName != null)
                                         {
-                                            <a asp-action="Edit" asp-route-id="@item.Id"> | Edit |</a>
-                                            <a asp-action="Delete" asp-route-id="@item.Id"> | Delete</a>
+                                            pm = projectManager.FullName;
                                         }
+                                    }
 
-                                    </td>
-                                </tr>
+                                    <div>Project Manager: @pm</div>
+                                </td>
+                                @*<td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StartDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EndDate)
+                                </td>
+                                @*
+        <td>
+            @Html.DisplayFor(modelItem => item.ArchivedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageFileName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageFileData)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageContentType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company.Id)
+        </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProjectPriority.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Archived)
+                                </td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+
+                                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@item.Id"> | Edit |</a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id"> | Delete</a>
+                                    }
+
+                                </td>
+                            </tr>
                             }
                         </tbody>
                     </table>

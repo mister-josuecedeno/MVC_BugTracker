@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using MVC_BugTracker.Data;
 using MVC_BugTracker.Models;
 using MVC_BugTracker.Models.Enums;
+using SixLabors.ImageSharp;
 
 namespace MVC_BugTracker.Areas.Identity.Pages.Account
 {
@@ -100,6 +101,13 @@ namespace MVC_BugTracker.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+
+                // Reduce Image Size
+                //using var image = Image.Load(Input.ImageData.OpenReadStream());
+                //image.Mutate(x => x.Resize(256, 256));
+                
+                
+                
                 var user = new BTUser 
                 { 
                     UserName = Input.Email, 

@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MVC_BugTracker.Models;
 using MVC_BugTracker.Services.Interfaces;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace MVC_BugTracker.Areas.Identity.Pages.Account.Manage
 {
@@ -130,8 +132,13 @@ namespace MVC_BugTracker.Areas.Identity.Pages.Account.Manage
             // Store new image
             if (Input.NewImage is not null)
             {
-                user.AvatarFileData = await _fileService.EncodeFileAsync(Input.NewImage);
+                // Reduce Image Size
+                using var image = Image.Load(Input.NewImage.OpenReadStream());
+                image.Mutate(x => x.Resize(256, 256));
+
+                //user.AvatarFileData = await _fileService.EncodeFileAsync(Input.NewImage);
                 user.AvatarContentType = _fileService.ContentType(Input.NewImage);
+                user.AvatarFileData = _fileService.EncodeFileAsync(image, user.AvatarContentType);
                 hasChanged = true;
             }
 
