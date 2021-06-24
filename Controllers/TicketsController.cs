@@ -113,6 +113,7 @@ namespace MVC_BugTracker.Controllers
         }
 
         // GET: Tickets/Details/5
+        //[Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
