@@ -467,7 +467,7 @@ namespace MVC_BugTracker.Controllers
 
             if (isDemo)
             {
-                TempData["StatusMessage"] = "Error - You do not have access to this action.";
+                TempData["StatusMessage"] = "Error - You do not have access to complete this action.";
                 return Redirect(ViewBag.returnUrl);
             }
             #endregion
@@ -498,7 +498,7 @@ namespace MVC_BugTracker.Controllers
 
             if (isDemo)
             {
-                TempData["StatusMessage"] = "Error - You do not have access to this action.";
+                TempData["StatusMessage"] = "Error - You do not have access to complete this action.";
                 return Redirect(returnUrl);
             }
             #endregion
