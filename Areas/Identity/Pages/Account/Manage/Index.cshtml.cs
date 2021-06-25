@@ -134,7 +134,14 @@ namespace MVC_BugTracker.Areas.Identity.Pages.Account.Manage
             {
                 // Reduce Image Size
                 using var image = Image.Load(Input.NewImage.OpenReadStream());
-                image.Mutate(x => x.Resize(256, 256));
+                //image.Mutate(x => x.Resize(256, 256));
+                image.Mutate(x => x.Resize(new ResizeOptions
+                {
+                    Mode = ResizeMode.Min,
+                    Size = new Size(1024)
+                }
+                    
+                ));
 
                 //user.AvatarFileData = await _fileService.EncodeFileAsync(Input.NewImage);
                 user.AvatarContentType = _fileService.ContentType(Input.NewImage);
