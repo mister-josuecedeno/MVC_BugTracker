@@ -161,6 +161,8 @@ namespace MVC_BugTracker.Controllers
                 .Include(t => t.History)
                 .Include(t => t.Comments)
                     .ThenInclude(c => c.User)
+                .Include(t => t.Comments)
+                    .ThenInclude(c => c.Ticket)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticket == null)
             {

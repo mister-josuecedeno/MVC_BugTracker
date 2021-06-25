@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVC_BugTracker.Data;
 using MVC_BugTracker.Models;
+using MVC_BugTracker.Services.Interfaces;
+using MVC_BugTracker.Models.Enums;
 
 namespace MVC_BugTracker.Controllers
 {
@@ -15,12 +17,18 @@ namespace MVC_BugTracker.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<BTUser> _userManager;
+        private readonly IBTProjectService _projectService;
+        private readonly IBTRolesService _roleService;
 
-        public TicketCommentsController(ApplicationDbContext context, 
-                                        UserManager<BTUser> userManager)
+        public TicketCommentsController(ApplicationDbContext context,
+                                        UserManager<BTUser> userManager,
+                                        IBTProjectService projectService, 
+                                        IBTRolesService roleService)
         {
             _context = context;
             _userManager = userManager;
+            _projectService = projectService;
+            _roleService = roleService;
         }
 
         // GET: TicketComments
@@ -63,12 +71,66 @@ namespace MVC_BugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TicketId,Comment")] TicketComment ticketComment)
+        public async Task<IActionResult> Create(int ProjectId, string DeveloperUserId, string OwnerUserId, [Bind("TicketId,Comment")] TicketComment ticketComment)
         {
+
+            // Return to Referring Page
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
+
+            #region IsThisMyTicket
+            // Is this my ticket???
+            bool isThisMyTicket = false;
+
+            // BTUser
+            BTUser btUser = await _userManager.GetUserAsync(User);
+
+            // UserId
+            string userId = _userManager.GetUserId(User);
+
+            // Developer
+            bool isDeveloper = false;
+            if (DeveloperUserId != "")
+            {
+                isDeveloper = (bool)(DeveloperUserId.Equals(userId));
+            }
+
+            // Submitter
+            bool isSubmitter = false;
+
+            if (OwnerUserId != "")
+            {
+                isSubmitter = (bool)(OwnerUserId.Equals(userId));
+            }
+
+            // Project Manager
+            var ticketPMId = (await _projectService.GetProjectManagerAsync(ProjectId)).Id;
+            bool isPM = false;
+
+            if (ticketPMId != null)
+            {
+                isPM = ticketPMId.Equals(userId);
+            }
+
+            // Admin
+            var isAdmin = await _roleService.IsUserInRoleAsync(btUser, Roles.Admin.ToString());
+
+            // !!! Demo User should not be allowed to edit
+            var isDemo = await _roleService.IsUserInRoleAsync(btUser, Roles.DemoUser.ToString());
+
+            isThisMyTicket = (isDeveloper || isSubmitter || isPM || isAdmin) && (!isDemo);
+
+
+            if (!isThisMyTicket)
+            {
+                TempData["StatusMessage"] = "Error - You do not have access to this action.";
+                return Redirect(ViewBag.returnUrl);
+            }
+            #endregion
+
             // UserId,Created,Id
             if (ModelState.IsValid)
             {
-                string userId = _userManager.GetUserId(User);
+                //userId = _userManager.GetUserId(User);
 
                 ticketComment.Created = DateTimeOffset.Now;
                 ticketComment.UserId = userId;
