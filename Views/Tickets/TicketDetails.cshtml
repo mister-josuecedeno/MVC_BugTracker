@@ -246,11 +246,11 @@
 
                         <div class="media-body">
                             @*<label class="form-label d-block mb-2">Add Attachment</label>*@
-
+                            @* <input asp-for="@Model.Attachments.FirstOrDefault().Description" *@
                             <label>
                                 Description
                             </label>
-                            <input asp-for="@Model.Attachments.FirstOrDefault().Description"
+                            <input name="Description"
                                    type="text"
                                    class="form-control"
                                    placeholder="File Description (Required)"
@@ -260,14 +260,14 @@
                             <br />
 
                             @*<label class="btn btn-outline-primary btn-sm">
-                <input asp-for="@Model.Attachments.FirstOrDefault().FormFile" type="file" />
-            </label>*@
+            <input asp-for="@Model.Attachments.FirstOrDefault().FormFile" type="file" />
+        </label>*@
 
                             <!-- New File Uploader -->
                             <div class="form-group">
                                 <!-- <label for="customFile">Custom File</label> -->
                                 <div class="custom-file">
-                                    <input asp-for="@Model.Attachments.FirstOrDefault().FormFile"
+                                    <input asp-for="@Model.Attachments.FirstOrDefault().FileData"
                                            type="file" class="custom-file-input"
                                            id="customFile">
                                     <label class="custom-file-label" for="customFile">Choose file</label>
@@ -289,14 +289,14 @@
                     @foreach (var attachment in Model.Attachments)
                     {
                         <li>
-                            <a href="" class="btn-link text-secondary">
-                                Test Result
+                            <a target="_blank" href="@_fileService.DecodeImage(attachment.FileData, attachment.FileContentType)" class="btn-link text-secondary">
+                                <i class="far fa-fw fa-file"></i> @attachment.Description
                             </a>
                         </li>
                     }
 
 
-                    <li>
+                    @*<li>
                         <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> Functional-requirements.docx</a>
                     </li>
                     <li>
@@ -310,7 +310,7 @@
                     </li>
                     <li>
                         <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> Contract-10_12_2014.docx</a>
-                    </li>
+                    </li>*@
                 </ul>
                     
 
