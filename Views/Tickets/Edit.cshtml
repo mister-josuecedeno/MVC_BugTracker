@@ -1,7 +1,14 @@
 ﻿@model MVC_BugTracker.Models.Ticket
+@using MVC_BugTracker.Services.Interfaces
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<BTUser> _userManager
 
 @{
     ViewData["Title"] = "Edit";
+
+    // UserId
+    string userId = _userManager.GetUserId(User);
 }
 
 <h1>Edit Ticket </h1>
@@ -23,36 +30,36 @@
             <input type="hidden" asp-for="ArchivedDate" />
 
             @*<div class="form-group">
-        <label asp-for="ProjectId" class="control-label"></label>
-        <select asp-for="ProjectId" class="form-control" asp-items="ViewBag.ProjectId">
-            <option>Select a Project</option>
-        </select>
-        <span asp-validation-for="ProjectId" class="text-danger"></span>
-        </div>*@
+                <label asp-for="ProjectId" class="control-label"></label>
+                <select asp-for="ProjectId" class="form-control" asp-items="ViewBag.ProjectId">
+                    <option>Select a Project</option>
+                </select>
+                <span asp-validation-for="ProjectId" class="text-danger"></span>
+                </div>*@
 
             @*<div class="form-group">
-            <label asp-for="Created" class="control-label"></label>
-            <input asp-for="Created" class="form-control" />
-            <span asp-validation-for="Created" class="text-danger"></span>
-        </div>*@
+                    <label asp-for="Created" class="control-label"></label>
+                    <input asp-for="Created" class="form-control" />
+                    <span asp-validation-for="Created" class="text-danger"></span>
+                </div>*@
 
             @*<div class="form-group">
-            <label asp-for="Updated" class="control-label"></label>
-            <input asp-for="Updated" class="form-control" />
-            <span asp-validation-for="Updated" class="text-danger"></span>
-        </div>*@
+                    <label asp-for="Updated" class="control-label"></label>
+                    <input asp-for="Updated" class="form-control" />
+                    <span asp-validation-for="Updated" class="text-danger"></span>
+                </div>*@
 
             @*<div class="form-group form-check">
-            <label class="form-check-label">
-                <input class="form-check-input" asp-for="Archived" /> @Html.DisplayNameFor(model => model.Archived)
-            </label>
-        </div>*@
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Archived" /> @Html.DisplayNameFor(model => model.Archived)
+                    </label>
+                </div>*@
 
             @*<div class="form-group">
-            <label asp-for="ArchivedDate" class="control-label"></label>
-            <input asp-for="ArchivedDate" class="form-control" />
-            <span asp-validation-for="ArchivedDate" class="text-danger"></span>
-        </div>*@
+                    <label asp-for="ArchivedDate" class="control-label"></label>
+                    <input asp-for="ArchivedDate" class="form-control" />
+                    <span asp-validation-for="ArchivedDate" class="text-danger"></span>
+                </div>*@
 
 
 
@@ -77,8 +84,8 @@
                 <span asp-validation-for="TicketPriorityId" class="text-danger"></span>
             </div>
 
-            <!-- Submitter Cannot Change the Ticket Status -->
-            @if (User.IsInRole("Submitter"))
+            <!-- Submitter Cannot Change the Ticket Status (also check if id matches OwnerId) -->
+            @if (User.IsInRole("Submitter") || Model.OwnerUserId == userId)
             {
                 <input type="hidden" asp-for="TicketStatusId" />
             }
@@ -117,7 +124,7 @@
             else
             {
                 <input type="hidden" asp-for="OwnerUserId" />
-                
+
             }
 
             <!-- Admin and PM Only -->

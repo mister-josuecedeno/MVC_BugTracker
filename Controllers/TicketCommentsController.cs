@@ -89,7 +89,7 @@ namespace MVC_BugTracker.Controllers
 
             // Developer
             bool isDeveloper = false;
-            if (DeveloperUserId != "")
+            if (DeveloperUserId != "" && DeveloperUserId != null)
             {
                 isDeveloper = (bool)(DeveloperUserId.Equals(userId));
             }
@@ -97,7 +97,7 @@ namespace MVC_BugTracker.Controllers
             // Submitter
             bool isSubmitter = false;
 
-            if (OwnerUserId != "")
+            if (OwnerUserId != "" && OwnerUserId != null)
             {
                 isSubmitter = (bool)(OwnerUserId.Equals(userId));
             }
