@@ -240,19 +240,42 @@
                     <form asp-action="Create" asp-controller="TicketAttachments" enctype="multipart/form-data" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="@Model.Id" name="TicketId">
+                        <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
+                        <input type="hidden" name="DeveloperUserId" value="@Model.DeveloperUserId" />
+                        <input type="hidden" name="OwnerUserId" value="@Model.OwnerUserId" />
 
                         <div class="media-body">
-                            <label class="form-label d-block mb-2">Add Attachment</label>
+                            @*<label class="form-label d-block mb-2">Add Attachment</label>*@
+
                             <label>
                                 Description
-                                <input asp-for="@Model.Attachments.FirstOrDefault().Description" 
-                                        type="text" 
-                                        class="form-control" />
                             </label>
+                            <input asp-for="@Model.Attachments.FirstOrDefault().Description"
+                                   type="text"
+                                   class="form-control"
+                                   placeholder="File Description (Required)"
+                                   required />
+
+
                             <br />
-                            <label class="btn btn-outline-primary btn-sm">
-                                <input asp-for="@Model.Attachments.FirstOrDefault().FormFile" type="file" />
-                            </label>
+
+                            @*<label class="btn btn-outline-primary btn-sm">
+                <input asp-for="@Model.Attachments.FirstOrDefault().FormFile" type="file" />
+            </label>*@
+
+                            <!-- New File Uploader -->
+                            <div class="form-group">
+                                <!-- <label for="customFile">Custom File</label> -->
+                                <div class="custom-file">
+                                    <input asp-for="@Model.Attachments.FirstOrDefault().FormFile"
+                                           type="file" class="custom-file-input"
+                                           id="customFile">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                            </div>
+
+                            <!-- /New File Uploader -->
+
                             <button type="submit" class="btn btn-outline-secondary btn-sm md-btn-flat">Submit</button>
                         </div>
                     </form>
@@ -260,27 +283,36 @@
 
                     <hr />
 
-                    <ul class="list-unstyled">
+                    @* Add loop to show files *@
+                <ul class="list-unstyled">
+                    @* @foreach (var attachment in Model.Comments.OrderByDescending(c => c.Created)) {  *@
+                    @foreach (var attachment in Model.Attachments)
+                    {
                         <li>
-                            <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> Functional-requirements.docx</a>
+                            <a href="" class="btn-link text-secondary">
+                                Test Result
+                            </a>
                         </li>
-                        <li>
-                            <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-pdf"></i> UAT.pdf</a>
-                        </li>
-                        <li>
-                            <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-envelope"></i> Email-from-flatbal.mln</a>
-                        </li>
-                        <li>
-                            <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-image "></i> Logo.png</a>
-                        </li>
-                        <li>
-                            <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> Contract-10_12_2014.docx</a>
-                        </li>
-                    </ul>
-                    @*<div class="text-center mt-5 mb-3">
-            <a href="#" class="btn btn-sm btn-primary">Add files</a>
-            <a href="#" class="btn btn-sm btn-warning">Report contact</a>
-        </div>*@
+                    }
+
+
+                    <li>
+                        <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> Functional-requirements.docx</a>
+                    </li>
+                    <li>
+                        <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-pdf"></i> UAT.pdf</a>
+                    </li>
+                    <li>
+                        <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-envelope"></i> Email-from-flatbal.mln</a>
+                    </li>
+                    <li>
+                        <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-image "></i> Logo.png</a>
+                    </li>
+                    <li>
+                        <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> Contract-10_12_2014.docx</a>
+                    </li>
+                </ul>
+                    
 
 
 
@@ -476,3 +508,13 @@
     </div>
 </div>-->
 <!-- End of Recent Activity -->
+
+@section Scripts {
+
+    <script>
+        $(function () {
+            bsCustomFileInput.init();
+        });
+    </script>
+
+}
