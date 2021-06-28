@@ -45,9 +45,9 @@
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                     <i class="fas fa-minus"></i>
                 </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                @*<button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
                     <i class="fas fa-times"></i>
-                </button>
+                </button>*@
             </div>
         </div>
         <div class="card-body">
@@ -101,9 +101,9 @@
                                         @*<button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
                                                 <i class="fas fa-comments"></i>
                                             </button>*@
-                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        @*<button type="button" class="btn btn-tool" data-card-widget="remove">
                                             <i class="fas fa-times"></i>
-                                        </button>
+                                        </button>*@
                                     </div>
                                 </div>
                                 <!-- /.card-header -->
@@ -259,10 +259,6 @@
 
                             <br />
 
-                            @*<label class="btn btn-outline-primary btn-sm">
-                    <input asp-for="@Model.Attachments.FirstOrDefault().FormFile" type="file" />
-                </label>*@
-
                             <!-- New File Uploader -->
                             <div class="form-group">
                                 <!-- <label for="customFile">Custom File</label> -->
@@ -276,7 +272,11 @@
 
                             <!-- /New File Uploader -->
 
-                            <button type="submit" class="btn btn-outline-secondary btn-sm md-btn-flat">Submit</button>
+                            <button 
+                                type="submit" 
+                                class="btn btn-outline-secondary btn-sm md-btn-flat">
+                                Submit
+                            </button>
                         </div>
                     </form>
 
@@ -327,13 +327,33 @@
 
                                     @foreach (var attachment in Model.Attachments.OrderByDescending(a => a.Created))
                                     {
-                                    <li class="pb-1 pt-1">
-                                        <a target="_blank" href="@_fileService.DecodeImage(attachment.FileData, attachment.FileContentType)" class="btn-link text-secondary">
-                                            <i class="far fa-fw fa-file"></i> @attachment.Description
-                                        </a>
+                                    <li class="pt-1">
+                                        <form asp-action="Delete" asp-controller="TicketAttachments" method="post">
+                                            <a target="_blank" href="@_fileService.DecodeImage(attachment.FileData, attachment.FileContentType)" class="btn-link text-secondary">
+                                                <i class="far fa-fw fa-file"></i> @attachment.Description
+                                            </a>
 
-                                        @*<span class="float-right badge bg-danger">X</span>*@
-                                        <span class="float-right btn-link text-danger"><a href="#"><i class="fas fa-times"></i></a></span>
+                                            @*<span class="float-right badge bg-danger">X</span>*@
+                                            <span class="float-right">
+
+                                        
+                                            @*<a href="#"><i class="fas fa-times"></i></a>*@
+                                        
+
+                                                <span asp-validation-summary="ModelOnly" class="text-danger"></span>
+                                                <input type="hidden" asp-for="@attachment.Id" name="id">
+                                                <input type="hidden" asp-for="@Model.Id" name="TicketId">
+                                                <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
+                                                <input type="hidden" name="DeveloperUserId" value="@Model.DeveloperUserId" />
+                                                <input type="hidden" name="OwnerUserId" value="@Model.OwnerUserId" />
+
+                                                <button type="submit"
+                                                        class="btn btn-sm text-danger">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </span>
+                                        </form>
+
                                     </li>
 
                                         

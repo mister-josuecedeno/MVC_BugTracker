@@ -229,12 +229,70 @@ namespace MVC_BugTracker.Controllers
         // POST: TicketAttachments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int ProjectId, string DeveloperUserId, string OwnerUserId, int id)
         {
+
+            // Return to Referring Page
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
+
+            #region IsThisMyTicket
+            // Is this my ticket???
+            bool isThisMyTicket = false;
+
+            // BTUser
+            BTUser btUser = await _userManager.GetUserAsync(User);
+
+            // UserId
+            string userId = _userManager.GetUserId(User);
+
+            // Developer
+            bool isDeveloper = false;
+            if (DeveloperUserId != "" && DeveloperUserId != null)
+            {
+                isDeveloper = (bool)(DeveloperUserId.Equals(userId));
+            }
+
+            // Submitter
+            bool isSubmitter = false;
+
+            if (OwnerUserId != "" && OwnerUserId != null)
+            {
+                isSubmitter = (bool)(OwnerUserId.Equals(userId));
+            }
+
+            // Project Manager
+            var ticketPMId = (await _projectService.GetProjectManagerAsync(ProjectId)).Id;
+            bool isPM = false;
+
+            if (ticketPMId != null)
+            {
+                isPM = ticketPMId.Equals(userId);
+            }
+
+            // Admin
+            var isAdmin = await _roleService.IsUserInRoleAsync(btUser, Roles.Admin.ToString());
+
+            // !!! Demo User should not be allowed to edit
+            var isDemo = await _roleService.IsUserInRoleAsync(btUser, Roles.DemoUser.ToString());
+
+            isThisMyTicket = (isDeveloper || isSubmitter || isPM || isAdmin) && (!isDemo);
+
+
+            if (!isThisMyTicket)
+            {
+                TempData["StatusMessage"] = "Error - You do not have access to complete this action.";
+                return Redirect(ViewBag.returnUrl);
+            }
+            #endregion
+
             var ticketAttachment = await _context.TicketAttachment.FindAsync(id);
             _context.TicketAttachment.Remove(ticketAttachment);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            //return RedirectToAction(nameof(Index));
+            //return RedirectToAction("TicketDetails", "Tickets", new { id = ticketAttachment.TicketId });
+            //return Redirect(returnUrl);
+            return Redirect(ViewBag.returnUrl);
         }
 
         private bool TicketAttachmentExists(int id)
