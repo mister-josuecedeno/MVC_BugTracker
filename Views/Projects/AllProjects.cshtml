@@ -111,19 +111,23 @@
 
 
                                 // Percent Complete Color
-                                string pctColor = "secondary";
+                                string pctColor = "success";
+                                var daysUntilDueDate = (item.EndDate - DateTime.Now).GetValueOrDefault().TotalDays;
 
-                                if (pctResolved < .5)
+                                if(daysUntilDueDate < 14)
                                 {
-                                    pctColor = "danger";
-                                }
-                                else if (pctResolved < .8)
-                                {
-                                    pctColor = "warning";
-                                }
-                                else if (pctResolved < 1)
-                                {
-                                    pctColor = "success";
+                                    if (pctResolved < .5)
+                                    {
+                                        pctColor = "danger";
+                                    }
+                                    else if (pctResolved < .8)
+                                    {
+                                        pctColor = "warning";
+                                    }
+                                    else if (pctResolved < 1)
+                                    {
+                                        pctColor = "success";
+                                    }
                                 }
 
                                 // ./ Percent Complete Color
@@ -144,10 +148,20 @@
                                     
                                     <td>
                                         <span>@item.EndDate?.ToString("dd MMM yyyy")</span>
+                                        <div>
+                                            @if (daysUntilDueDate > 0)
+                                            {
+                                                <small>Days Remaining: @Convert.ToInt32(daysUntilDueDate)</small>
+                                            }
+                                            else if (daysUntilDueDate < 0)
+                                            {
+                                                <span class="badge bg-danger">OVERDUE</span>
+                                            }
+                                        </div>
                                     </td>
 
                                     <td class="pt-3">
-                                        <div class="progress progress-xs bg-secondary">
+                                        <div class="progress progress-xs bg-gray-light mb-1">
                                             <div class="progress-bar bg-@pctColor" style="width: @pctTicketsComplete"></div>
                                         </div>
                                         <div class="row">
