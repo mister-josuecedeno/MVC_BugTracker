@@ -173,6 +173,7 @@ namespace MVC_BugTracker.Controllers
                 return NotFound();
             }
             //ViewData["CompanyId"] = new SelectList(_context.Company, "Id", "Id", project.CompanyId);
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
             ViewData["ProjectPriorityId"] = new SelectList(_context.Set<ProjectPriority>(), "Id", "Name", project.ProjectPriorityId);
             return View(project);
         }
