@@ -106,6 +106,7 @@ namespace MVC_BugTracker.Controllers
             var project = await _context.Project
                 .Include(p => p.Members)
                 .Include(p => p.Tickets)
+                    .ThenInclude(t => t.TicketStatus)
                 .Include(p => p.Company)
                 .Include(p => p.ProjectPriority)
                 .FirstOrDefaultAsync(m => m.Id == id);
