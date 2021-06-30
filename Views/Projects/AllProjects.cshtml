@@ -151,7 +151,7 @@
                                         <div>
                                             @if (daysUntilDueDate > 0)
                                             {
-                                                <small>Days Remaining: @Convert.ToInt32(daysUntilDueDate)</small>
+                                                <small>Days Left: @Convert.ToInt32(daysUntilDueDate)</small>
                                             }
                                             else if (daysUntilDueDate < 0)
                                             {
@@ -161,21 +161,25 @@
                                     </td>
 
                                     <td class="pt-3">
-                                        <div class="progress progress-xs bg-gray-light mb-1">
-                                            <div class="progress-bar bg-@pctColor" style="width: @pctTicketsComplete"></div>
+                                        <div class="progress bg-gray-light mb-1">
+                                            <div class="progress-bar bg-@pctColor" style="width: @pctTicketsComplete">@pctTicketsComplete</div>
                                         </div>
                                         <div class="row">
                                             <div class="col">
-                                                <small>Total Tickets: </small>
-                                                <span class="badge bg-primary">@ticketTotalCt</span>
+                                                <small>
+                                                    Ticket Total:
+                                                    <span>@ticketTotalCt</span>
+                                                </small>
                                             </div>
-                                            <div class="col">
+                                            @*<div class="col">
                                                 <small> % Complete: </small>
                                                 <span class="badge bg-@pctColor">@pctTicketsComplete</span>
-                                            </div>
+                                            </div>*@
                                             <div class="col">
-                                                <small>Tickets Assigned: </small>
-                                                <span class="badge bg-primary">@ticketAssignedCt</span>
+                                                <small>
+                                                    Assigned:
+                                                    <span>@ticketAssignedCt</span>
+                                                </small>
                                             </div>
                                         </div>
 
