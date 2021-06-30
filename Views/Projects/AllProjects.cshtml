@@ -10,11 +10,12 @@
 }
 
 <h1>All Projects</h1>
+<h6>Project data as of @DateTimeOffset.Now.ToString("dd MMM yyyy")</h6>
 
 @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
 {
     <p>
-        <a asp-action="Create">Create New</a>
+        <a class="btn-sm btn-primary" asp-action="Create"><i class="fas fa-plus"></i> New Project</a>
     </p>
 }
 
@@ -31,109 +32,167 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Name
+                                    Project Name
                                 </th>
-                                @*<th>
-                                        Description
-                                    </th>*@
+                               
                                 <th>
-                                    Start Date
+                                    Due Date
                                 </th>
                                 <th>
-                                    End Date
+                                    Progress
                                 </th>
-                                <th>
-                                    Priority
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Archived)
-                                </th>
-                                @*<th>
-                                        @Html.DisplayNameFor(model => model.ArchivedDate)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.ImageFileName)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.ImageFileData)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.ImageContentType)
-                                    </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Company)
-                                        </th>*@
+                                
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
+
+                                // Project manager
+                                BTUser projectManager = await _projectService.GetProjectManagerAsync(item.Id);
+
+                                var pm = "Unassigned";
+
+
+                                if (projectManager.FirstName != null)
+                                {
+                                    pm = projectManager.FullName;
+                                }
+
+                                // ./ Project manager
+
+                                // Project manager Color
+                                var pmColor = pm == "Unassigned" ? "danger" : "secondary";
+
+                                // ./ Project Manager Color
+
+
+                                // Priority formatting colors
+                                string priorityColor = "primary";
+
+                                switch (item.ProjectPriority.Name)
+                                {
+                                    case "Urgent":
+                                        priorityColor = "danger";
+                                        break;
+
+                                    case "High":
+                                        priorityColor = "warning";
+                                        break;
+
+                                    case "Low":
+                                        priorityColor = "secondary";
+                                        break;
+
+                                    default:
+                                        priorityColor = "primary";
+                                        break;
+                                }
+                                // ./ Formatting Colors
+
+                                // Date Methods
+                                int daysPassed = (DateTimeOffset.Now - item.StartDate).Days;
+                                double totalDays = (item.EndDate - item.StartDate).GetValueOrDefault().TotalDays;
+                                double pctDays = daysPassed / totalDays;
+                                string pctDaysComplete = pctDays <= 1 ? String.Format("{0:P0}", pctDays) : "100%";
+
+                                // ./ Date Methods
+
+                                // Ticket Status
+                                double ticketTotalCt = Convert.ToDouble(item.Tickets.Count);
+                                int ticketResolvedCt = item.Tickets.Count(t => t.TicketStatus.Name.Equals("Resolved"));
+                                int ticketAssignedCt = item.Tickets.Count(t => t.DeveloperUserId != null);
+                                double pctResolved = (ticketResolvedCt / ticketTotalCt);
+
+                                string pctTicketsComplete = String.Format("{0:P0}", pctResolved);
+
+                                // ./ Ticket Status
+
+
+                                // Percent Complete Color
+                                string pctColor = "secondary";
+
+                                if (pctResolved < .5)
+                                {
+                                    pctColor = "danger";
+                                }
+                                else if (pctResolved < .8)
+                                {
+                                    pctColor = "warning";
+                                }
+                                else if (pctResolved < 1)
+                                {
+                                    pctColor = "success";
+                                }
+
+                                // ./ Percent Complete Color
+
+
                                 <tr>
                                     <td>
-                                        <div class="font-weight-bold">@Html.DisplayFor(modelItem => item.Name)</div>
-                                        @*<div>Created: @Html.DisplayFor(modelItem => item.StartDate)</div>*@
-                                        
-                                        @{ 
-                                            BTUser projectManager = await _projectService.GetProjectManagerAsync(item.Id);
-                                            
-                                            var pm = "Unassigned";
+                                        <a class="h5"
+                                           asp-action="Details"
+                                           asp-route-id="@item.Id">@item.Name</a>
 
 
-                                            if (projectManager.FirstName != null)
-                                            { 
-                                                pm = projectManager.FullName;
-                                            }
+                                        <div>
+                                            <span class="badge badge-@priorityColor">Priority: @item.ProjectPriority.Name</span>
+                                            <span class="badge bg-@pmColor">PM: @pm</span>
+                                        </div>
+                                    </td>
+                                    
+                                    <td>
+                                        <span>@item.EndDate?.ToString("dd MMM yyyy")</span>
+                                    </td>
+
+                                    <td class="pt-3">
+                                        <div class="progress progress-xs bg-secondary">
+                                            <div class="progress-bar bg-@pctColor" style="width: @pctTicketsComplete"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <small>Total Tickets: </small>
+                                                <span class="badge bg-primary">@ticketTotalCt</span>
+                                            </div>
+                                            <div class="col">
+                                                <small> % Complete: </small>
+                                                <span class="badge bg-@pctColor">@pctTicketsComplete</span>
+                                            </div>
+                                            <div class="col">
+                                                <small>Tickets Assigned: </small>
+                                                <span class="badge bg-primary">@ticketAssignedCt</span>
+                                            </div>
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        <a class="btn-xs btn-primary mr-1"
+                                           asp-action="Details"
+                                           asp-route-id="@item.Id"><i class="fas fa-info-circle"></i></a>
+
+                                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                        {
+                                            <a class="btn-xs btn-primary mr-1"
+                                               asp-action="Edit"
+                                               asp-route-id="@item.Id">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
+
                                         }
 
-                                        <div>Project Manager: @pm</div>
-                                    </td>
-                                    @*<td>
-                                            @Html.DisplayFor(modelItem => item.Description)
-                                        </td>*@
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.StartDate)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.EndDate)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ProjectPriority.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Archived)
-                                    </td>
-                                    @*<td>
-                                            @Html.DisplayFor(modelItem => item.ArchivedDate)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ImageFileName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ImageFileData)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ImageContentType)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Company.Id)
-                                        </td>*@
-                                <td>
-                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                        @if (User.IsInRole("Admin"))
+                                        {
 
-                                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-                                    {
-                                        <a asp-action="Edit" asp-route-id="@item.Id"> | Edit</a>
-                                        
-                                    }
+                                            <a class="btn-xs btn-danger"
+                                               asp-action="Delete"
+                                               asp-route-id="@item.Id">
+                                                <i class="fas fa-times"></i>
+                                            </a>
+                                        }
 
-                                    @if (User.IsInRole("Admin") )
-                                    {
-                                        
-                                        <a asp-action="Delete" asp-route-id="@item.Id"> | Delete</a>
-                                    }
-
-                                </td>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -159,6 +218,7 @@
                 "responsive": true,
             });
         });
+
     </script>
 
 }
