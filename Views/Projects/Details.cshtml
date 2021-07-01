@@ -12,22 +12,30 @@
     
 }
 
-<h1>Project Details: @Model.Name</h1>
+<h1>@Model.Name</h1>
 
 <div>
+    <a class="btn-sm btn-secondary mr-1" 
+       asp-action="AllProjects">
+        <i class="fas fa-undo-alt"></i> Back to All Projects List
+    </a>
+    
     @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
     {
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit | </a>
+        <a class="btn-sm btn-primary mr-1" asp-action="Edit" asp-route-id="@Model.Id">
+            <i class="fas fa-pencil-alt"></i> Edit
+        </a>
         
     }
 
     @if (User.IsInRole("Admin") )
     {
         
-        <a asp-action="Delete" asp-route-id="@Model.Id">Delete | </a>
+        <a class="btn-sm btn-danger mr-1" asp-action="Delete" asp-route-id="@Model.Id">
+            <i class="fas fa-times"></i> Delete
+        </a>
     }
 
-    <a asp-action="AllProjects">Back to All Projects List</a>
 </div>
 
 <partial name="_StatusMessage" model="@TempData["StatusMessage"]" />
@@ -38,12 +46,12 @@
 
     <!-- Top Section -->
     <dl class="row">
-        <dt class="col-sm-2">
+        @*<dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
-        </dd>
+        </dd>*@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
