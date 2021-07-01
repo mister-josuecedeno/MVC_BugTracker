@@ -39,10 +39,10 @@
                                     Due Date
                                 </th>
                                 <th>
-                                    Progress
+                                    Progress (% Tickets Completed)
                                 </th>
                                 
-                                <th>Actions</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -94,7 +94,7 @@
                                 // Date Methods
                                 int daysPassed = (DateTimeOffset.Now - item.StartDate).Days;
                                 double totalDays = (item.EndDate - item.StartDate).GetValueOrDefault().TotalDays;
-                                double pctDays = daysPassed / totalDays;
+                                double pctDays = totalDays > 0 ? daysPassed / totalDays : 0;
                                 string pctDaysComplete = pctDays <= 1 ? String.Format("{0:P0}", pctDays) : "100%";
 
                                 // ./ Date Methods
@@ -103,7 +103,7 @@
                                 double ticketTotalCt = Convert.ToDouble(item.Tickets.Count);
                                 int ticketResolvedCt = item.Tickets.Count(t => t.TicketStatus.Name.Equals("Resolved"));
                                 int ticketAssignedCt = item.Tickets.Count(t => t.DeveloperUserId != null);
-                                double pctResolved = (ticketResolvedCt / ticketTotalCt);
+                                double pctResolved = ticketTotalCt > 0 ? ticketResolvedCt / ticketTotalCt : 0;
 
                                 string pctTicketsComplete = String.Format("{0:P0}", pctResolved);
 
@@ -135,19 +135,52 @@
 
                                 <tr>
                                     <td>
-                                        <a class="h5"
-                                           asp-action="Details"
-                                           asp-route-id="@item.Id">@item.Name</a>
-
 
                                         <div>
-                                            <span class="badge badge-@priorityColor">Priority: @item.ProjectPriority.Name</span>
-                                            <span class="badge bg-@pmColor">PM: @pm</span>
+
+                                            <a class="h5 text-primary"
+                                               asp-action="Details"
+                                               asp-route-id="@item.Id">
+                                                @item.Name
+                                            </a>
+
                                         </div>
+
+                                        <div class="row">
+                                            <div class="col-12 col-md-8 col-xl-9 mt-2">
+                                                <span class="badge badge-@priorityColor">Priority: @item.ProjectPriority.Name</span>
+                                                <span class="badge bg-@pmColor">PM: @pm</span>
+                                            </div>
+                                            
+                                            <div class="col mt-2">
+                                            
+                                                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                                {
+                                                    <a class="btn-xs btn-primary mr-1 text-nowrap"
+                                                       asp-action="Edit"
+                                                       asp-route-id="@item.Id">
+                                                        <i class="fas fa-pencil-alt"></i> Edit
+                                                    </a>
+
+                                                }
+
+                                                @if (User.IsInRole("Admin"))
+                                                {
+
+                                                    <a class="btn-xs btn-danger text-nowrap"
+                                                       asp-action="Delete"
+                                                       asp-route-id="@item.Id">
+                                                        <i class="fas fa-times"></i> Delete
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+
+
                                     </td>
                                     
                                     <td>
-                                        <span>@item.EndDate?.ToString("dd MMM yyyy")</span>
+                                        <span>@item.EndDate?.ToString("dd MMM yy")</span>
                                         <div>
                                             @if (daysUntilDueDate > 0)
                                             {
@@ -165,16 +198,13 @@
                                             <div class="progress-bar bg-@pctColor" style="width: @pctTicketsComplete">@pctTicketsComplete</div>
                                         </div>
                                         <div class="row">
-                                            <div class="col">
+                                            <div class="col-12 col-md-6">
                                                 <small>
                                                     Ticket Total:
                                                     <span>@ticketTotalCt</span>
                                                 </small>
                                             </div>
-                                            @*<div class="col">
-                                                <small> % Complete: </small>
-                                                <span class="badge bg-@pctColor">@pctTicketsComplete</span>
-                                            </div>*@
+                                            
                                             <div class="col">
                                                 <small>
                                                     Assigned:
@@ -185,32 +215,7 @@
 
                                     </td>
 
-                                    <td>
-                                        <a class="btn-xs btn-primary mr-1"
-                                           asp-action="Details"
-                                           asp-route-id="@item.Id"><i class="fas fa-info-circle"></i></a>
-
-                                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-                                        {
-                                            <a class="btn-xs btn-primary mr-1"
-                                               asp-action="Edit"
-                                               asp-route-id="@item.Id">
-                                                <i class="fas fa-pencil-alt"></i>
-                                            </a>
-
-                                        }
-
-                                        @if (User.IsInRole("Admin"))
-                                        {
-
-                                            <a class="btn-xs btn-danger"
-                                               asp-action="Delete"
-                                               asp-route-id="@item.Id">
-                                                <i class="fas fa-times"></i>
-                                            </a>
-                                        }
-
-                                    </td>
+                                    
                                 </tr>
                             }
                         </tbody>
