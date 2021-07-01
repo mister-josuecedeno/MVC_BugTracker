@@ -149,6 +149,12 @@
                         <!-- TICKETS -->
 
                         <ul class="nav flex-column">
+
+                            @if (Model.Tickets.Count == 0)
+                            {
+                                <li>Add Tickets</li>
+                            }
+
                             @foreach (Ticket ticket in Model.Tickets)
                             {
                                 var developer = "Unassigned";
@@ -232,6 +238,12 @@
                         <!-- MEMBERS -->
 
                         <ul class="nav flex-column">
+                            
+                            @if(Model.Members.Count == 0)
+                            {
+                                <li>Add Team Members</li>
+                            }
+                            
                             @foreach (BTUser member in Model.Members)
                             {
                                 var userRole = (await _roleService.ListUserRolesAsync(member)).FirstOrDefault();
