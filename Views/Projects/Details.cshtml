@@ -9,28 +9,29 @@
     ViewData["Title"] = "Project Details";
 
     BTUser projectManager = await _projectService.GetProjectManagerAsync(Model.Id);
-    
+
 }
 
 <h1>@Model.Name</h1>
 
+<!-- Top Menu -->
 <div>
-    <a class="btn-sm btn-secondary mr-1" 
+    <a class="btn-sm btn-secondary mr-1"
        asp-action="AllProjects">
         <i class="fas fa-undo-alt"></i> Back to All Projects List
     </a>
-    
+
     @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
     {
         <a class="btn-sm btn-primary mr-1" asp-action="Edit" asp-route-id="@Model.Id">
             <i class="fas fa-pencil-alt"></i> Edit
         </a>
-        
+
     }
 
-    @if (User.IsInRole("Admin") )
+    @if (User.IsInRole("Admin"))
     {
-        
+
         <a class="btn-sm btn-danger mr-1" asp-action="Delete" asp-route-id="@Model.Id">
             <i class="fas fa-times"></i> Delete
         </a>
@@ -40,20 +41,17 @@
 
 <partial name="_StatusMessage" model="@TempData["StatusMessage"]" />
 
+<!-- ./ End Top Menu -->
+
 <div>
 
     <hr />
 
     <!-- Top Section -->
     <dl class="row">
-        @*<dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>*@
+
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            Description
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
@@ -65,53 +63,18 @@
             @Html.DisplayFor(model => model.ProjectPriority.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
+            Start Date
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
+            @Model.StartDate.ToString("dd MMM yyyy")
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
+            End Date
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
+            @Model.EndDate.GetValueOrDefault().ToString("dd MMM yyyy")
         </dd>
-        @*<dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Archived)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Archived)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.ArchivedDate)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.ArchivedDate)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.ImageFileName)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.ImageFileName)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.ImageFileData)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.ImageFileData)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.ImageContentType)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.ImageContentType)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Company)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Company.Id)
-            </dd>*@
+
         <dt class="col-sm-2">
             Project Manager
         </dt>
@@ -133,10 +96,14 @@
             @if (User.IsInRole("Admin"))
             {
                 <div>
-                    <a asp-action="AssignPM" asp-route-id="@Model.Id">Add Project Manager</a>
+                    <a class="btn-sm btn-primary"
+                       asp-action="AssignPM"
+                       asp-route-id="@Model.Id">
+                        <i class="fas fa-user-plus"></i> Add Project Manager
+                    </a>
                 </div>
             }
-            
+
         </dd>
 
     </dl>
@@ -157,8 +124,12 @@
                 </div>
                 <!-- /.info-box -->
                 <!-- Add Tickets -->
-                <div>
-                    <a asp-action="Create" asp-controller="Tickets" asp-route-projId="@Model.Id">Create Ticket</a>
+                <div class="mb-2">
+                    <a class="btn-sm btn-primary" 
+                       asp-action="Create" 
+                       asp-controller="Tickets" 
+                       asp-route-projId="@Model.Id"><i class="fas fa-plus"></i> Create Ticket
+                    </a>
                 </div>
 
                 <!-- Ticket Card  collapsed-card -->
@@ -233,13 +204,15 @@
                 <!-- Add Members -->
                 @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
-                    <div>
-                        <a asp-action="AssignUsers" asp-route-id="@Model.Id">Add Team Members</a>
+                    <div class="mb-2">
+                        <a class="btn-sm btn-primary" 
+                           asp-action="AssignUsers" 
+                           asp-route-id="@Model.Id"><i class="fas fa-user-plus"></i> Add Team Members</a>
                     </div>
                 }
                 else
                 {
-                    <div>Speak with your Admin or PM to add team members</div>
+                    <div class="mb-2">Speak with your Admin or PM to add team members</div>
                 }
 
                 <!-- Team Members collapsed-card -->
@@ -287,3 +260,49 @@
 
 </div>
 
+
+@* DELETE LATER *@
+
+@*<dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Name)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Name)
+    </dd>*@
+
+@*<dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.Archived)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.Archived)
+    </dd>
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.ArchivedDate)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.ArchivedDate)
+    </dd>
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.ImageFileName)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.ImageFileName)
+    </dd>
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.ImageFileData)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.ImageFileData)
+    </dd>
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.ImageContentType)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.ImageContentType)
+    </dd>
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.Company)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.Company.Id)
+    </dd>*@
