@@ -138,12 +138,11 @@
 
                                         <div>
 
-                                            <a class="h5 text-primary"
+                                            <a class="text-primary font-weight-bold"
                                                asp-action="Details"
                                                asp-route-id="@item.Id">
                                                 @item.Name
                                             </a>
-
                                         </div>
 
                                         <div class="row">
@@ -194,8 +193,8 @@
                                     </td>
 
                                     <td class="pt-3">
-                                        <div class="progress bg-gray-light mb-1">
-                                            <div class="progress-bar bg-@pctColor" style="width: @pctTicketsComplete">@pctTicketsComplete</div>
+                                        <div class="progress bg-gray-light border border-@pctColor mb-1">
+                                            <div class="progress-bar bg-@pctColor border border-@pctColor" style="width: @pctTicketsComplete">@pctTicketsComplete</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-12 col-md-6">
