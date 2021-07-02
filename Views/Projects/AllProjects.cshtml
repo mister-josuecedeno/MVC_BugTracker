@@ -181,7 +181,11 @@
                                     <td>
                                         <span>@item.EndDate?.ToString("dd MMM yy")</span>
                                         <div>
-                                            @if (daysUntilDueDate > 0)
+                                            @if (pctResolved >= 1) 
+                                            {
+                                                <span class="badge bg-success">COMPLETE</span>
+                                            } 
+                                            else if (daysUntilDueDate > 0)
                                             {
                                                 <small>Days Left: @Convert.ToInt32(daysUntilDueDate)</small>
                                             }
