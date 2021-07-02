@@ -1,14 +1,20 @@
 ﻿@model MVC_BugTracker.Models.Project
 @using MVC_BugTracker.Services.Interfaces
+@using Microsoft.AspNetCore.Identity
 
 @inject IBTProjectService _projectService
 @inject IBTRolesService _roleService
-
+@inject UserManager<BTUser> _userManager
 
 @{
     ViewData["Title"] = "Project Details";
 
     BTUser projectManager = await _projectService.GetProjectManagerAsync(Model.Id);
+
+    // Is the current user the PM?
+    string userId = _userManager.GetUserId(User);
+
+    bool isPM = projectManager.Id == userId;
 
 }
 
@@ -21,7 +27,7 @@
         <i class="fas fa-undo-alt"></i> Back to All Projects List
     </a>
 
-    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+    @if (User.IsInRole("Admin") || isPM)
     {
         <a class="btn-sm btn-primary mr-1" asp-action="Edit" asp-route-id="@Model.Id">
             <i class="fas fa-pencil-alt"></i> Edit
@@ -125,10 +131,11 @@
                 <!-- /.info-box -->
                 <!-- Add Tickets -->
                 <div class="mb-2">
-                    <a class="btn-sm btn-primary" 
-                       asp-action="Create" 
-                       asp-controller="Tickets" 
-                       asp-route-projId="@Model.Id"><i class="fas fa-plus"></i> Create Ticket
+                    <a class="btn-sm btn-primary"
+                       asp-action="Create"
+                       asp-controller="Tickets"
+                       asp-route-projId="@Model.Id">
+                        <i class="fas fa-plus"></i> Create Ticket
                     </a>
                 </div>
 
@@ -168,13 +175,19 @@
 
 
 
+
+
                                 <li class="nav-item mb-2">
 
-                                    @* Apply restrictions as needed *@
-                                    <a class="badge badge-primary mr-2"
-                                       asp-action="Edit"
-                                       asp-controller="Tickets"
-                                       asp-route-id="@ticket.Id">Edit</a>
+                                    @* Apply restrictions as needed - Admin and PM of this project only *@
+                                    
+                                    @if (User.IsInRole("Admin") || isPM)
+                                    {
+                                        <a class="badge badge-primary mr-2"
+                                           asp-action="Edit"
+                                           asp-controller="Tickets"
+                                           asp-route-id="@ticket.Id">Edit</a>
+                                    }
 
                                     <a asp-action="TicketDetails"
                                        asp-controller="Tickets"
@@ -208,17 +221,17 @@
                 </div>
                 <!-- /.info-box -->
                 <!-- Add Members -->
-                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                @if (User.IsInRole("Admin") || isPM)
                 {
                     <div class="mb-2">
-                        <a class="btn-sm btn-primary" 
-                           asp-action="AssignUsers" 
+                        <a class="btn-sm btn-primary"
+                           asp-action="AssignUsers"
                            asp-route-id="@Model.Id"><i class="fas fa-user-plus"></i> Add Team Members</a>
                     </div>
                 }
                 else
                 {
-                    <div class="mb-2">Speak with your Admin or PM to add team members</div>
+                    <div class="mb-2">Speak with your Admin or Assigned PM to add team members</div>
                 }
 
                 <!-- Team Members collapsed-card -->
@@ -238,12 +251,12 @@
                         <!-- MEMBERS -->
 
                         <ul class="nav flex-column">
-                            
-                            @if(Model.Members.Count == 0)
+
+                            @if (Model.Members.Count == 0)
                             {
                                 <li>Add Team Members</li>
                             }
-                            
+
                             @foreach (BTUser member in Model.Members)
                             {
                                 var userRole = (await _roleService.ListUserRolesAsync(member)).FirstOrDefault();

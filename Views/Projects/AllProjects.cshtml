@@ -161,10 +161,7 @@
                                                        asp-route-id="@item.Id">
                                                         <i class="fas fa-times"></i> Delete
                                                     </a>
-                                                }
-                                            
-                                                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-                                                {
+                                                
                                                     <a class="btn-xs btn-primary text-nowrap"
                                                        asp-action="Edit"
                                                        asp-route-id="@item.Id">
