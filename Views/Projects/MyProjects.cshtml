@@ -6,16 +6,19 @@
 
 @{
     ViewData["Title"] = "My Projects";
+
 }
 
 <h1>My Projects</h1>
+<h6>Project data as of @DateTimeOffset.Now.ToString("dd MMM yyyy")</h6>
 
 @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
 {
     <p>
-        <a asp-action="Create">Create New</a>
+        <a class="btn-sm btn-primary" asp-action="Create"><i class="fas fa-plus"></i> New Project</a>
     </p>
 }
+
 
 
 <div class="card">
@@ -29,111 +32,192 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Name
+                                    Project Name
                                 </th>
-                                @*<th>
-            Description
-        </th>*@
+                               
                                 <th>
-                                    Start Date
+                                    Due Date
                                 </th>
                                 <th>
-                                    End Date
+                                    Progress (% Tickets Completed)
                                 </th>
-
-                                @*<th>
-                                    @Html.DisplayNameFor(model => model.ArchivedDate)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ImageFileName)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ImageFileData)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ImageContentType)
-                                </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Company)
-                                    </th>*@
-                                <th>
-                                    Priority
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Archived)
-                                </th>
-                                <th>Actions</th>
+                                
+                                
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                            <tr>
-                                <td>
-                                    <div class="font-weight-bold">@Html.DisplayFor(modelItem => item.Name)</div>
-                                    @*<div>Created: @Html.DisplayFor(modelItem => item.StartDate)</div>*@
 
-                                    @{
-                                        BTUser projectManager = await _projectService.GetProjectManagerAsync(item.Id);
+                                // Project manager
+                                BTUser projectManager = await _projectService.GetProjectManagerAsync(item.Id);
 
-                                        var pm = "Unassigned";
+                                var pm = "Unassigned";
 
 
-                                        if (projectManager.FirstName != null)
-                                        {
-                                            pm = projectManager.FullName;
-                                        }
-                                    }
+                                if (projectManager.FirstName != null)
+                                {
+                                    pm = projectManager.FullName;
+                                }
 
-                                    <div>Project Manager: @pm</div>
-                                </td>
-                                @*<td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>*@
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.StartDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.EndDate)
-                                </td>
-                                @*
-        <td>
-            @Html.DisplayFor(modelItem => item.ArchivedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImageFileName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImageFileData)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImageContentType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Company.Id)
-        </td>*@
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ProjectPriority.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Archived)
-                                </td>
-                                <td>
-                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                // ./ Project manager
 
-                                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                // Project manager Color
+                                var pmColor = pm == "Unassigned" ? "danger" : "secondary";
+
+                                // ./ Project Manager Color
+
+
+                                // Priority formatting colors
+                                string priorityColor = "primary";
+
+                                switch (item.ProjectPriority.Name)
+                                {
+                                    case "Urgent":
+                                        priorityColor = "danger";
+                                        break;
+
+                                    case "High":
+                                        priorityColor = "warning";
+                                        break;
+
+                                    case "Low":
+                                        priorityColor = "secondary";
+                                        break;
+
+                                    default:
+                                        priorityColor = "primary";
+                                        break;
+                                }
+                                // ./ Formatting Colors
+
+                                // Date Methods
+                                int daysPassed = (DateTimeOffset.Now - item.StartDate).Days;
+                                double totalDays = (item.EndDate - item.StartDate).GetValueOrDefault().TotalDays;
+                                double pctDays = totalDays > 0 ? daysPassed / totalDays : 0;
+                                string pctDaysComplete = pctDays <= 1 ? String.Format("{0:P0}", pctDays) : "100%";
+
+                                // ./ Date Methods
+
+                                // Ticket Status
+                                double ticketTotalCt = Convert.ToDouble(item.Tickets.Count);
+                                int ticketResolvedCt = item.Tickets.Count(t => t.TicketStatus.Name.Equals("Resolved"));
+                                int ticketAssignedCt = item.Tickets.Count(t => t.DeveloperUserId != null);
+                                double pctResolved = ticketTotalCt > 0 ? ticketResolvedCt / ticketTotalCt : 0;
+
+                                string pctTicketsComplete = String.Format("{0:P0}", pctResolved);
+
+                                // ./ Ticket Status
+
+
+                                // Percent Complete Color
+                                string pctColor = "success";
+                                var daysUntilDueDate = (item.EndDate - DateTime.Now).GetValueOrDefault().TotalDays;
+
+                                if(daysUntilDueDate < 14)
+                                {
+                                    if (pctResolved < .5)
                                     {
-                                        <a asp-action="Edit" asp-route-id="@item.Id"> | Edit</a>
+                                        pctColor = "danger";
                                     }
-                                    
-                                    
-                                    @if (User.IsInRole("Admin"))
+                                    else if (pctResolved < .8)
                                     {
-                                        <a asp-action="Delete" asp-route-id="@item.Id"> | Delete</a>
+                                        pctColor = "warning";
                                     }
+                                    else if (pctResolved < 1)
+                                    {
+                                        pctColor = "success";
+                                    }
+                                }
 
-                                </td>
-                            </tr>
+                                // ./ Percent Complete Color
+
+
+                                <tr>
+                                    <td>
+
+                                        <div>
+
+                                            <a class="text-primary font-weight-bold"
+                                               asp-action="Details"
+                                               asp-route-id="@item.Id">
+                                                @item.Name
+                                            </a>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12 col-md-8 col-xl-9 mt-2">
+                                                <span class="badge badge-@priorityColor">Priority: @item.ProjectPriority.Name</span>
+                                                <span class="badge bg-@pmColor">PM: @pm</span>
+                                            </div>
+                                            
+                                            <div class="col mt-2">
+                                                
+                                                @if (User.IsInRole("Admin"))
+                                                {
+
+                                                    <a class="btn-xs btn-danger mr-1 text-nowrap"
+                                                       asp-action="Delete"
+                                                       asp-route-id="@item.Id">
+                                                        <i class="fas fa-times"></i> Delete
+                                                    </a>
+                                                
+                                                    <a class="btn-xs btn-primary text-nowrap"
+                                                       asp-action="Edit"
+                                                       asp-route-id="@item.Id">
+                                                        <i class="fas fa-pencil-alt"></i> Edit
+                                                    </a>
+
+                                                }
+
+                                            </div>
+                                        </div>
+
+
+                                    </td>
+                                    
+                                    <td>
+                                        <span>@item.EndDate?.ToString("dd MMM yy")</span>
+                                        <div>
+                                            @if (pctResolved >= 1) 
+                                            {
+                                                <span class="badge bg-success">COMPLETE</span>
+                                            } 
+                                            else if (daysUntilDueDate > 0)
+                                            {
+                                                <small>Days Left: @Convert.ToInt32(daysUntilDueDate)</small>
+                                            }
+                                            else if (daysUntilDueDate < 0)
+                                            {
+                                                <span class="badge bg-danger">OVERDUE</span>
+                                            }
+                                        </div>
+                                    </td>
+
+                                    <td class="pt-3">
+                                        <div class="progress bg-gray-light border border-@pctColor mb-1">
+                                            <div class="progress-bar bg-@pctColor border border-@pctColor" style="width: @pctTicketsComplete">@pctTicketsComplete</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 col-md-6">
+                                                <small>
+                                                    Ticket Total:
+                                                    <span>@ticketTotalCt</span>
+                                                </small>
+                                            </div>
+                                            
+                                            <div class="col">
+                                                <small>
+                                                    Assigned:
+                                                    <span>@ticketAssignedCt</span>
+                                                </small>
+                                            </div>
+                                        </div>
+
+                                    </td>
+
+                                    
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -151,13 +235,14 @@
             $('#dtAllProjects').DataTable({
                 "paging": true,
                 "lengthChange": false,
-                "searching": false,
+                "searching": true,
                 "ordering": true,
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
             });
         });
+
     </script>
 
 }
