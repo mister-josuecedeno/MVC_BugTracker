@@ -152,10 +152,20 @@
                                             </div>
                                             
                                             <div class="col mt-2">
+                                                
+                                                @if (User.IsInRole("Admin"))
+                                                {
+
+                                                    <a class="btn-xs btn-danger mr-1 text-nowrap"
+                                                       asp-action="Delete"
+                                                       asp-route-id="@item.Id">
+                                                        <i class="fas fa-times"></i> Delete
+                                                    </a>
+                                                }
                                             
                                                 @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                                                 {
-                                                    <a class="btn-xs btn-primary mr-1 text-nowrap"
+                                                    <a class="btn-xs btn-primary text-nowrap"
                                                        asp-action="Edit"
                                                        asp-route-id="@item.Id">
                                                         <i class="fas fa-pencil-alt"></i> Edit
@@ -163,15 +173,6 @@
 
                                                 }
 
-                                                @if (User.IsInRole("Admin"))
-                                                {
-
-                                                    <a class="btn-xs btn-danger text-nowrap"
-                                                       asp-action="Delete"
-                                                       asp-route-id="@item.Id">
-                                                        <i class="fas fa-times"></i> Delete
-                                                    </a>
-                                                }
                                             </div>
                                         </div>
 
