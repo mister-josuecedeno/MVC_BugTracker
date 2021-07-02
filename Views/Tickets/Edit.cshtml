@@ -11,157 +11,177 @@
     string userId = _userManager.GetUserId(User);
 }
 
-<h1>Edit Ticket </h1>
-<h4>Project: @ViewData["ProjectName"]</h4>
+<h1>Edit Ticket for @ViewData["ProjectName"]</h1>
+
 <hr />
 
 <partial name="_StatusMessage" model="@TempData["StatusMessage"]" />
 
-<div class="row">
-    <div class="col-md-4">
+
+<div class="card card-primary">
+    <div class="card-header">Edit Ticket</div>
+    <div class="card-body">
+
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="ProjectId" />
-            <input type="hidden" asp-for="Created" />
-            <input type="hidden" asp-for="Updated" />
-            <input type="hidden" asp-for="Archived" />
-            <input type="hidden" asp-for="ArchivedDate" />
 
-            @*<div class="form-group">
-                <label asp-for="ProjectId" class="control-label"></label>
-                <select asp-for="ProjectId" class="form-control" asp-items="ViewBag.ProjectId">
-                    <option>Select a Project</option>
-                </select>
-                <span asp-validation-for="ProjectId" class="text-danger"></span>
-                </div>*@
-
-            @*<div class="form-group">
-                    <label asp-for="Created" class="control-label"></label>
-                    <input asp-for="Created" class="form-control" />
-                    <span asp-validation-for="Created" class="text-danger"></span>
-                </div>*@
-
-            @*<div class="form-group">
-                    <label asp-for="Updated" class="control-label"></label>
-                    <input asp-for="Updated" class="form-control" />
-                    <span asp-validation-for="Updated" class="text-danger"></span>
-                </div>*@
-
-            @*<div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="Archived" /> @Html.DisplayNameFor(model => model.Archived)
-                    </label>
-                </div>*@
-
-            @*<div class="form-group">
-                    <label asp-for="ArchivedDate" class="control-label"></label>
-                    <input asp-for="ArchivedDate" class="form-control" />
-                    <span asp-validation-for="ArchivedDate" class="text-danger"></span>
-                </div>*@
+            <div class="row">
+                <div class="col-md-7">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ProjectId" />
+                    <input type="hidden" asp-for="Created" />
+                    <input type="hidden" asp-for="Updated" />
+                    <input type="hidden" asp-for="Archived" />
+                    <input type="hidden" asp-for="ArchivedDate" />
 
 
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <textarea asp-for="Description" 
+                                  class="form-control"
+                                  style="height:210px"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
 
-
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-
-
-            <div class="form-group">
-                <label asp-for="TicketPriorityId" class="control-label"></label>
-                <select asp-for="TicketPriorityId" class="form-control" asp-items="ViewBag.TicketPriorityId">
-                    <option value="">Select a Ticket Priority</option>
-                </select>
-                <span asp-validation-for="TicketPriorityId" class="text-danger"></span>
-            </div>
-
-            <!-- Submitter Cannot Change the Ticket Status (also check if id matches OwnerId) -->
-            @if (User.IsInRole("Submitter") || Model.OwnerUserId == userId)
-            {
-                <input type="hidden" asp-for="TicketStatusId" />
-            }
-            else
-            {
-                <div class="form-group">
-                    <label asp-for="TicketStatusId" class="control-label"></label>
-                    <select asp-for="TicketStatusId" class="form-control" asp-items="ViewBag.TicketStatusId">
-                        <option value="">Select a Ticket Status</option>
-                    </select>
-                    <span asp-validation-for="TicketStatusId" class="text-danger"></span>
-                </div>
-            }
-
-            <div class="form-group">
-                <label asp-for="TicketTypeId" class="control-label"></label>
-                <select asp-for="TicketTypeId" class="form-control" asp-items="ViewBag.TicketTypeId">
-                    <option value="">Select a Ticket Type</option>
-                </select>
-                <span asp-validation-for="TicketTypeId" class="text-danger"></span>
-            </div>
-
-            <!-- Admin Only -->
-            @if (User.IsInRole("Admin"))
-            {
-
-                <div class="form-group">
-                    <label asp-for="OwnerUserId" class="control-label"></label>
-                    <select asp-for="OwnerUserId" class="form-control" asp-items="ViewBag.OwnerUserId">
-                        <option value="">Select a Submitter</option>
-                    </select>
-                    <span asp-validation-for="OwnerUserId" class="text-danger"></span>
                 </div>
 
-            }
-            else
-            {
-                <input type="hidden" asp-for="OwnerUserId" />
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="TicketPriorityId" class="control-label"></label>
+                        <select asp-for="TicketPriorityId" class="form-control" asp-items="ViewBag.TicketPriorityId">
+                            <option value="">Select a Ticket Priority</option>
+                        </select>
+                        <span asp-validation-for="TicketPriorityId" class="text-danger"></span>
+                    </div>
 
-            }
+                    <!-- Submitter Cannot Change the Ticket Status (also check if id matches OwnerId) -->
+                    @if (User.IsInRole("Submitter") || Model.OwnerUserId == userId)
+                    {
+                        <input type="hidden" asp-for="TicketStatusId" />
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <label asp-for="TicketStatusId" class="control-label"></label>
+                            <select asp-for="TicketStatusId" class="form-control" asp-items="ViewBag.TicketStatusId">
+                                <option value="">Select a Ticket Status</option>
+                            </select>
+                            <span asp-validation-for="TicketStatusId" class="text-danger"></span>
+                        </div>
+                    }
 
-            <!-- Admin and PM Only -->
-            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-            {
-                <div class="form-group">
-                    <label asp-for="DeveloperUserId" class="control-label"></label>
-                    <select asp-for="DeveloperUserId" class="form-control" asp-items="ViewBag.DeveloperUserId">
-                        <option value="">Select a Developer</option>
-                    </select>
-                    <span asp-validation-for="DeveloperUserId" class="text-danger"></span>
+                    <div class="form-group">
+                        <label asp-for="TicketTypeId" class="control-label"></label>
+                        <select asp-for="TicketTypeId" class="form-control" asp-items="ViewBag.TicketTypeId">
+                            <option value="">Select a Ticket Type</option>
+                        </select>
+                        <span asp-validation-for="TicketTypeId" class="text-danger"></span>
+                    </div>
+
+                    <!-- Admin Only -->
+                    @if (User.IsInRole("Admin"))
+                    {
+
+                        <div class="form-group">
+                            <label asp-for="OwnerUserId" class="control-label"></label>
+                            <select asp-for="OwnerUserId" class="form-control" asp-items="ViewBag.OwnerUserId">
+                                <option value="">Select a Submitter</option>
+                            </select>
+                            <span asp-validation-for="OwnerUserId" class="text-danger"></span>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <input type="hidden" asp-for="OwnerUserId" />
+
+                    }
+
+                    <!-- Admin and PM Only -->
+                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                    {
+                        <div class="form-group">
+                            <label asp-for="DeveloperUserId" class="control-label"></label>
+                            <select asp-for="DeveloperUserId" class="form-control" asp-items="ViewBag.DeveloperUserId">
+                                <option value="">Select a Developer</option>
+                            </select>
+                            <span asp-validation-for="DeveloperUserId" class="text-danger"></span>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <input type="hidden" asp-for="DeveloperUserId" />
+                    }
+
+
+
+                    <!-- End Admin and PM Only-->
+
                 </div>
-
-            }
-            else
-            {
-                <input type="hidden" asp-for="DeveloperUserId" />
-            }
-
-
-
-            <!-- End Admin and PM Only-->
-
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
 
-
+            <div class="row">
+                <div class="col">
+                    <hr />
+                    <div class="form-group float-right">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <a class="btn btn-secondary" href="@ViewBag.returnUrl">Cancel</a>
+                    </div>
+                </div>
+            </div>
         </form>
+
     </div>
 </div>
+        
 
-<div>
-    @*<a asp-action="AllTickets">Back to List</a>*@
-    <a href="@ViewBag.returnUrl">Return to Previous Page</a>
-</div>
+        <div>
+            @*<a asp-action="AllTickets">Back to List</a>*@
+            @*<a href="@ViewBag.returnUrl">Return to Previous Page</a>*@
+        </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
+
+
+        @* DELETE LATER *@
+
+        @*<div class="form-group">
+            <label asp-for="ProjectId" class="control-label"></label>
+            <select asp-for="ProjectId" class="form-control" asp-items="ViewBag.ProjectId">
+                <option>Select a Project</option>
+            </select>
+            <span asp-validation-for="ProjectId" class="text-danger"></span>
+            </div>*@
+
+        @*<div class="form-group">
+                <label asp-for="Created" class="control-label"></label>
+                <input asp-for="Created" class="form-control" />
+                <span asp-validation-for="Created" class="text-danger"></span>
+            </div>*@
+
+        @*<div class="form-group">
+                <label asp-for="Updated" class="control-label"></label>
+                <input asp-for="Updated" class="form-control" />
+                <span asp-validation-for="Updated" class="text-danger"></span>
+            </div>*@
+
+        @*<div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Archived" /> @Html.DisplayNameFor(model => model.Archived)
+                </label>
+            </div>*@
+
+        @*<div class="form-group">
+                <label asp-for="ArchivedDate" class="control-label"></label>
+                <input asp-for="ArchivedDate" class="form-control" />
+                <span asp-validation-for="ArchivedDate" class="text-danger"></span>
+            </div>*@
