@@ -99,9 +99,9 @@ namespace MVC_BugTracker.Data
             try
             {
                 IList<Company> defaultcompanies = new List<Company>() {
-                    new Company() { Name = "Company1", Description="This is default Company 1" },
+                    new Company() { Name = "Demo Company", Description="This is a sample company for demonstration purposes" },
                     new Company() { Name = "Company2", Description="This is default Company 2" },
-                    new Company() { Name = "Company3", Description="This is default Company 3" },
+                    new Company() { Name = "MVC Bug Tracker", Description="Manage your team projects with the power of .NET Core." },
                     new Company() { Name = "Company4", Description="This is default Company 4" },
                     new Company() { Name = "Company5", Description="This is default Company 5" },
                     new Company() { Name = "Company6", Description="This is default Company 6" },
@@ -113,9 +113,9 @@ namespace MVC_BugTracker.Data
                 context.SaveChanges();
 
                 //Get company Ids
-                company1Id = context.Company.FirstOrDefault(p => p.Name == "Company1").Id;
+                company1Id = context.Company.FirstOrDefault(p => p.Name == "Demo Company").Id;
                 company2Id = context.Company.FirstOrDefault(p => p.Name == "Company2").Id;
-                company3Id = context.Company.FirstOrDefault(p => p.Name == "Company3").Id;
+                company3Id = context.Company.FirstOrDefault(p => p.Name == "MVC Bug Tracker").Id;
                 company4Id = context.Company.FirstOrDefault(p => p.Name == "Company4").Id;
                 company5Id = context.Company.FirstOrDefault(p => p.Name == "Company5").Id;
                 company6Id = context.Company.FirstOrDefault(p => p.Name == "Company6").Id;
@@ -170,22 +170,71 @@ namespace MVC_BugTracker.Data
             try
             {
                 IList<Project> projects = new List<Project>() {
+                     // DEMO Projects
                      new Project()
                      {
                          CompanyId = company1Id,
-                         Name = "Build a Personal Porfolio",
+                         Name = "[DEMO] Build a Personal Porfolio",
                          Description="Single page html, css & javascript page.  Serves as a landing page for candidates and contains a bio and links to all applications and challenges." ,
-                         StartDate = new DateTime(2021,4,4),
-                         EndDate = new DateTime(2021,4,4).AddMonths(3),
+                         StartDate = new DateTime(2021,6,1),
+                         EndDate = new DateTime(2021,6,1).AddMonths(3),
                          ProjectPriorityId = priorityLow
                      },
                      new Project()
                      {
-                         CompanyId = company2Id,
+                         CompanyId = company1Id,
+                         Name = "[DEMO] Build a supplemental Blog Web Application",
+                         Description="Candidate's custom built web application using .Net Core with MVC, a postgres database and hosted in a heroku container.  The app is designed for the candidate to create, update and maintain a live blog site.",
+                         StartDate = new DateTime(2021,6,1),
+                         EndDate = new DateTime(2021,6,1).AddMonths(3),
+                         ProjectPriorityId = priorityMedium
+                     },
+                     new Project()
+                     {
+                         CompanyId = company1Id,
+                         Name = "[DEMO] Build an Issue Tracking Web Application",
+                         Description="A custom designed .Net Core application with postgres database.  The application is a multi tennent application designed to track issue tickets' progress.  Implemented with identity and user roles, Tickets are maintained in projects which are maintained by users in the role of projectmanager.  Each project has a team and team members.",
+                         StartDate = new DateTime(2021,6,1),
+                         EndDate = new DateTime(2021,6,1).AddMonths(3),
+                         ProjectPriorityId = priorityHigh
+                     },
+                    new Project()
+                     {
+                         CompanyId = company1Id,
+                         Name = "[DEMO] Build a Movie Information Web Application",
+                         Description="A custom designed .Net Core application with postgres database.  An API based application allows users to input and import movie posters and details including cast and crew information.",
+                         StartDate = new DateTime(2021,6,1),
+                         EndDate = new DateTime(2021,6,1).AddMonths(3),
+                         ProjectPriorityId = priorityHigh
+                     },
+                     new Project()
+                     {
+                         CompanyId = company1Id,
+                         Name = "[DEMO] Build an Address Book Web Application",
+                         Description="A custom designed .Net Core application with postgres database.  This is an application to serve as a rolodex of contacts for a given user..",
+                         StartDate = new DateTime(2021,6,1),
+                         EndDate = new DateTime(2021,6,1).AddMonths(3),
+                         ProjectPriorityId = priorityHigh
+                     },
+
+                     // More Projects
+
+                     new Project()
+                     {
+                         CompanyId = company3Id,
+                         Name = "Build a Personal Porfolio",
+                         Description="Single page html, css & javascript page.  Serves as a landing page for candidates and contains a bio and links to all applications and challenges." ,
+                         StartDate = new DateTime(2021,6,1),
+                         EndDate = new DateTime(2021,6,1).AddMonths(3),
+                         ProjectPriorityId = priorityLow
+                     },
+                     new Project()
+                     {
+                         CompanyId = company3Id,
                          Name = "Build a supplemental Blog Web Application",
                          Description="Candidate's custom built web application using .Net Core with MVC, a postgres database and hosted in a heroku container.  The app is designed for the candidate to create, update and maintain a live blog site.",
-                         StartDate = new DateTime(2021,4,4),
-                         EndDate = new DateTime(2021,4,4).AddMonths(3),
+                         StartDate = new DateTime(2021,6,1),
+                         EndDate = new DateTime(2021,6,1).AddMonths(3),
                          ProjectPriorityId = priorityMedium
                      },
                      new Project()
@@ -193,26 +242,26 @@ namespace MVC_BugTracker.Data
                          CompanyId = company3Id,
                          Name = "Build an Issue Tracking Web Application",
                          Description="A custom designed .Net Core application with postgres database.  The application is a multi tennent application designed to track issue tickets' progress.  Implemented with identity and user roles, Tickets are maintained in projects which are maintained by users in the role of projectmanager.  Each project has a team and team members.",
-                         StartDate = new DateTime(2021,4,4),
-                         EndDate = new DateTime(2021,4,4).AddMonths(3),
+                         StartDate = new DateTime(2021,6,1),
+                         EndDate = new DateTime(2021,6,1).AddMonths(3),
                          ProjectPriorityId = priorityHigh
                      },
                     new Project()
                      {
-                         CompanyId = company1Id,
+                         CompanyId = company3Id,
                          Name = "Build a Movie Information Web Application",
                          Description="A custom designed .Net Core application with postgres database.  An API based application allows users to input and import movie posters and details including cast and crew information.",
-                         StartDate = new DateTime(2021,4,4),
-                         EndDate = new DateTime(2021,4,4).AddMonths(3),
+                         StartDate = new DateTime(2021,6,1),
+                         EndDate = new DateTime(2021,6,1).AddMonths(3),
                          ProjectPriorityId = priorityHigh
                      },
                      new Project()
                      {
-                         CompanyId = company2Id,
+                         CompanyId = company3Id,
                          Name = "Build an Address Book Web Application",
                          Description="A custom designed .Net Core application with postgres database.  This is an application to serve as a rolodex of contacts for a given user..",
-                         StartDate = new DateTime(2021,4,4),
-                         EndDate = new DateTime(2021,4,4).AddMonths(3),
+                         StartDate = new DateTime(2021,6,1),
+                         EndDate = new DateTime(2021,6,1).AddMonths(3),
                          ProjectPriorityId = priorityHigh
                      }
                 };
@@ -529,8 +578,8 @@ namespace MVC_BugTracker.Data
             //Seed Demo Admin User
             var defaultUser = new BTUser
             {
-                UserName = "demoadmin@coderfoundry.com",
-                Email = "demoadmin@coderfoundry.com",
+                UserName = "demoadmin@mailinator.com",
+                Email = "demoadmin@mailinator.com",
                 FirstName = "Demo",
                 LastName = "Admin",
                 EmailConfirmed = true,
@@ -560,12 +609,12 @@ namespace MVC_BugTracker.Data
             //Seed Demo ProjectManager User
             defaultUser = new BTUser
             {
-                UserName = "demopm@coderfoundry.com",
-                Email = "demopm@coderfoundry.com",
+                UserName = "demopm@mailinator.com",
+                Email = "demopm@mailinator.com",
                 FirstName = "Demo",
                 LastName = "ProjectManager",
                 EmailConfirmed = true,
-                CompanyId = company2Id
+                CompanyId = company1Id
             };
             try
             {
@@ -590,12 +639,12 @@ namespace MVC_BugTracker.Data
             //Seed Demo Developer User
             defaultUser = new BTUser
             {
-                UserName = "demodev@coderfoundry.com",
-                Email = "demodev@coderfoundry.com",
+                UserName = "demodev@mailinator.com",
+                Email = "demodev@mailinator.com",
                 FirstName = "Demo",
                 LastName = "Developer",
                 EmailConfirmed = true,
-                CompanyId = company2Id
+                CompanyId = company1Id
             };
             try
             {
@@ -620,12 +669,12 @@ namespace MVC_BugTracker.Data
             //Seed Demo Submitter User
             defaultUser = new BTUser
             {
-                UserName = "demosub@coderfoundry.com",
-                Email = "demosub@coderfoundry.com",
+                UserName = "demosub@mailinator.com",
+                Email = "demosub@mailinator.com",
                 FirstName = "Demo",
                 LastName = "Submitter",
                 EmailConfirmed = true,
-                CompanyId = company2Id
+                CompanyId = company1Id
             };
             try
             {
@@ -650,12 +699,12 @@ namespace MVC_BugTracker.Data
             //Seed Demo New User
             defaultUser = new BTUser
             {
-                UserName = "demonew@coderfoundry.com",
-                Email = "demonew@coderfoundry.com",
+                UserName = "demonew@mailinator.com",
+                Email = "demonew@mailinator.com",
                 FirstName = "Demo",
                 LastName = "NewUser",
                 EmailConfirmed = true,
-                CompanyId = company2Id
+                CompanyId = company1Id
             };
             try
             {
@@ -764,6 +813,11 @@ namespace MVC_BugTracker.Data
             int blogId = context.Project.FirstOrDefault(p => p.Name == "Build a supplemental Blog Web Application").Id;
             int bugtrackerId = context.Project.FirstOrDefault(p => p.Name == "Build an Issue Tracking Web Application").Id;
 
+            //Get DEMO project Ids
+            int demoPortfolioId = context.Project.FirstOrDefault(p => p.Name == "[DEMO] Build a Personal Porfolio").Id;
+            int demoBlogId = context.Project.FirstOrDefault(p => p.Name == "[DEMO] Build a supplemental Blog Web Application").Id;
+            int demoBugtrackerId = context.Project.FirstOrDefault(p => p.Name == "[DEMO] Build an Issue Tracking Web Application").Id;
+
             //Get ticket type Ids
             int typeNewDev = context.TicketType.FirstOrDefault(p => p.Name == "New Development").Id;
             int typeRuntime = context.TicketType.FirstOrDefault(p => p.Name == "Runtime").Id;
@@ -786,64 +840,71 @@ namespace MVC_BugTracker.Data
             try
             {
                 IList<Ticket> tickets = new List<Ticket>() {
-                                //PORTFOLIO
-                                new Ticket() {Title = "Portfolio Ticket 1", Description = "Ticket details for portfolio ticket 1", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityLow, TicketStatusId = statusNew, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Portfolio Ticket 2", Description = "Ticket details for portfolio ticket 2", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityMedium, TicketStatusId = statusUnassigned, TicketTypeId = typeMaintenance},
-                                new Ticket() {Title = "Portfolio Ticket 3", Description = "Ticket details for portfolio ticket 3", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityHigh, TicketStatusId = statusDev, TicketTypeId = typeUI},
-                                new Ticket() {Title = "Portfolio Ticket 4", Description = "Ticket details for portfolio ticket 4", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityUrgent, TicketStatusId = statusTest, TicketTypeId = typeRuntime},
-                                new Ticket() {Title = "Portfolio Ticket 5", Description = "Ticket details for portfolio ticket 5", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityLow, TicketStatusId = statusNew, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Portfolio Ticket 6", Description = "Ticket details for portfolio ticket 6", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityMedium, TicketStatusId = statusUnassigned, TicketTypeId = typeMaintenance},
-                                new Ticket() {Title = "Portfolio Ticket 7", Description = "Ticket details for portfolio ticket 7", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityHigh, TicketStatusId = statusDev, TicketTypeId = typeUI},
-                                new Ticket() {Title = "Portfolio Ticket 8", Description = "Ticket details for portfolio ticket 8", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityUrgent, TicketStatusId = statusTest, TicketTypeId = typeRuntime},
-                                //BLOG
-                                new Ticket() {Title = "Blog Ticket 1", Description = "Ticket details for blog ticket 1", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow, TicketStatusId = statusUnassigned, TicketTypeId = typeRuntime},
-                                new Ticket() {Title = "Blog Ticket 2", Description = "Ticket details for blog ticket 2", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium, TicketStatusId = statusDev, TicketTypeId = typeUI},
-                                new Ticket() {Title = "Blog Ticket 3", Description = "Ticket details for blog ticket 3", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh, TicketStatusId = statusNew, TicketTypeId = typeMaintenance},
-                                new Ticket() {Title = "Blog Ticket 4", Description = "Ticket details for blog ticket 4", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Blog Ticket 5", Description = "Ticket details for blog ticket 5", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow, TicketStatusId = statusDev,  TicketTypeId = typeRuntime},
-                                new Ticket() {Title = "Blog Ticket 6", Description = "Ticket details for blog ticket 6", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium, TicketStatusId = statusNew,  TicketTypeId = typeUI},
-                                new Ticket() {Title = "Blog Ticket 7", Description = "Ticket details for blog ticket 7", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeMaintenance},
-                                new Ticket() {Title = "Blog Ticket 8", Description = "Ticket details for blog ticket 8", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent, TicketStatusId = statusDev,  TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Blog Ticket 9", Description = "Ticket details for blog ticket 9", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow, TicketStatusId = statusNew,  TicketTypeId = typeRuntime},
-                                new Ticket() {Title = "Blog Ticket 10", Description = "Ticket details for blog ticket 10", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium, TicketStatusId = statusUnassigned, TicketTypeId = typeUI},
-                                new Ticket() {Title = "Blog Ticket 11", Description = "Ticket details for blog ticket 11", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh, TicketStatusId = statusDev,  TicketTypeId = typeMaintenance},
-                                new Ticket() {Title = "Blog Ticket 12", Description = "Ticket details for blog ticket 12", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent, TicketStatusId = statusNew,  TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Blog Ticket 13", Description = "Ticket details for blog ticket 13", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow, TicketStatusId = statusUnassigned, TicketTypeId = typeRuntime},
-                                new Ticket() {Title = "Blog Ticket 14", Description = "Ticket details for blog ticket 14", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium, TicketStatusId = statusDev,  TicketTypeId = typeUI},
-                                new Ticket() {Title = "Blog Ticket 15", Description = "Ticket details for blog ticket 15", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh, TicketStatusId = statusNew,  TicketTypeId = typeMaintenance},
-                                new Ticket() {Title = "Blog Ticket 16", Description = "Ticket details for blog ticket 16", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Blog Ticket 17", Description = "Ticket details for blog ticket 17", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh, TicketStatusId = statusDev,  TicketTypeId = typeNewDev},
-                                //BUGTRACKER                                                                                                                         
-                                new Ticket() {Title = "Bug Tracker Ticket 1", Description = "Ticket details for blog ticket 1", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 2", Description = "Ticket details for blog ticket 2", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 3", Description = "Ticket details for blog ticket 3", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 4", Description = "Ticket details for blog ticket 4", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 5", Description = "Ticket details for blog ticket 5", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 6", Description = "Ticket details for blog ticket 6", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 7", Description = "Ticket details for blog ticket 7", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 8", Description = "Ticket details for blog ticket 8", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 9", Description = "Ticket details for blog ticket 9", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 10", Description = "Ticket details for blog ticket 10", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 11", Description = "Ticket details for blog ticket 11", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 12", Description = "Ticket details for blog ticket 12", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 13", Description = "Ticket details for blog ticket 13", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 14", Description = "Ticket details for blog ticket 14", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 15", Description = "Ticket details for blog ticket 15", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 16", Description = "Ticket details for blog ticket 16", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 17", Description = "Ticket details for blog ticket 17", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 18", Description = "Ticket details for blog ticket 18", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 19", Description = "Ticket details for blog ticket 19", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 20", Description = "Ticket details for blog ticket 20", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 21", Description = "Ticket details for blog ticket 21", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 22", Description = "Ticket details for blog ticket 22", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 23", Description = "Ticket details for blog ticket 23", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 24", Description = "Ticket details for blog ticket 24", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 25", Description = "Ticket details for blog ticket 25", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 26", Description = "Ticket details for blog ticket 26", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 27", Description = "Ticket details for blog ticket 27", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 28", Description = "Ticket details for blog ticket 28", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 29", Description = "Ticket details for blog ticket 29", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
-                                new Ticket() {Title = "Bug Tracker Ticket 30", Description = "Ticket details for blog ticket 30", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        //PORTFOLIO
+                        new Ticket() {Title = "001 - Portfolio - Assign Team Members", Description = "Assign Team Members", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityLow, TicketStatusId = statusNew, TicketTypeId = typeNewDev},
+                        new Ticket() {Title = "002 - Portfolio - Define KPIs", Description = "Define KPIs", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityMedium, TicketStatusId = statusUnassigned, TicketTypeId = typeMaintenance},
+                        new Ticket() {Title = "003 - Portfolio - Meet with Stakeholders", Description = "Meet with stakeholders", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityHigh, TicketStatusId = statusDev, TicketTypeId = typeUI},
+                        new Ticket() {Title = "004 - Portfolio - Wireframe Project", Description = "Wireframe project", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityUrgent, TicketStatusId = statusTest, TicketTypeId = typeRuntime},
+                        new Ticket() {Title = "005 - Portfolio - Code MVP", Description = "Code MVP", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityLow, TicketStatusId = statusNew, TicketTypeId = typeNewDev},
+                        //new Ticket() {Title = "Portfolio Ticket 6", Description = "Ticket details for portfolio ticket 6", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityMedium, TicketStatusId = statusUnassigned, TicketTypeId = typeMaintenance},
+                        //new Ticket() {Title = "Portfolio Ticket 7", Description = "Ticket details for portfolio ticket 7", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityHigh, TicketStatusId = statusDev, TicketTypeId = typeUI},
+                        //new Ticket() {Title = "Portfolio Ticket 8", Description = "Ticket details for portfolio ticket 8", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityUrgent, TicketStatusId = statusTest, TicketTypeId = typeRuntime},
+                                
+                        //BLOG
+                        new Ticket() {Title = "001 - Blog - Assign Team Members", Description = "Assign Team Members", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow, TicketStatusId = statusUnassigned, TicketTypeId = typeRuntime},
+                        new Ticket() {Title = "002 - Blog - Define KPIs", Description = "Define KPIs", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium, TicketStatusId = statusDev, TicketTypeId = typeUI},
+                        new Ticket() {Title = "003 - Blog - Meet with Stakeholders", Description = "Meet with Stakeholders", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh, TicketStatusId = statusNew, TicketTypeId = typeMaintenance},
+                        new Ticket() {Title = "004 - Blog - Wireframe Project", Description = "Wireframe Project", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        new Ticket() {Title = "005 - Blog - Code MVP", Description = "Code MVP", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow, TicketStatusId = statusDev,  TicketTypeId = typeRuntime},
+                        //new Ticket() {Title = "Blog Ticket 6", Description = "Ticket details for blog ticket 6", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium, TicketStatusId = statusNew,  TicketTypeId = typeUI},
+                        //new Ticket() {Title = "Blog Ticket 7", Description = "Ticket details for blog ticket 7", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeMaintenance},
+                        //new Ticket() {Title = "Blog Ticket 8", Description = "Ticket details for blog ticket 8", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent, TicketStatusId = statusDev,  TicketTypeId = typeNewDev},
+                                
+                                
+                        //BUGTRACKER                                                                                                                         
+                        new Ticket() {Title = "001 - Blog - Assign Team Members", Description = "Assign Team Members", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        new Ticket() {Title = "002 - Blog - Define KPIs", Description = "Define KPIs", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        new Ticket() {Title = "003 - Blog - Meet with Stakeholders", Description = "Meet with Stakeholders", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        new Ticket() {Title = "004 - Blog - Wireframe Project", Description = "Wireframe Project", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        new Ticket() {Title = "005 - Blog - Code MVP", Description = "Code MVP", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        //new Ticket() {Title = "Bug Tracker Ticket 6", Description = "Ticket details for blog ticket 6", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        //new Ticket() {Title = "Bug Tracker Ticket 7", Description = "Ticket details for blog ticket 7", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        //new Ticket() {Title = "Bug Tracker Ticket 8", Description = "Ticket details for blog ticket 8", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        
+                        // DEMO Tickets
+
+                        //PORTFOLIO
+                        new Ticket() {Title = "001 - Portfolio - Assign Team Members", Description = "Assign Team Members", Created = DateTimeOffset.Now, ProjectId = demoPortfolioId, TicketPriorityId = priorityLow, TicketStatusId = statusNew, TicketTypeId = typeNewDev},
+                        new Ticket() {Title = "002 - Portfolio - Define KPIs", Description = "Define KPIs", Created = DateTimeOffset.Now, ProjectId = demoPortfolioId, TicketPriorityId = priorityMedium, TicketStatusId = statusUnassigned, TicketTypeId = typeMaintenance},
+                        new Ticket() {Title = "003 - Portfolio - Meet with Stakeholders", Description = "Meet with stakeholders", Created = DateTimeOffset.Now, ProjectId = demoPortfolioId, TicketPriorityId = priorityHigh, TicketStatusId = statusDev, TicketTypeId = typeUI},
+                        new Ticket() {Title = "004 - Portfolio - Wireframe Project", Description = "Wireframe project", Created = DateTimeOffset.Now, ProjectId = demoPortfolioId, TicketPriorityId = priorityUrgent, TicketStatusId = statusTest, TicketTypeId = typeRuntime},
+                        new Ticket() {Title = "005 - Portfolio - Code MVP", Description = "Code MVP", Created = DateTimeOffset.Now, ProjectId = demoPortfolioId, TicketPriorityId = priorityLow, TicketStatusId = statusNew, TicketTypeId = typeNewDev},
+                        //new Ticket() {Title = "Portfolio Ticket 6", Description = "Ticket details for portfolio ticket 6", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityMedium, TicketStatusId = statusUnassigned, TicketTypeId = typeMaintenance},
+                        //new Ticket() {Title = "Portfolio Ticket 7", Description = "Ticket details for portfolio ticket 7", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityHigh, TicketStatusId = statusDev, TicketTypeId = typeUI},
+                        //new Ticket() {Title = "Portfolio Ticket 8", Description = "Ticket details for portfolio ticket 8", Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityUrgent, TicketStatusId = statusTest, TicketTypeId = typeRuntime},
+                                
+                        //BLOG
+                        new Ticket() {Title = "001 - Blog - Assign Team Members", Description = "Assign Team Members", Created = DateTimeOffset.Now, ProjectId = demoBlogId, TicketPriorityId = priorityLow, TicketStatusId = statusUnassigned, TicketTypeId = typeRuntime},
+                        new Ticket() {Title = "002 - Blog - Define KPIs", Description = "Define KPIs", Created = DateTimeOffset.Now, ProjectId = demoBlogId, TicketPriorityId = priorityMedium, TicketStatusId = statusDev, TicketTypeId = typeUI},
+                        new Ticket() {Title = "003 - Blog - Meet with Stakeholders", Description = "Meet with Stakeholders", Created = DateTimeOffset.Now, ProjectId = demoBlogId, TicketPriorityId = priorityHigh, TicketStatusId = statusNew, TicketTypeId = typeMaintenance},
+                        new Ticket() {Title = "004 - Blog - Wireframe Project", Description = "Wireframe Project", Created = DateTimeOffset.Now, ProjectId = demoBlogId, TicketPriorityId = priorityUrgent, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        new Ticket() {Title = "005 - Blog - Code MVP", Description = "Code MVP", Created = DateTimeOffset.Now, ProjectId = demoBlogId, TicketPriorityId = priorityLow, TicketStatusId = statusDev,  TicketTypeId = typeRuntime},
+                        //new Ticket() {Title = "Blog Ticket 6", Description = "Ticket details for blog ticket 6", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium, TicketStatusId = statusNew,  TicketTypeId = typeUI},
+                        //new Ticket() {Title = "Blog Ticket 7", Description = "Ticket details for blog ticket 7", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeMaintenance},
+                        //new Ticket() {Title = "Blog Ticket 8", Description = "Ticket details for blog ticket 8", Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent, TicketStatusId = statusDev,  TicketTypeId = typeNewDev},
+                                
+                                
+                        //BUGTRACKER                                                                                                                         
+                        new Ticket() {Title = "001 - Blog - Assign Team Members", Description = "Assign Team Members", Created = DateTimeOffset.Now, ProjectId = demoBugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        new Ticket() {Title = "002 - Blog - Define KPIs", Description = "Define KPIs", Created = DateTimeOffset.Now, ProjectId = demoBugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        new Ticket() {Title = "003 - Blog - Meet with Stakeholders", Description = "Meet with Stakeholders", Created = DateTimeOffset.Now, ProjectId = demoBugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        new Ticket() {Title = "004 - Blog - Wireframe Project", Description = "Wireframe Project", Created = DateTimeOffset.Now, ProjectId = demoBugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        new Ticket() {Title = "005 - Blog - Code MVP", Description = "Code MVP", Created = DateTimeOffset.Now, ProjectId = demoBugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        //new Ticket() {Title = "Bug Tracker Ticket 6", Description = "Ticket details for blog ticket 6", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        //new Ticket() {Title = "Bug Tracker Ticket 7", Description = "Ticket details for blog ticket 7", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        //new Ticket() {Title = "Bug Tracker Ticket 8", Description = "Ticket details for blog ticket 8", Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh, TicketStatusId = statusUnassigned, TicketTypeId = typeNewDev},
+                        
+
                 };
 
 
