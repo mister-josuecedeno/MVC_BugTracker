@@ -69,16 +69,10 @@
             @Html.DisplayFor(model => model.ProjectPriority.Name)
         </dd>
         <dt class="col-sm-2">
-            Start Date
+            Start/End Date
         </dt>
         <dd class="col-sm-10">
-            @Model.StartDate.ToString("dd MMM yyyy")
-        </dd>
-        <dt class="col-sm-2">
-            End Date
-        </dt>
-        <dd class="col-sm-10">
-            @Model.EndDate.GetValueOrDefault().ToString("dd MMM yyyy")
+            @Model.StartDate.ToString("dd MMM yyyy") - @Model.EndDate.GetValueOrDefault().ToString("dd MMM yyyy")
         </dd>
 
         <dt class="col-sm-2">
@@ -86,7 +80,7 @@
         </dt>
         <dd class="col-sm-10">
             @{
-                var pm = "Unassigned";
+                var pm = "Add a Project Manager";
 
                 if (projectManager.FirstName != null)
                 {
