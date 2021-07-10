@@ -20,6 +20,7 @@
 
 <h1>@Model.Name</h1>
 
+
 <!-- Top Menu -->
 <div>
     <a class="btn-sm btn-secondary mr-1"
@@ -57,25 +58,13 @@
     <dl class="row">
 
         <dt class="col-sm-2">
-            Description
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
             Priority
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProjectPriority.Name)
-        </dd>
-        <dt class="col-sm-2">
-            Start/End Date
-        </dt>
-        <dd class="col-sm-10">
-            @Model.StartDate.ToString("dd MMM yyyy") - @Model.EndDate.GetValueOrDefault().ToString("dd MMM yyyy")
+            <span class="badge badge-primary">@Model.ProjectPriority.Name</span>
         </dd>
 
-        <dt class="col-sm-2">
+        @*<dt class="col-sm-2">
             Project Manager
         </dt>
         <dd class="col-sm-10">
@@ -104,7 +93,23 @@
                 </div>
             }
 
+        </dd>*@
+
+        <dt class="col-sm-2">
+            Description
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
         </dd>
+
+        <dt class="col-sm-2">
+            Start/End Date
+        </dt>
+        <dd class="col-sm-10">
+            @Model.StartDate.ToString("dd MMM yyyy") - @Model.EndDate.GetValueOrDefault().ToString("dd MMM yyyy")
+        </dd>
+
+
 
     </dl>
 
@@ -226,19 +231,32 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
-                <!-- Add Members -->
-                @if (User.IsInRole("Admin") || isPM)
-                {
-                    <div class="mb-2">
+                
+                <div class="mb-2">
+                    <!-- Add Project Manager -->
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="btn-sm btn-primary mr-1"
+                            asp-action="AssignPM"
+                            asp-route-id="@Model.Id">
+                            <i class="fas fa-user-plus"></i> Add Project Manager
+                        </a>
+                    }
+
+                    <!-- Add Members -->
+                    @if (User.IsInRole("Admin") || isPM)
+                    {
                         <a class="btn-sm btn-primary"
-                           asp-action="AssignUsers"
-                           asp-route-id="@Model.Id"><i class="fas fa-user-plus"></i> Add Team Members</a>
-                    </div>
-                }
-                else
-                {
-                    <div class="mb-2">Speak with your Admin or Assigned PM to add team members</div>
-                }
+                            asp-action="AssignUsers"
+                            asp-route-id="@Model.Id"><i class="fas fa-user-plus"></i> Add Team Members
+                        </a>
+                    }
+                    else
+                    {
+                        <span>Speak with your Admin or Assigned PM to add team members</span>
+                    }
+                </div>
+                
 
                 <!-- Team Members collapsed-card -->
                 <div class="card card-primary ">
