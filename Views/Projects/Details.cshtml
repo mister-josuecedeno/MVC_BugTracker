@@ -170,34 +170,46 @@
                                 if (@ticket.DeveloperUser?.FullName != null)
                                 {
                                     developer = @ticket.DeveloperUser?.FullName;
-                                    devColor = "success";
+                                    devColor = "light";
+                                }
+
+                                var statusColor = "light";
+
+                                if(ticket.TicketStatus.Name == "Unassigned")
+                                {
+                                    statusColor = "danger";
+                                } else if (ticket.TicketStatus.Name == "Resolved")
+                                {
+                                    statusColor = "success";
                                 }
 
 
 
+                                    <li class="nav-item pb-1 mb-1">
 
+                                        @* Apply restrictions as needed - Admin and PM of this project only *@
 
-                                <li class="nav-item mb-2">
+                                        @if (User.IsInRole("Admin") || isPM)
+                                        {
+                                            <a class="badge badge-primary mr-2"
+                                               asp-action="Edit"
+                                               asp-controller="Tickets"
+                                               asp-route-id="@ticket.Id">Edit</a>
+                                        }
 
-                                    @* Apply restrictions as needed - Admin and PM of this project only *@
-                                    
-                                    @if (User.IsInRole("Admin") || isPM)
-                                    {
-                                        <a class="badge badge-primary mr-2"
-                                           asp-action="Edit"
+                                        <a asp-action="TicketDetails"
                                            asp-controller="Tickets"
-                                           asp-route-id="@ticket.Id">Edit</a>
-                                    }
+                                           asp-route-id="@ticket.Id">
+                                            @ticket.Title
+                                        </a>
 
-                                    <a asp-action="TicketDetails"
-                                       asp-controller="Tickets"
-                                       asp-route-id="@ticket.Id">
-                                        @ticket.Title
-                                    </a>
+                                        <span class="badge bg-@statusColor ml-2"> @ticket.TicketStatus.Name</span>
 
 
-                                    <span class="float-right badge bg-@devColor">@developer</span>
-                                </li>
+                                        <span class="float-right badge bg-@devColor">@developer</span>
+                            
+
+                                    </li>
                             }
                         </ul>
 
