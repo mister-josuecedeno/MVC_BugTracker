@@ -16,6 +16,29 @@
 
     bool isPM = projectManager.Id == userId;
 
+    // Priority formatting colors
+    string priorityColor = "primary";
+
+    switch (@Model.ProjectPriority.Name)
+    {
+        case "Urgent":
+            priorityColor = "danger";
+            break;
+
+        case "High":
+            priorityColor = "warning";
+            break;
+
+        case "Low":
+            priorityColor = "secondary";
+            break;
+
+        default:
+            priorityColor = "primary";
+            break;
+    }
+    // ./ Formatting Colors
+
 }
 
 <h1>@Model.Name</h1>
@@ -61,7 +84,7 @@
             Priority
         </dt>
         <dd class="col-sm-10">
-            <span class="badge badge-primary">@Model.ProjectPriority.Name</span>
+            <span class="btn-sm btn-@priorityColor font-weight-bold">@Model.ProjectPriority.Name</span>
         </dd>
 
         @*<dt class="col-sm-2">
