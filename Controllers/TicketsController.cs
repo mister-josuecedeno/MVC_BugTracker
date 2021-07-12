@@ -267,7 +267,8 @@ namespace MVC_BugTracker.Controllers
                     RecipientId = projectManager?.Id
                 };
 
-                if(projectManager != null)
+                // Note - PM will never be null; check the firstName
+                if(projectManager.FirstName != null)
                 {
                     // Notify the PM
                     await _notificationService.SaveNotificationAsync(notification);

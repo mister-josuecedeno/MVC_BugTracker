@@ -61,6 +61,7 @@
 
     @if (User.IsInRole("Admin"))
     {
+        // TODO - Add DELETE check
 
         <a class="btn-sm btn-danger mr-1" asp-action="Delete" asp-route-id="@Model.Id">
             <i class="fas fa-times"></i> Delete
