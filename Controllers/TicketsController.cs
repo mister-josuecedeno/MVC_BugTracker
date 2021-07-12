@@ -159,6 +159,7 @@ namespace MVC_BugTracker.Controllers
                 .Include(t => t.TicketType)
                 .Include(t => t.Attachments)
                 .Include(t => t.History)
+                    .ThenInclude(h => h.User)
                 .Include(t => t.Comments)
                     .ThenInclude(c => c.User)
                 .Include(t => t.Comments)
