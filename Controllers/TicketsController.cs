@@ -536,6 +536,18 @@ namespace MVC_BugTracker.Controllers
 
                 try
                 {
+                    // Developer Check - Logical status change based on availability of developer
+                    if(ticket.DeveloperUserId == null)
+                    {
+                        ticket.TicketStatusId = 5;
+                    }
+
+                    if(ticket.DeveloperUserId != null && (ticket.TicketStatusId == 5 || ticket.TicketStatusId == 6))
+                    {
+                        ticket.TicketStatusId = 4;
+                    }
+                    
+                    
                     ticket.Updated = DateTimeOffset.Now;
                     
                     _context.Update(ticket);
@@ -612,12 +624,15 @@ namespace MVC_BugTracker.Controllers
                 //return RedirectToAction("AllTickets");
                 return Redirect(returnUrl);
             }
-            ViewData["ProjectId"] = new SelectList(_context.Project, "Id", "Id", ticket.ProjectId);
-            ViewData["TicketPriorityId"] = new SelectList(_context.Set<TicketPriority>(), "Id", "Id", ticket.TicketPriorityId);
-            ViewData["TicketStatusId"] = new SelectList(_context.Set<TicketStatus>(), "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.Set<TicketType>(), "Id", "Id", ticket.TicketTypeId);
-            ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.DeveloperUserId);
-            ViewData["OwnerUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.OwnerUserId);
+            
+            // Refactor to match restrictions in the GET method for select list
+            //ViewData["ProjectId"] = new SelectList(_context.Project, "Id", "Id", ticket.ProjectId);
+            //ViewData["TicketPriorityId"] = new SelectList(_context.Set<TicketPriority>(), "Id", "Id", ticket.TicketPriorityId);
+            //ViewData["TicketStatusId"] = new SelectList(_context.Set<TicketStatus>(), "Id", "Id", ticket.TicketStatusId);
+            //ViewData["TicketTypeId"] = new SelectList(_context.Set<TicketType>(), "Id", "Id", ticket.TicketTypeId);
+            //ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.DeveloperUserId);
+            //ViewData["OwnerUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.OwnerUserId);
+            
             return View(ticket);
         }
 

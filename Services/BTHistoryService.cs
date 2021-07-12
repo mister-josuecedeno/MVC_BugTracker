@@ -128,10 +128,10 @@ namespace MVC_BugTracker.Services
                         TicketId = newTicket.Id,
                         Property = "Developer",
                         OldValue = oldTicket.DeveloperUser?.FullName ?? "Not Assigned",
-                        NewValue = newTicket.DeveloperUser?.FullName,
+                        NewValue = newTicket.DeveloperUser?.FullName ?? "Not Assigned",
                         Created = DateTimeOffset.Now,
                         UserId = userId,
-                        Description = $"New Ticket Developer: {newTicket.DeveloperUser.FullName}"
+                        Description = $"New Ticket Developer: {newTicket.DeveloperUser?.FullName}"
                     };
                     await _context.TicketHistory.AddAsync(history);
                 }
