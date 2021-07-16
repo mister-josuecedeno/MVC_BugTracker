@@ -74,8 +74,6 @@ namespace MVC_BugTracker.Controllers
 
                 IEnumerable<string> roles = await _rolesService.ListUserRolesAsync(user);
             
-                // Homework
-                // await _userManager.RemoveFromRolesAsync(user, roles); // Homework - Add to service
                 await _rolesService.RemoveUserFromRolesAsync(user, roles);
             
                 string userRole = member.SelectedRoles.FirstOrDefault();

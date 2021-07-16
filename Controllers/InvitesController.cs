@@ -73,7 +73,8 @@ namespace MVC_BugTracker.Controllers
         }
 
         // GET: Invites/Create
-        
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
             InviteViewModel model = new();

@@ -11,17 +11,17 @@
                 <div class="top">
                 </div>
                 <div class="card">
-                    <div class="header">
+                    <div class="card-header">
                         <h3>
                             <span class="clearfix title">
-                                <span class="number">Welcome</span><br />
+                                <span class="number">Welcome, </span><br />
                                 <span>@Model.InviteeFirstName @Model.InviteeLastName!</span> <br>
                             </span>
                         </h3>
-                        <h5><span>@Model.Company.Name Company</span></h5>
+                        <h5><span>@Model.Company.Name</span></h5>
                     </div>
 
-                    <div class="body">
+                    <div class="card-body">
                         <p>
                             @Model.Invitor.FullName has invited you to collaborate on the @Model.Project.Name project.
                             <br /><br /> Click the "JOIN" button below to register with the company and begin entering tickets.
