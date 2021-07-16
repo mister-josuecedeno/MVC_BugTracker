@@ -15,7 +15,7 @@ namespace MVC_BugTracker.Models
         public int CompanyId { get; set; }
 
         [Display(Name = "Project")]
-        public int ProjectId { get; set; }
+        public int? ProjectId { get; set; }
 
         [Display(Name = "Invitee")]
         public string InviteeId { get; set; }

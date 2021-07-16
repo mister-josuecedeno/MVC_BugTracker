@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -16,6 +17,8 @@ using MVC_BugTracker.Services.Interfaces;
 
 namespace MVC_BugTracker.Controllers
 {
+    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class InvitesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -70,6 +73,7 @@ namespace MVC_BugTracker.Controllers
         }
 
         // GET: Invites/Create
+        
         public async Task<IActionResult> Create()
         {
             InviteViewModel model = new();
@@ -122,7 +126,7 @@ namespace MVC_BugTracker.Controllers
                 InviteeLastName = viewModel.LastName,
                 CompanyToken = guid,
                 CompanyId = companyId.Value,
-                ProjectId = viewModel.ProjectId,
+                ProjectId = viewModel?.ProjectId,
                 InviteDate = DateTimeOffset.Now,
                 InvitorId = _userManager.GetUserId(User),
                 IsValid = true

@@ -96,7 +96,7 @@ public class RegisterByInviteModel : PageModel
         Input.LastName = invite.InviteeLastName;
         Input.Company = invite.Company.Name;
         Input.CompanyId = invite.CompanyId;
-        Input.ProjectId = invite.ProjectId;
+        Input.ProjectId = (int)invite?.ProjectId;
 
     }
 
