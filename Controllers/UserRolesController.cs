@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MVC_BugTracker.Controllers
 {
@@ -66,17 +67,17 @@ namespace MVC_BugTracker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> ManageUserRoles(ManageUserRolesViewModel member)
+        public async Task<IActionResult> ManageUserRoles(ManageUserRolesViewModel btuser)
         {
             try
             {
-                BTUser user = _context.Users.Find(member.BTUser.Id);
+                BTUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == btuser.BTUser.Id);
 
                 IEnumerable<string> roles = await _rolesService.ListUserRolesAsync(user);
             
                 await _rolesService.RemoveUserFromRolesAsync(user, roles);
             
-                string userRole = member.SelectedRoles.FirstOrDefault();
+                string userRole = btuser.SelectedRoles.FirstOrDefault();
 
                 if (Enum.TryParse(userRole, out Roles roleValue ))
                 {
