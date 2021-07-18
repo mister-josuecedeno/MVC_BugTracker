@@ -105,7 +105,8 @@
                                 int ticketAssignedCt = item.Tickets.Count(t => t.DeveloperUserId != null);
                                 double pctResolved = ticketTotalCt > 0 ? ticketResolvedCt / ticketTotalCt : 0;
 
-                                string pctTicketsComplete = String.Format("{0:P0}", pctResolved);
+                                //string pctTicketsComplete = String.Format("{0:P0}", pctResolved);
+                                string pctTicketsComplete = String.Format("{0:0%}", pctResolved);
 
                                 // ./ Ticket Status
 
