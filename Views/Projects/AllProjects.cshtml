@@ -105,6 +105,7 @@
                                 int ticketAssignedCt = item.Tickets.Count(t => t.DeveloperUserId != null);
                                 double pctResolved = ticketTotalCt > 0 ? ticketResolvedCt / ticketTotalCt : 0;
 
+                                // Why is there a diff in how the % is displayed?
                                 string pctTicketsComplete = String.Format("{0:P0}", pctResolved);
 
                                 // ./ Ticket Status
