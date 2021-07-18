@@ -3,6 +3,7 @@
 
 @using MVC_BugTracker.Services.Interfaces
 @using Microsoft.Extensions.Configuration
+@using System.Text
 
 @inject IBTFileService _fileService
 @inject IConfiguration _configuration
@@ -51,8 +52,13 @@
             <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
+    
     <div class="col">
-        <img src="@Model.CurrentImage" class="img-fluid" id="profileImg" alt="User Profile Picture" />
+        <img src="@Model.CurrentImage"
+             class="img-fluid"
+             id="profileImg"
+             alt="User Profile Picture"
+             />
     </div>
 </div>
 
