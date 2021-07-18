@@ -106,7 +106,7 @@
                                 double pctResolved = ticketTotalCt > 0 ? ticketResolvedCt / ticketTotalCt : 0;
 
                                 // Why is there a diff in how the % is displayed?
-                                string pctTicketsComplete = String.Format("{0:P0}", pctResolved);
+                                string pctTicketsComplete = String.Format("{0:0%}", pctResolved);
 
                                 // ./ Ticket Status
 
