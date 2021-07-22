@@ -10,6 +10,44 @@
     ViewData["Title"] = "Details";
     BTUser projectManager = await _projectService.GetProjectManagerAsync(Model.ProjectId);
 
+    // Ticket Status Color
+
+    var statusColor = "light";
+
+    if(@Model.TicketStatus.Name == "Unassigned")
+    {
+        statusColor = "danger";
+    } else if (@Model.TicketStatus.Name == "Resolved")
+    {
+        statusColor = "success";
+    }
+
+    // ./ Ticket Status Color
+
+
+    // Priority formatting colors
+    string priorityColor = "primary";
+
+    switch (@Model.TicketPriority.Name)
+    {
+        case "Urgent":
+            priorityColor = "danger";
+            break;
+
+        case "High":
+            priorityColor = "warning";
+            break;
+
+        case "Low":
+            priorityColor = "secondary";
+            break;
+
+        default:
+            priorityColor = "primary";
+            break;
+    }
+    // ./ Formatting Colors
+
 }
 
 <!-- Content Wrapper. Contains page content -->
@@ -20,9 +58,21 @@
             <div class="col-12">
                 <h1>Ticket Details: @Model.Title</h1>
                 <div>
-                    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                    <a class="btn-sm btn-secondary mr-1"
+                       asp-controller="Projects"
+                       asp-action="Details"
+                       asp-route-id="@Model.ProjectId">
+                        <i class="fas fa-undo-alt"></i> Back to Project Detail
+                    </a>
+
+                    @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>*@ 
+                    
+                    <a class="btn-sm btn-primary mr-1" asp-action="Edit" asp-route-id="@Model.Id">
+                        <i class="fas fa-pencil-alt"></i> Edit
+                    </a>
+
                     @*<a asp-action="AllTickets">Back to List</a>*@
-                    <a href="@ViewBag.returnUrl">Return to Previous Page</a>
+                    @*<a href="@ViewBag.returnUrl">Return to Previous Page</a>*@
                 </div>
 
                 <partial name="_StatusMessage" model="@TempData["StatusMessage"]" />
@@ -37,18 +87,18 @@
 <section class="content">
 
     <!-- Default box -->
-    <div class="card">
+    <div class="card card-primary">
         <div class="card-header">
             <h3 class="card-title">Ticket Details</h3>
 
-            <div class="card-tools">
+            @*<div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                     <i class="fas fa-minus"></i>
                 </button>
-                @*<button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
                     <i class="fas fa-times"></i>
-                </button>*@
-            </div>
+                </button>
+            </div>*@
         </div>
         <div class="card-body">
             <div class="row">
@@ -65,7 +115,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-4">
-                            <div class="info-box bg-primary">
+                            <div class="info-box bg-@statusColor">
                                 <div class="info-box-content">
                                     <span class="info-box-text text-center text-light">Ticket Status</span>
                                     <span class="info-box-number text-center text-light mb-0">@Model.TicketStatus.Name</span>
@@ -73,7 +123,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-4">
-                            <div class="info-box bg-primary">
+                            <div class="info-box bg-@priorityColor">
                                 <div class="info-box-content">
                                     <span class="info-box-text text-center text-light">Ticket Priority</span>
                                     <span class="info-box-number text-center text-light mb-0">@Model.TicketPriority.Name</span>
