@@ -12,6 +12,7 @@
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
+
 }
 
 <h4>@ViewData["Title"]</h4>
@@ -54,11 +55,10 @@
     </div>
     
     <div class="col">
-        <img src="@Model.CurrentImage"
+        <img src="@(Model.CurrentImage == null ? Href("~/img/defaultUserImage.png") : Model.CurrentImage)"
              class="img-fluid"
              id="profileImg"
-             alt="User Profile Picture"
-             />
+             alt="User Profile Picture" />
     </div>
 </div>
 
