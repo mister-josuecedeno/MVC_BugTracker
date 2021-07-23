@@ -164,6 +164,9 @@
 
                                         @foreach (var comment in Model.Comments.OrderByDescending(c => c.Created))
                                         {
+                                            var commentUserImage = _fileService.DecodeImage(comment.User.AvatarFileData, comment.User.AvatarContentType);
+
+
                                             if (@ViewData["CurrentUserId"].Equals(@comment.UserId))
                                             {
                                                 <!-- CURRENT USER -->
@@ -175,7 +178,7 @@
                                                     </div>
                                                     <!-- /.direct-chat-infos -->
                                                     <img class="direct-chat-img"
-                                                         src="@_fileService.DecodeImage(comment.User.AvatarFileData, comment.User.AvatarContentType)"
+                                                         src="@(commentUserImage == null ? Href("~/img/defaultUserImage.png") : commentUserImage)"
                                                          alt="message user image">
 
                                                     <!-- /.direct-chat-img -->
@@ -198,7 +201,7 @@
                                                     </div>
                                                     <!-- /.direct-chat-infos -->
                                                     <img class="direct-chat-img"
-                                                         src="@_fileService.DecodeImage(comment.User.AvatarFileData, comment.User.AvatarContentType)"
+                                                         src="@(commentUserImage == null ? Href("~/img/defaultUserImage.png") : commentUserImage)"
                                                          alt="message user image">
 
                                                     <!-- /.direct-chat-img -->
@@ -268,7 +271,8 @@
 
                                         @foreach (var history in Model.History.OrderByDescending(c => c.Created))
                                         {
-                                                
+                                                var historyUserImage = _fileService.DecodeImage(history.User?.AvatarFileData, history.User?.AvatarContentType);
+
                                                 <!-- Message. Default to the left -->
                                                 <div class="direct-chat-msg left">
                                                     <div class="direct-chat-infos clearfix">
@@ -276,8 +280,9 @@
                                                         <span class="direct-chat-timestamp float-right">@history.Created.ToString("MMM dd, yyyy h:mm tt")</span>
                                                     </div>
                                                     <!-- /.direct-chat-infos -->
+
                                                     <img class="direct-chat-img"
-                                                         src="@_fileService.DecodeImage(history.User?.AvatarFileData, history.User?.AvatarContentType)"
+                                                         src="@(historyUserImage == null ? Href("~/img/defaultUserImage.png") : historyUserImage)"
                                                          alt="message user image">
 
                                                     <!-- /.direct-chat-img -->
