@@ -14,15 +14,10 @@
 <div class="container-fluid">
     <h2>Assign Team Members -  @Model.Project.Name</h2>
     <hr />
-    <div class="row">
-        <div class="col">
-            @*<div class="panel panel-green margin-bottom-40">
-                <div class="panel-heading">
-                    <h3 class="panel-title"></h3>
-                </div>
-            </div>*@
-            
-
+    
+    <div class="card card-primary">
+        <div class="card-header">Assign Team Members</div>
+        <div class="card-body">
             <form asp-action="AssignUsers" asp-controller="Projects" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="@Model.Project.Id">
@@ -36,16 +31,12 @@
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
                         <input type="submit" class="btn btn-success" value="Assign Users" />
+                        <a class="btn btn-secondary" asp-action="Details" asp-controller="Projects" asp-route-id="@Model.Project.Id">Back to List</a>
                     </div>
                 </div>
             </form>
-
-
         </div>
-        <!--End Hover Rows-->
+
     </div>
-    <div>
-        @*@Html.ActionLink("Back to List", "Index")*@
-        <a asp-action="Details" asp-controller="Projects" asp-route-id="@Model.Project.Id">Back to List</a>
-    </div>
+
 </div>

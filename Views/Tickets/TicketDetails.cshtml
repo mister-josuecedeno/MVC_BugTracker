@@ -4,7 +4,7 @@
 
 @inject IBTProjectService _projectService
 @inject IBTFileService _fileService
-    
+
 
 @{
     ViewData["Title"] = "Details";
@@ -14,10 +14,11 @@
 
     var statusColor = "primary";
 
-    if(@Model.TicketStatus.Name == "Unassigned")
+    if (@Model.TicketStatus.Name == "Unassigned")
     {
         statusColor = "danger";
-    } else if (@Model.TicketStatus.Name == "Resolved")
+    }
+    else if (@Model.TicketStatus.Name == "Resolved")
     {
         statusColor = "success";
     }
@@ -51,9 +52,10 @@
 }
 
 <!-- Content Wrapper. Contains page content -->
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <div class="container-fluid">
+<div class="container-fluid">
+    <!-- Content Header (Page header) -->
+    <section class="content">
+
         <div class="row mb-2">
             <div class="col-12">
                 <h1>Ticket Details: @Model.Title</h1>
@@ -65,8 +67,8 @@
                         <i class="fas fa-undo-alt"></i> Back to Project Detail
                     </a>
 
-                    @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>*@ 
-                    
+                    @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>*@
+
                     <a class="btn-sm btn-primary mr-1" asp-action="Edit" asp-route-id="@Model.Id">
                         <i class="fas fa-pencil-alt"></i> Edit
                     </a>
@@ -74,203 +76,201 @@
                     @*<a asp-action="AllTickets">Back to List</a>*@
                     @*<a href="@ViewBag.returnUrl">Return to Previous Page</a>*@
                 </div>
-
+                <hr/>
                 <partial name="_StatusMessage" model="@TempData["StatusMessage"]" />
 
             </div>
 
         </div>
-    </div><!-- /.container-fluid -->
-</section>
 
-<!-- Main content -->
-<section class="content">
+    </section>
 
-    <!-- Default box -->
-    <div class="card card-primary">
-        <div class="card-header">
-            <h3 class="card-title">Ticket Details</h3>
+    <!-- Main content -->
+    <section class="content">
 
-            @*<div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>*@
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
+        <!-- Default box -->
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Ticket Details</h3>
 
-                    <!-- Ticket Summaries -->
-                    <div class="row">
-                        <div class="col-12 col-sm-4">
-                            <div class="info-box bg-primary">
-                                <div class="info-box-content">
-                                    <span class="info-box-text text-center text-light">Ticket Type</span>
-                                    <span class="info-box-number text-center text-light mb-0">@Model.TicketType.Name</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-4">
-                            <div class="info-box bg-@statusColor">
-                                <div class="info-box-content">
-                                    <span class="info-box-text text-center text-light">Ticket Status</span>
-                                    <span class="info-box-number text-center text-light mb-0">@Model.TicketStatus.Name</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-4">
-                            <div class="info-box bg-@priorityColor">
-                                <div class="info-box-content">
-                                    <span class="info-box-text text-center text-light">Ticket Priority</span>
-                                    <span class="info-box-number text-center text-light mb-0">@Model.TicketPriority.Name</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                @*<div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>*@
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
 
-
-                    <!-- Start of Direct Chat -->
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- DIRECT CHAT -->
-                            <div class="card direct-chat direct-chat-primary card-primary">
-
-                                <!-- Card Header -->
-                                <div class="card-header">
-                                    <h3 class="card-title">Ticket Comments</h3>
-
-                                    <div class="card-tools">
-                                        @*<span title="3 New Messages" class="badge badge-primary">3</span>*@
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        @*<button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
-                                <i class="fas fa-comments"></i>
-                            </button>*@
-                                        @*<button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>*@
+                        <!-- Ticket Summaries -->
+                        <div class="row">
+                            <div class="col-12 col-sm-4">
+                                <div class="info-box bg-primary">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-light">Ticket Type</span>
+                                        <span class="info-box-number text-center text-light mb-0">@Model.TicketType.Name</span>
                                     </div>
                                 </div>
-                                <!-- /.card-header -->
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <!-- Conversations are loaded here -->
-                                    <div class="direct-chat-messages">
-
-                                        @foreach (var comment in Model.Comments.OrderByDescending(c => c.Created))
-                                        {
-                                            var commentUserImage = _fileService.DecodeImage(comment.User.AvatarFileData, comment.User.AvatarContentType);
-
-
-                                            if (@ViewData["CurrentUserId"].Equals(@comment.UserId))
-                                            {
-                                                <!-- CURRENT USER -->
-                                                <!-- Message. Default to the left -->
-                                                <div class="direct-chat-msg right">
-                                                    <div class="direct-chat-infos clearfix">
-                                                        <span class="direct-chat-name float-left">@comment.User.FullName</span>
-                                                        <span class="direct-chat-timestamp float-right">@comment.Created.ToString("MMM dd, yyyy h:mm tt")</span>
-                                                    </div>
-                                                    <!-- /.direct-chat-infos -->
-                                                    <img class="direct-chat-img"
-                                                         src="@(commentUserImage == null ? Href("~/img/defaultUserImage.png") : commentUserImage)"
-                                                         alt="message user image">
-
-                                                    <!-- /.direct-chat-img -->
-                                                    <div class="direct-chat-text">
-                                                        @comment.Comment
-                                                    </div>
-                                                    <!-- /.direct-chat-text -->
-                                                </div>
-                                                <!-- /.direct-chat-msg -->
-
-                                            }
-                                            else
-                                            {
-                                                <!-- OTHER USER -->
-                                                <!-- Message to the right -->
-                                                <div class="direct-chat-msg">
-                                                    <div class="direct-chat-infos clearfix">
-                                                        <span class="direct-chat-name float-right">@comment.User.FullName</span>
-                                                        <span class="direct-chat-timestamp float-left">@comment.Created.ToString("MMM dd, yyyy h:mm tt")</span>
-                                                    </div>
-                                                    <!-- /.direct-chat-infos -->
-                                                    <img class="direct-chat-img"
-                                                         src="@(commentUserImage == null ? Href("~/img/defaultUserImage.png") : commentUserImage)"
-                                                         alt="message user image">
-
-                                                    <!-- /.direct-chat-img -->
-                                                    <div class="direct-chat-text">
-                                                        @comment.Comment
-                                                    </div>
-                                                    <!-- /.direct-chat-text -->
-                                                </div>
-                                                <!-- /.direct-chat-msg -->
-                                            }
-                                        }
-
-
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="info-box bg-@statusColor">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-light">Ticket Status</span>
+                                        <span class="info-box-number text-center text-light mb-0">@Model.TicketStatus.Name</span>
                                     </div>
-                                    <!--/.direct-chat-messages-->
-                                    <!-- /.direct-chat-pane -->
                                 </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer">
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="info-box bg-@priorityColor">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-light">Ticket Priority</span>
+                                        <span class="info-box-number text-center text-light mb-0">@Model.TicketPriority.Name</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                                    <!-- CREATE new comment -->
-                                    <form asp-action="Create" asp-controller="TicketComments" method="post">
-                                        <input type="hidden" name="TicketId" value="@Model.Id" />
-                                        <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
-                                        <input type="hidden" name="DeveloperUserId" value="@Model.DeveloperUserId" />
-                                        <input type="hidden" name="OwnerUserId" value="@Model.OwnerUserId" />
-                                        <div class="input-group">
-                                            <input required type="text" name="Comment" placeholder="Type Message ..." class="form-control">
 
-                                            <span class="input-group-append">
-                                                <button type="submit" value="Create" class="btn btn-primary">Send</button>
-                                            </span>
+                        <!-- Start of Direct Chat -->
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- DIRECT CHAT -->
+                                <div class="card direct-chat direct-chat-primary card-primary">
+
+                                    <!-- Card Header -->
+                                    <div class="card-header">
+                                        <h3 class="card-title">Ticket Comments</h3>
+
+                                        <div class="card-tools">
+                                            @*<span title="3 New Messages" class="badge badge-primary">3</span>*@
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            @*<button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
+                                                    <i class="fas fa-comments"></i>
+                                                </button>*@
+                                            @*<button type="button" class="btn btn-tool" data-card-widget="remove">
+                                                    <i class="fas fa-times"></i>
+                                                </button>*@
                                         </div>
-                                    </form>
-                                </div>
-                                <!-- /.card-footer-->
-                            </div>
-                            <!--/.direct-chat -->
-                        </div>
-                    </div>
-                    <!-- End of Direct Chat -->
-                    
-    
-                    <!-- Start of Ticket History -->
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- DIRECT CHAT -->
-                            <div class="card direct-chat direct-chat-primary collapsed-card card-primary">
-
-                                <!-- Card Header -->
-                                <div class="card-header">
-                                    <h3 class="card-title">Ticket History</h3>
-
-                                    <div class="card-tools">
-                                        @*<span title="3 New Messages" class="badge badge-primary">3</span>*@
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                       
                                     </div>
-                                </div>
-                                <!-- /.card-header -->
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <!-- Conversations are loaded here -->
-                                    <div class="direct-chat-messages">
+                                    <!-- /.card-header -->
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <!-- Conversations are loaded here -->
+                                        <div class="direct-chat-messages">
 
-                                        @foreach (var history in Model.History.OrderByDescending(c => c.Created))
-                                        {
+                                            @foreach (var comment in Model.Comments.OrderByDescending(c => c.Created))
+                                            {
+                                                var commentUserImage = _fileService.DecodeImage(comment.User.AvatarFileData, comment.User.AvatarContentType);
+
+
+                                                if (@ViewData["CurrentUserId"].Equals(@comment.UserId))
+                                                {
+                                                    <!-- CURRENT USER -->
+                                                    <!-- Message. Default to the left -->
+                                                    <div class="direct-chat-msg right">
+                                                        <div class="direct-chat-infos clearfix">
+                                                            <span class="direct-chat-name float-left">@comment.User.FullName</span>
+                                                            <span class="direct-chat-timestamp float-right">@comment.Created.ToString("MMM dd, yyyy h:mm tt")</span>
+                                                        </div>
+                                                        <!-- /.direct-chat-infos -->
+                                                        <img class="direct-chat-img"
+                                                             src="@(commentUserImage == null ? Href("~/img/defaultUserImage.png") : commentUserImage)"
+                                                             alt="message user image">
+
+                                                        <!-- /.direct-chat-img -->
+                                                        <div class="direct-chat-text">
+                                                            @comment.Comment
+                                                        </div>
+                                                        <!-- /.direct-chat-text -->
+                                                    </div>
+                                                    <!-- /.direct-chat-msg -->
+
+                                                }
+                                                else
+                                                {
+                                                    <!-- OTHER USER -->
+                                                    <!-- Message to the right -->
+                                                    <div class="direct-chat-msg">
+                                                        <div class="direct-chat-infos clearfix">
+                                                            <span class="direct-chat-name float-right">@comment.User.FullName</span>
+                                                            <span class="direct-chat-timestamp float-left">@comment.Created.ToString("MMM dd, yyyy h:mm tt")</span>
+                                                        </div>
+                                                        <!-- /.direct-chat-infos -->
+                                                        <img class="direct-chat-img"
+                                                             src="@(commentUserImage == null ? Href("~/img/defaultUserImage.png") : commentUserImage)"
+                                                             alt="message user image">
+
+                                                        <!-- /.direct-chat-img -->
+                                                        <div class="direct-chat-text">
+                                                            @comment.Comment
+                                                        </div>
+                                                        <!-- /.direct-chat-text -->
+                                                    </div>
+                                                    <!-- /.direct-chat-msg -->
+                                                }
+                                            }
+
+
+                                        </div>
+                                        <!--/.direct-chat-messages-->
+                                        <!-- /.direct-chat-pane -->
+                                    </div>
+                                    <!-- /.card-body -->
+                                    <div class="card-footer">
+
+                                        <!-- CREATE new comment -->
+                                        <form asp-action="Create" asp-controller="TicketComments" method="post">
+                                            <input type="hidden" name="TicketId" value="@Model.Id" />
+                                            <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
+                                            <input type="hidden" name="DeveloperUserId" value="@Model.DeveloperUserId" />
+                                            <input type="hidden" name="OwnerUserId" value="@Model.OwnerUserId" />
+                                            <div class="input-group">
+                                                <input required type="text" name="Comment" placeholder="Type Message ..." class="form-control">
+
+                                                <span class="input-group-append">
+                                                    <button type="submit" value="Create" class="btn btn-primary">Send</button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- /.card-footer-->
+                                </div>
+                                <!--/.direct-chat -->
+                            </div>
+                        </div>
+                        <!-- End of Direct Chat -->
+                        <!-- Start of Ticket History -->
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- DIRECT CHAT -->
+                                <div class="card direct-chat direct-chat-primary collapsed-card card-primary">
+
+                                    <!-- Card Header -->
+                                    <div class="card-header">
+                                        <h3 class="card-title">Ticket History</h3>
+
+                                        <div class="card-tools">
+                                            @*<span title="3 New Messages" class="badge badge-primary">3</span>*@
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <!-- Conversations are loaded here -->
+                                        <div class="direct-chat-messages">
+
+                                            @foreach (var history in Model.History.OrderByDescending(c => c.Created))
+                                            {
                                                 var historyUserImage = _fileService.DecodeImage(history.User?.AvatarFileData, history.User?.AvatarContentType);
 
                                                 <!-- Message. Default to the left -->
@@ -292,113 +292,112 @@
                                                     <!-- /.direct-chat-text -->
                                                 </div>
                                                 <!-- /.direct-chat-msg -->
-                                            
-                                        }
+
+                                            }
 
 
+                                        </div>
+                                        <!--/.direct-chat-messages-->
+                                        <!-- /.direct-chat-pane -->
                                     </div>
-                                    <!--/.direct-chat-messages-->
-                                    <!-- /.direct-chat-pane -->
+                                    <!-- /.card-body -->
+
                                 </div>
-                                <!-- /.card-body -->
-                                
+                                <!--/.direct-chat -->
                             </div>
-                            <!--/.direct-chat -->
                         </div>
+                        <!-- End of Direct Chat -->
+
+
                     </div>
-                    <!-- End of Direct Chat -->
+                    <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
+                        <h3 class="text-primary">@Model.Title</h3>
+                        <p class="text-muted">@Model.Description</p>
+                        <br>
+                        <div class="text-muted">
+                            <p class="text-sm">
+                                Project
+                                <b class="d-block">@Model.Project.Name</b>
+                            </p>
+
+                            <!-- Project Manager -->
+                            <p class="text-sm">
+                                Project Manager
+                                @*@string.IsNullOrEmpty(projectManager.FirstName)*@
+
+                                @if (projectManager.FirstName == null)
+                                {
+                                    <b class="d-block">Unassigned</b>
+                                }
+                                else
+                                {
+                                    <b class="d-block">@projectManager?.FullName</b>
+                                }
+                            </p>
+
+                            <!-- Submitter -->
+                            <p class="text-sm">
+                                Submitter
+                                <b class="d-block">@(Model.OwnerUser?.FullName ?? "Unassigned")</b>
+                            </p>
+
+                            <!-- Developer -->
+                            <p class="text-sm">
+                                Developer
+                                <b class="d-block">@(Model.DeveloperUser?.FullName ?? "Unassigned")</b>
+                            </p>
+                        </div>
+
+                        <h5 class="mt-5 text-muted">Project files</h5>
+
+                        <!-- UPLOAD Ticket Attachments -->
+
+                        <form asp-action="Create" asp-controller="TicketAttachments" enctype="multipart/form-data" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="@Model.Id" name="TicketId">
+                            <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
+                            <input type="hidden" name="DeveloperUserId" value="@Model.DeveloperUserId" />
+                            <input type="hidden" name="OwnerUserId" value="@Model.OwnerUserId" />
+
+                            <div class="media-body">
+                                @*<label class="form-label d-block mb-2">Add Attachment</label>*@
+                                @* <input asp-for="@Model.Attachments.FirstOrDefault().Description" *@
+                                <label>
+                                    Description
+                                </label>
+                                <input name="Description"
+                                       type="text"
+                                       class="form-control"
+                                       placeholder="File Description (Required)"
+                                       required />
 
 
-                </div>
-                <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
-                    <h3 class="text-primary">@Model.Title</h3>
-                    <p class="text-muted">@Model.Description</p>
-                    <br>
-                    <div class="text-muted">
-                        <p class="text-sm">
-                            Project
-                            <b class="d-block">@Model.Project.Name</b>
-                        </p>
+                                <br />
 
-                        <!-- Project Manager -->
-                        <p class="text-sm">
-                            Project Manager
-                            @*@string.IsNullOrEmpty(projectManager.FirstName)*@
-
-                            @if (projectManager.FirstName == null)
-                            {
-                                <b class="d-block">Unassigned</b>
-                            }
-                            else
-                            {
-                                <b class="d-block">@projectManager?.FullName</b>
-                            }
-                        </p>
-
-                        <!-- Submitter -->
-                        <p class="text-sm">
-                            Submitter
-                            <b class="d-block">@(Model.OwnerUser?.FullName ?? "Unassigned")</b>
-                        </p>
-
-                        <!-- Developer -->
-                        <p class="text-sm">
-                            Developer
-                            <b class="d-block">@(Model.DeveloperUser?.FullName ?? "Unassigned")</b>
-                        </p>
-                    </div>
-
-                    <h5 class="mt-5 text-muted">Project files</h5>
-
-                    <!-- UPLOAD Ticket Attachments -->
-
-                    <form asp-action="Create" asp-controller="TicketAttachments" enctype="multipart/form-data" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" asp-for="@Model.Id" name="TicketId">
-                        <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
-                        <input type="hidden" name="DeveloperUserId" value="@Model.DeveloperUserId" />
-                        <input type="hidden" name="OwnerUserId" value="@Model.OwnerUserId" />
-
-                        <div class="media-body">
-                            @*<label class="form-label d-block mb-2">Add Attachment</label>*@
-                            @* <input asp-for="@Model.Attachments.FirstOrDefault().Description" *@
-                            <label>
-                                Description
-                            </label>
-                            <input name="Description"
-                                   type="text"
-                                   class="form-control"
-                                   placeholder="File Description (Required)"
-                                   required />
-
-
-                            <br />
-
-                            <!-- New File Uploader -->
-                            <div class="form-group">
-                                <!-- <label for="customFile">Custom File</label> -->
-                                <div class="custom-file">
-                                    <input asp-for="@Model.Attachments.FirstOrDefault().FileData"
-                                           type="file" class="custom-file-input"
-                                           id="customFile">
-                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                <!-- New File Uploader -->
+                                <div class="form-group">
+                                    <!-- <label for="customFile">Custom File</label> -->
+                                    <div class="custom-file">
+                                        <input asp-for="@Model.Attachments.FirstOrDefault().FileData"
+                                               type="file" class="custom-file-input"
+                                               id="customFile">
+                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                    </div>
                                 </div>
+
+                                <!-- /New File Uploader -->
+
+                                <button type="submit"
+                                        class="btn btn-outline-secondary btn-sm md-btn-flat">
+                                    Submit
+                                </button>
                             </div>
-
-                            <!-- /New File Uploader -->
-
-                            <button 
-                                type="submit" 
-                                class="btn btn-outline-secondary btn-sm md-btn-flat">
-                                Submit
-                            </button>
-                        </div>
-                    </form>
+                        </form>
 
 
-                    <hr />
+                        <hr />
 
-                    
+
 
                         @*
                             <li>
@@ -417,10 +416,9 @@
                                 <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> Contract-10_12_2014.docx</a>
                             </li>
                         *@
-                    
 
-                    <!-- Ticket Attachments Card -->
 
+                        <!-- Ticket Attachments Card -->
                         <!-- Ticket Card  collapsed-card -->
                         <div class="card card-primary">
                             <div class="card-header">
@@ -441,76 +439,74 @@
 
                                     @foreach (var attachment in Model.Attachments.OrderByDescending(a => a.Created))
                                     {
-                                    <li class="pt-1 pb-1">
-                                        
-                                        <!-- DELETE Attachment Form -->
-                                        <form asp-action="Delete" asp-controller="TicketAttachments" method="post">
-                                            <a target="_blank" href="@_fileService.DecodeImage(attachment.FileData, attachment.FileContentType)" class="btn-link text-secondary">
-                                                <i class="far fa-fw fa-file"></i> @attachment.Description
-                                            </a>
+                                        <li class="pt-1 pb-1">
 
-                                            <span class="float-right">
+                                            <!-- DELETE Attachment Form -->
+                                            <form asp-action="Delete" asp-controller="TicketAttachments" method="post">
+                                                <a target="_blank" href="@_fileService.DecodeImage(attachment.FileData, attachment.FileContentType)" class="btn-link text-secondary">
+                                                    <i class="far fa-fw fa-file"></i> @attachment.Description
+                                                </a>
 
-                                                <span asp-validation-summary="ModelOnly" class="text-danger"></span>
-                                                <input type="hidden" asp-for="@attachment.Id" name="id">
-                                                <input type="hidden" asp-for="@Model.Id" name="TicketId">
-                                                <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
-                                                <input type="hidden" name="DeveloperUserId" value="@Model.DeveloperUserId" />
-                                                <input type="hidden" name="OwnerUserId" value="@Model.OwnerUserId" />
+                                                <span class="float-right">
 
-                                                <span id="confirmDeleteSpan_@attachment.Id" style="display:none">
-                                                    <span>Delete?</span>
-                                                    <button 
-                                                            type="submit" 
-                                                            class="badge badge-danger border-0">
-                                                        Yes
-                                                    </button>
-                                                    <a href="#" 
-                                                       class="badge badge-primary"
-                                                        onclick="confirmDelete(@attachment.Id, false)"   
-                                                    >
-                                                        No
-                                                    </a>
+                                                    <span asp-validation-summary="ModelOnly" class="text-danger"></span>
+                                                    <input type="hidden" asp-for="@attachment.Id" name="id">
+                                                    <input type="hidden" asp-for="@Model.Id" name="TicketId">
+                                                    <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
+                                                    <input type="hidden" name="DeveloperUserId" value="@Model.DeveloperUserId" />
+                                                    <input type="hidden" name="OwnerUserId" value="@Model.OwnerUserId" />
+
+                                                    <span id="confirmDeleteSpan_@attachment.Id" style="display:none">
+                                                        <span>Delete?</span>
+                                                        <button type="submit"
+                                                                class="badge badge-danger border-0">
+                                                            Yes
+                                                        </button>
+                                                        <a href="#"
+                                                           class="badge badge-primary"
+                                                           onclick="confirmDelete(@attachment.Id, false)">
+                                                            No
+                                                        </a>
+                                                    </span>
+
+                                                    <span id="deleteSpan_@attachment.Id">
+                                                        <a href="#"
+                                                           class="badge badge-danger"
+                                                           onclick="confirmDelete(@attachment.Id, true)">
+                                                            <i class="fas fa-times"></i>
+                                                        </a>
+                                                    </span>
                                                 </span>
+                                            </form>
+                                            <!-- // DELETE Atachment Form -->
 
-                                                <span id="deleteSpan_@attachment.Id">
-                                                    <a href="#" 
-                                                       class="badge badge-danger"
-                                                       onclick="confirmDelete(@attachment.Id, true)"    
-                                                    >
-                                                        <i class="fas fa-times"></i>
-                                                    </a>
-                                                </span>
-                                            </span>
-                                        </form>
-                                        <!-- // DELETE Atachment Form -->
+                                        </li>
 
-                                    </li>
 
-                                        
                                     }
 
 
-                                    
+
                                 </ul>
 
                             </div>
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
-                    
-                    <!-- // Ticket Attachments Card -->
+                        <!-- // Ticket Attachments Card -->
 
 
+                    </div>
                 </div>
             </div>
+            <!-- /.card-body -->
         </div>
-        <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
+        <!-- /.card -->
 
-</section>
-<!-- /.content -->
+    </section>
+    <!-- /.content -->
+
+</div><!-- /.container-fluid -->
 <!-- /.content-wrapper -->
 
 
