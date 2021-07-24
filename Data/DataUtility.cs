@@ -175,7 +175,7 @@ namespace MVC_BugTracker.Data
                      {
                          CompanyId = company1Id,
                          Name = "[DEMO] Build a Personal Portfolio",
-                         Description="Single page html, css & javascript page.  Serves as a landing page for candidates and contains a bio and links to all applications and challenges." ,
+                         Description="Single page html, css & javascript page.  Serves as a landing page and contains a bio and links to all applications and challenges." ,
                          StartDate = new DateTime(2021,6,1),
                          EndDate = new DateTime(2021,6,1).AddMonths(3),
                          ProjectPriorityId = priorityLow
