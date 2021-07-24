@@ -9,14 +9,15 @@
 <div class="container-fluid">
     <h2>Assign Project Manager -  @Model.Project.Name</h2>
     <hr />
-    <div class="row">
-        <div class="col">
-
+    
+    <div class="card card-primary">
+        <div class="card-header">Assign Project Manager</div>
+        <div class="card-body">
             <form asp-action="AssignPM" asp-controller="Projects" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="@Model.Project.Id">
                 <input type="hidden" asp-for="@Model.Project.Name">
-                <div class="col-6">
+                <div class="col col-md-6">
                     <div class="form-group">
                         <label class="control-label">Select a Project Manager</label>
                         <select asp-for="@Model.SelectedUser" class="form-control" asp-items="@Model.Users">
@@ -25,19 +26,15 @@
                     </div>
 
                 </div>
+                
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <input type="submit" class="btn btn-success" value="Assign PM" />
+                        <input type="submit" class="btn btn-success" value="Assign" />
+                        <a class="btn btn-secondary" asp-action="Details" asp-controller="Projects" asp-route-id="@Model.Project.Id">Cancel</a>
                     </div>
                 </div>
             </form>
-
-
         </div>
-        <!--End Hover Rows-->
     </div>
-    <div>
-        @*@Html.ActionLink("Back to List", "Index")*@
-        <a asp-action="Details" asp-controller="Projects" asp-route-id="@Model.Project.Id">Back to List</a>
-    </div>
+    
 </div>
