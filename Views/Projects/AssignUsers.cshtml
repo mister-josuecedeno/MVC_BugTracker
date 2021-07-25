@@ -13,25 +13,28 @@
 
 <div class="container-fluid">
     <h2>Assign Team Members -  @Model.Project.Name</h2>
+    
     <hr />
     
     <div class="card card-primary">
         <div class="card-header">Assign Team Members</div>
         <div class="card-body">
+            
             <form asp-action="AssignUsers" asp-controller="Projects" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="@Model.Project.Id">
                 <input type="hidden" asp-for="@Model.Project.Name">
-                <div class="col-6">
+                <div class="col col-md-6">
                     <div class="form-group">
-                        <label asp-for="@Model.Users" class="control-label">Team members for Project: @Model.Project.Name</label>
+                        <label asp-for="@Model.Users" class="control-label">Team members for Project: @Model.Project.Name </label>
                         <select asp-for="@Model.SelectedUsers" class="form-control" asp-items="@Model.Users" multiple="multiple"></select>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <input type="submit" class="btn btn-success" value="Assign Users" />
-                        <a class="btn btn-secondary" asp-action="Details" asp-controller="Projects" asp-route-id="@Model.Project.Id">Back to List</a>
+
+                        <input type="submit" class="btn btn-primary" value="Assign Users"/>
+                        <a class="btn btn-secondary" asp-action="Details" asp-controller="Projects" asp-route-id="@Model.Project.Id">Cancel</a>
                     </div>
                 </div>
             </form>
